@@ -1,0 +1,7 @@
+config.env
+secrets/
+output/
+.venv/
+__pycache__/
+*.pyc
+episodes/audio/ep01.mp3

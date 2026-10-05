@@ -1,0 +1,207 @@
+{
+ "id": "ep03",
+ "number": 3,
+ "series": "Tech from Scratch",
+ "title": "What Is the Internet?",
+ "status": "ready",
+ "next": "Next: How Does Wi-Fi Work?",
+ "description": "The internet isn\u2019t a cloud floating overhead. It\u2019s a giant network of computers connected mostly by cables, including cables under the ocean. Kip and Bub follow a message from your phone to the other side of the world.",
+ "thumbnail": {
+  "line1": "WHAT IS THE",
+  "line2": "INTERNET?",
+  "sub1": "Tech from Scratch",
+  "sub2": "Episode 3"
+ },
+ "tags": [
+  "what is the internet",
+  "how the internet works",
+  "internet for beginners"
+ ],
+ "scenes": [
+  {
+   "say": "Where is the internet? If you had to point at it, which way would you point?",
+   "kip": "ask",
+   "bub": "curious"
+  },
+  {
+   "say": "Today on Tech from Scratch: what is the internet?",
+   "title": true
+  },
+  {
+   "say": "Here's the simple version. The internet is a giant network of computers, all connected so they can send information to each other. Your phone, your laptop, and huge computers in buildings all over the world.",
+   "card": {
+    "type": "statement",
+    "icon": "globe",
+    "text": "The internet is computers connected to each other.",
+    "sub": "Billions of them, all over the world"
+   }
+  },
+  {
+   "say": "The big computers that hold websites and videos are called servers. When you open a website, your device asks a server for it, and the server sends it back.",
+   "card": {
+    "type": "flow",
+    "title": "Opening a website",
+    "items": [
+     {
+      "icon": "phone",
+      "label": "Your device",
+      "at": "device"
+     },
+     {
+      "icon": "arrow_out",
+      "label": "Asks",
+      "at": "asks"
+     },
+     {
+      "icon": "server",
+      "label": "Server",
+      "at": "server"
+     },
+     {
+      "icon": "arrow_in",
+      "label": "Sends it back",
+      "at": "back"
+     }
+    ]
+   }
+  },
+  {
+   "say": "Think of it like mail. Everything you send is broken into small pieces called packets. Each packet has an address, and they travel separately, then get put back together at the other end.",
+   "card": {
+    "type": "callout",
+    "title": "PACKETS: small pieces with an address",
+    "items": [
+     {
+      "icon": "mail",
+      "label": "Split up",
+      "at": "broken"
+     },
+     {
+      "icon": "link",
+      "label": "Travel separately",
+      "at": "separately"
+     },
+     {
+      "icon": "check",
+      "label": "Put back together",
+      "at": "together"
+     }
+    ]
+   }
+  },
+  {
+   "say": "And here's the surprise. Most of the internet isn't in the air at all. It travels through cables, including enormous cables laid across the bottom of the ocean, connecting the continents.",
+   "bub": "aha",
+   "card": {
+    "type": "statement",
+    "icon": "link",
+    "text": "Most of the internet travels through cables.",
+    "sub": "Even across the ocean floor"
+   }
+  },
+  {
+   "say": "So how does it get to your house? A company called an internet service provider brings a connection to your home, and a box called a router shares it with your devices.",
+   "card": {
+    "type": "flow",
+    "title": "Getting it to your home",
+    "items": [
+     {
+      "icon": "globe",
+      "label": "Internet",
+      "at": "internet"
+     },
+     {
+      "icon": "house",
+      "label": "Your provider",
+      "at": "provider"
+     },
+     {
+      "icon": "router",
+      "label": "Router",
+      "at": "router"
+     },
+     {
+      "icon": "laptop",
+      "label": "Your devices",
+      "at": "devices"
+     }
+    ]
+   }
+  },
+  {
+   "say": "One more thing people mix up: the internet and the web aren't the same. The internet is the network. The web is the websites you visit on it. Email and video calls use the internet too, without being websites.",
+   "kip": "shrug",
+   "bub": "confused",
+   "card": {
+    "type": "compare",
+    "title": "Internet vs. the web",
+    "left": {
+     "icon": "globe",
+     "title": "Internet",
+     "points": [
+      "The network",
+      "Cables and connections",
+      "Carries everything"
+     ]
+    },
+    "right": {
+     "icon": "browser",
+     "title": "The web",
+     "points": [
+      "Websites",
+      "One thing on the network",
+      "Opened in a browser"
+     ]
+    },
+    "at": [
+     "network",
+     "websites"
+    ]
+   }
+  },
+  {
+   "say": "Computers connected everywhere. Messages split into packets. Cables under the sea. Next time: how Wi-Fi gets all of that through the air to your couch. Subscribe so you don't miss it.",
+   "kip": "rest",
+   "card": {
+    "type": "steps",
+    "title": "Today in one card",
+    "items": [
+     {
+      "icon": "globe",
+      "label": "Network",
+      "at": "connected",
+      "sub": "Computers connected"
+     },
+     {
+      "icon": "mail",
+      "label": "Packets",
+      "at": "packets",
+      "sub": "Small pieces"
+     },
+     {
+      "icon": "link",
+      "label": "Cables",
+      "at": "Cables",
+      "sub": "Even under the sea"
+     }
+    ]
+   }
+  }
+ ],
+ "shorts": [
+  {
+   "hook": "The internet is under the ocean",
+   "scenes": [
+    5,
+    5
+   ]
+  },
+  {
+   "hook": "Internet vs the web: not the same thing",
+   "scenes": [
+    7,
+    7
+   ]
+  }
+ ]
+}

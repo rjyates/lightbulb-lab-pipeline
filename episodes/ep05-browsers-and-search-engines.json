@@ -1,0 +1,182 @@
+{
+ "id": "ep05",
+ "number": 5,
+ "series": "Tech from Scratch",
+ "title": "Browsers and Search Engines",
+ "status": "ready",
+ "next": "Next: What Is the Cloud?",
+ "description": "Chrome, Safari, Google, Bing: which ones are browsers and which are search engines? Kip and Bub sort it out, explain what a web address is, and share a tip for spotting ads in search results.",
+ "thumbnail": {
+  "line1": "BROWSER VS",
+  "line2": "SEARCH ENGINE",
+  "sub1": "Tech from Scratch",
+  "sub2": "Episode 5"
+ },
+ "tags": [
+  "browser vs search engine",
+  "what is a web browser",
+  "what is a search engine"
+ ],
+ "scenes": [
+  {
+   "say": "Is Google a browser? Is Chrome a search engine? If you're not sure, you're in good company.",
+   "kip": "ask",
+   "bub": "confused"
+  },
+  {
+   "say": "Today on Tech from Scratch: browsers and search engines.",
+   "title": true
+  },
+  {
+   "say": "A browser is an app for visiting websites. It's the window you look through. Chrome, Safari, Edge, and Firefox are all browsers.",
+   "card": {
+    "type": "grid",
+    "title": "These are browsers",
+    "items": [
+     {
+      "icon": "browser",
+      "label": "Chrome",
+      "at": "Chrome"
+     },
+     {
+      "icon": "browser",
+      "label": "Safari",
+      "at": "Safari"
+     },
+     {
+      "icon": "browser",
+      "label": "Edge",
+      "at": "Edge"
+     },
+     {
+      "icon": "browser",
+      "label": "Firefox",
+      "at": "Firefox"
+     }
+    ]
+   }
+  },
+  {
+   "say": "A search engine is a website that helps you find other websites. You type a question, and it gives you a list of results. Google, Bing, and DuckDuckGo are search engines.",
+   "card": {
+    "type": "callout",
+    "title": "These are search engines",
+    "items": [
+     {
+      "icon": "search",
+      "label": "Google",
+      "at": "Google"
+     },
+     {
+      "icon": "search",
+      "label": "Bing",
+      "at": "Bing"
+     },
+     {
+      "icon": "search",
+      "label": "DuckDuckGo",
+      "at": "DuckDuckGo"
+     }
+    ]
+   }
+  },
+  {
+   "say": "Think of a library. The browser is the building you walk into. The search engine is the librarian who helps you find the right book. You use the browser to reach the search engine.",
+   "card": {
+    "type": "compare",
+    "title": "A library",
+    "left": {
+     "icon": "browser",
+     "title": "Browser",
+     "points": [
+      "The building",
+      "How you get in",
+      "Chrome, Safari"
+     ]
+    },
+    "right": {
+     "icon": "search",
+     "title": "Search engine",
+     "points": [
+      "The librarian",
+      "Helps you find things",
+      "Google, Bing"
+     ]
+    },
+    "at": [
+     "building",
+     "librarian"
+    ]
+   }
+  },
+  {
+   "say": "The mix-up makes sense, because Google makes a search engine and a browser. Google Search is the search engine. Chrome is the browser.",
+   "bub": "aha",
+   "card": {
+    "type": "statement",
+    "icon": "browser",
+    "text": "Chrome is the browser. Google is the search engine.",
+    "sub": "Same company, two different things"
+   }
+  },
+  {
+   "say": "Every website also has its own address, like a street address. If you already know it, you can type it straight into the bar at the top of the browser and skip the search.",
+   "card": {
+    "type": "flow",
+    "title": "Two ways to get there",
+    "items": [
+     {
+      "icon": "browser",
+      "label": "Open browser",
+      "at": "browser"
+     },
+     {
+      "icon": "link",
+      "label": "Type the address",
+      "at": "address"
+     },
+     {
+      "icon": "search",
+      "label": "Or search",
+      "at": "search"
+     },
+     {
+      "icon": "check",
+      "label": "Arrive",
+      "at": "skip"
+     }
+    ]
+   }
+  },
+  {
+   "say": "One tip. The first few search results are often ads, marked Sponsored. They can look just like real results, so take a second look before you click.",
+   "kip": "point",
+   "card": {
+    "type": "statement",
+    "icon": "warning",
+    "text": "Look for the word \"Sponsored.\"",
+    "sub": "Top results are often ads"
+   }
+  },
+  {
+   "say": "The browser is the window. The search engine is the librarian. The address takes you straight there. Next time: what is the cloud, really? Subscribe so you don't miss it.",
+   "kip": "rest"
+  }
+ ],
+ "shorts": [
+  {
+   "hook": "Is Google a browser? (No.)",
+   "scenes": [
+    4,
+    5
+   ]
+  },
+  {
+   "hook": "Spot the ads in your search results",
+   "scenes": [
+    7,
+    7
+   ]
+  }
+ ]
+}

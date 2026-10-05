@@ -1,0 +1,284 @@
+{
+ "id": "ep01",
+ "number": 1,
+ "series": "Tech from Scratch",
+ "title": "What Is a Computer?",
+ "next": "Next: Inside a Computer",
+ "scenes": [
+  {
+   "say": "Quick question. How many computers do you think you own?",
+   "kip": "ask",
+   "bub": "curious"
+  },
+  {
+   "say": "There's the laptop, sure. But also your phone. Your TV. Your car. Your microwave, probably. Maybe even your thermostat.",
+   "card": {
+    "type": "grid",
+    "title": "Computers you might own",
+    "items": [
+     {
+      "icon": "laptop",
+      "label": "Laptop",
+      "at": "laptop"
+     },
+     {
+      "icon": "phone",
+      "label": "Phone",
+      "at": "phone"
+     },
+     {
+      "icon": "tv",
+      "label": "TV",
+      "at": "TV"
+     },
+     {
+      "icon": "car",
+      "label": "Car",
+      "at": "car"
+     },
+     {
+      "icon": "microwave",
+      "label": "Microwave",
+      "at": "microwave"
+     },
+     {
+      "icon": "thermostat",
+      "label": "Thermostat",
+      "at": "thermostat"
+     }
+    ]
+   }
+  },
+  {
+   "say": "Today on Tech from Scratch: what is a computer, really?",
+   "title": true
+  },
+  {
+   "say": "Here's the simple version. A computer is a machine that takes in information, works on it, remembers it, and gives you a result. That's it. Four jobs.",
+   "card": {
+    "type": "tiles",
+    "title": "A computer does 4 jobs",
+    "items": [
+     {
+      "icon": "arrow_in",
+      "word": "IN",
+      "sub": "takes in info",
+      "at": "takes"
+     },
+     {
+      "icon": "gear",
+      "word": "WORK",
+      "sub": "works on it",
+      "at": "works"
+     },
+     {
+      "icon": "memory",
+      "word": "REMEMBER",
+      "sub": "remembers it",
+      "at": "remembers"
+     },
+     {
+      "icon": "arrow_out",
+      "word": "OUT",
+      "sub": "gives a result",
+      "at": "gives"
+     }
+    ]
+   }
+  },
+  {
+   "say": "The easiest way to picture it is a kitchen.",
+   "kip": "open"
+  },
+  {
+   "say": "First, ingredients come in. For a computer, that's input: what you type, tap, click, or say. Your keyboard, your touchscreen, your microphone.",
+   "card": {
+    "type": "callout",
+    "title": "INPUT: what you type, tap, click or say",
+    "items": [
+     {
+      "icon": "keyboard",
+      "label": "Keyboard",
+      "at": "keyboard"
+     },
+     {
+      "icon": "touch",
+      "label": "Touchscreen",
+      "at": "touchscreen"
+     },
+     {
+      "icon": "mic",
+      "label": "Microphone",
+      "at": "microphone"
+     }
+    ]
+   }
+  },
+  {
+   "say": "Next, someone has to cook. That's the processor, sometimes called the CPU. It follows instructions, step by step, incredibly fast. Billions of tiny steps every second.",
+   "card": {
+    "type": "statement",
+    "icon": "chip",
+    "text": "The processor (CPU) is the cook.",
+    "sub": "Billions of tiny steps every second"
+   }
+  },
+  {
+   "say": "While the cook works, they need counter space. That's memory, or RAM. It holds whatever you're working on right now. More counter space means you can juggle more at once.",
+   "card": {
+    "type": "statement",
+    "icon": "memory",
+    "text": "Memory (RAM) is the counter space.",
+    "sub": "It holds what you're working on right now"
+   }
+  },
+  {
+   "say": "But here's the catch. When you turn the computer off, the counter gets wiped clean.",
+   "kip": "shrug",
+   "bub": "confused"
+  },
+  {
+   "say": "That's why there's a pantry. That's storage: your hard drive or SSD. It keeps your photos, files, and apps safe, even when the power's off.",
+   "card": {
+    "type": "callout",
+    "title": "STORAGE: kept even when the power's off",
+    "items": [
+     {
+      "icon": "photo",
+      "label": "Photos",
+      "at": "photos"
+     },
+     {
+      "icon": "folder",
+      "label": "Files",
+      "at": "files"
+     },
+     {
+      "icon": "apps",
+      "label": "Apps",
+      "at": "apps"
+     }
+    ]
+   }
+  },
+  {
+   "say": "Finally, the meal is served. That's output: what you see on the screen, hear from the speakers, or get from the printer.",
+   "bub": "aha",
+   "card": {
+    "type": "callout",
+    "title": "OUTPUT: what you see, hear, or print",
+    "items": [
+     {
+      "icon": "screen",
+      "label": "Screen",
+      "at": "screen"
+     },
+     {
+      "icon": "speaker",
+      "label": "Speakers",
+      "at": "speakers"
+     },
+     {
+      "icon": "printer",
+      "label": "Printer",
+      "at": "printer"
+     }
+    ]
+   }
+  },
+  {
+   "say": "So when you send a text: your thumbs are the input, the processor does the work, memory holds the message while you type, storage saves the conversation, and the screen shows it sent. Every computer, from a phone to a supercomputer, does those same four jobs.",
+   "card": {
+    "type": "flow",
+    "title": "Sending a text",
+    "items": [
+     {
+      "icon": "touch",
+      "label": "Input",
+      "at": "thumbs"
+     },
+     {
+      "icon": "chip",
+      "label": "Process",
+      "at": "processor"
+     },
+     {
+      "icon": "folder",
+      "label": "Save",
+      "at": "storage"
+     },
+     {
+      "icon": "phone",
+      "label": "Output",
+      "at": "screen"
+     }
+    ]
+   }
+  },
+  {
+   "say": "Ingredients in. Cook works. Counter holds. Pantry keeps. Meal comes out. That's a computer.",
+   "card": {
+    "type": "steps",
+    "title": "That's a computer",
+    "items": [
+     {
+      "icon": "arrow_in",
+      "label": "Input",
+      "sub": "Ingredients in",
+      "at": "Ingredients"
+     },
+     {
+      "icon": "chip",
+      "label": "Processor",
+      "sub": "Cook works",
+      "at": "Cook"
+     },
+     {
+      "icon": "memory",
+      "label": "Memory",
+      "sub": "Counter holds",
+      "at": "Counter"
+     },
+     {
+      "icon": "folder",
+      "label": "Storage",
+      "sub": "Pantry keeps",
+      "at": "Pantry"
+     },
+     {
+      "icon": "screen",
+      "label": "Output",
+      "sub": "Meal comes out",
+      "at": "Meal"
+     }
+    ]
+   }
+  },
+  {
+   "say": "Next time, we'll open one up and look at the parts that make all this happen. Subscribe so you don't miss it, and we'll see you then.",
+   "kip": "rest"
+  }
+ ],
+ "shorts": [
+  {
+   "hook": "You own more computers than you think",
+   "scenes": [
+    0,
+    1
+   ]
+  }
+ ],
+ "status": "done",
+ "description": "What actually counts as a computer? Kip and Bub explain the four jobs every computer does, using a kitchen: ingredients in, a cook, counter space, a pantry, and a meal served.",
+ "thumbnail": {
+  "line1": "WHAT IS A",
+  "line2": "COMPUTER?",
+  "sub1": "Tech from Scratch",
+  "sub2": "Episode 1"
+ },
+ "tags": [
+  "what is a computer",
+  "RAM vs storage",
+  "CPU explained"
+ ]
+}

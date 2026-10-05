@@ -1,0 +1,210 @@
+{
+ "id": "ep02",
+ "number": 2,
+ "series": "Tech from Scratch",
+ "title": "Hardware vs. Software",
+ "status": "ready",
+ "next": "Next: What Is the Internet?",
+ "description": "Hardware is the stuff you can touch. Software is the instructions that tell it what to do. Kip and Bub explain the difference with a piano and sheet music, and why an update can make an old phone feel new.",
+ "thumbnail": {
+  "line1": "HARDWARE",
+  "line2": "VS SOFTWARE",
+  "sub1": "Tech from Scratch",
+  "sub2": "Episode 2"
+ },
+ "tags": [
+  "hardware vs software",
+  "what is software",
+  "what is an operating system"
+ ],
+ "scenes": [
+  {
+   "say": "Here's a puzzle. Two phones, same model, bought the same day. One of them suddenly gets new features overnight. Nothing about it changed on the outside. So what happened?",
+   "kip": "ask",
+   "bub": "curious"
+  },
+  {
+   "say": "Today on Tech from Scratch: hardware versus software.",
+   "title": true
+  },
+  {
+   "say": "Every computer is made of two kinds of things. Hardware is the physical stuff, the parts you could actually touch. The screen, the keyboard, the chip inside, the battery.",
+   "card": {
+    "type": "grid",
+    "title": "Hardware: parts you can touch",
+    "items": [
+     {
+      "icon": "screen",
+      "label": "Screen",
+      "at": "screen"
+     },
+     {
+      "icon": "keyboard",
+      "label": "Keyboard",
+      "at": "keyboard"
+     },
+     {
+      "icon": "chip",
+      "label": "Chip",
+      "at": "chip"
+     },
+     {
+      "icon": "battery",
+      "label": "Battery",
+      "at": "battery"
+     }
+    ]
+   }
+  },
+  {
+   "say": "Software is the instructions. You can't hold it in your hand. It's the apps, the settings, the operating system, everything that tells the hardware what to do.",
+   "card": {
+    "type": "callout",
+    "title": "SOFTWARE: instructions you can\u2019t touch",
+    "items": [
+     {
+      "icon": "apps",
+      "label": "Apps",
+      "at": "apps"
+     },
+     {
+      "icon": "gear",
+      "label": "Settings",
+      "at": "settings"
+     },
+     {
+      "icon": "code",
+      "label": "Operating system",
+      "at": "operating"
+     }
+    ]
+   }
+  },
+  {
+   "say": "Think of a piano. The piano is the hardware. The sheet music is the software. Same piano, different music, and you get a completely different song.",
+   "card": {
+    "type": "compare",
+    "title": "A piano and its music",
+    "left": {
+     "icon": "chip",
+     "title": "Hardware",
+     "points": [
+      "The piano",
+      "Physical parts",
+      "Changes rarely"
+     ]
+    },
+    "right": {
+     "icon": "code",
+     "title": "Software",
+     "points": [
+      "The sheet music",
+      "Instructions",
+      "Changes often"
+     ]
+    },
+    "at": [
+     "piano",
+     "sheet"
+    ]
+   }
+  },
+  {
+   "say": "One piece of software is extra important: the operating system. On a computer, that's usually Windows or macOS. On a phone, it's iPhone's iOS or Android. It's the conductor. It runs the hardware and lets all your other apps take turns.",
+   "card": {
+    "type": "statement",
+    "icon": "gear",
+    "text": "The operating system is the conductor.",
+    "sub": "Windows, macOS, iOS, Android"
+   }
+  },
+  {
+   "say": "So back to our two phones. One of them got a software update. New instructions, same hardware. That's how a phone can get new features without anyone opening it up.",
+   "bub": "aha",
+   "card": {
+    "type": "flow",
+    "title": "What an update does",
+    "items": [
+     {
+      "icon": "download",
+      "label": "Download",
+      "at": "update"
+     },
+     {
+      "icon": "code",
+      "label": "New instructions",
+      "at": "instructions"
+     },
+     {
+      "icon": "phone",
+      "label": "Same phone",
+      "at": "hardware"
+     },
+     {
+      "icon": "star",
+      "label": "New features",
+      "at": "features"
+     }
+    ]
+   }
+  },
+  {
+   "say": "Updates also fix mistakes and close security holes, so it's a good idea to install them.",
+   "card": {
+    "type": "statement",
+    "icon": "shield",
+    "text": "Updates fix problems and keep you safer.",
+    "sub": "When your device asks, it\u2019s usually worth saying yes"
+   }
+  },
+  {
+   "say": "But software can only do so much. If the hardware is old or slow, at some point new instructions won't fit. That's when it's time for new hardware.",
+   "kip": "shrug",
+   "bub": "sleepy"
+  },
+  {
+   "say": "Hardware is the stuff. Software is the instructions. The operating system keeps them working together. Next time, we'll go online and find out what the internet actually is. Subscribe so you don't miss it.",
+   "kip": "rest",
+   "card": {
+    "type": "steps",
+    "title": "Today in one card",
+    "items": [
+     {
+      "icon": "chip",
+      "label": "Hardware",
+      "at": "Hardware",
+      "sub": "The stuff"
+     },
+     {
+      "icon": "code",
+      "label": "Software",
+      "at": "Software",
+      "sub": "The instructions"
+     },
+     {
+      "icon": "gear",
+      "label": "Operating system",
+      "at": "operating",
+      "sub": "The conductor"
+     }
+    ]
+   }
+  }
+ ],
+ "shorts": [
+  {
+   "hook": "How your phone gets new features overnight",
+   "scenes": [
+    6,
+    7
+   ]
+  },
+  {
+   "hook": "Hardware vs software in 20 seconds",
+   "scenes": [
+    4,
+    4
+   ]
+  }
+ ]
+}

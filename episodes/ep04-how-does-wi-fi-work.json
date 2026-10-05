@@ -1,0 +1,186 @@
+{
+ "id": "ep04",
+ "number": 4,
+ "series": "Tech from Scratch",
+ "title": "How Does Wi-Fi Work?",
+ "status": "ready",
+ "next": "Next: Browsers and Search Engines",
+ "description": "Wi-Fi is your home\u2019s own little radio station. Kip and Bub explain what the router does, why walls and distance make it weaker, and simple ways to get a better signal.",
+ "thumbnail": {
+  "line1": "HOW DOES",
+  "line2": "WI-FI WORK?",
+  "sub1": "Tech from Scratch",
+  "sub2": "Episode 4"
+ },
+ "tags": [
+  "how does wifi work",
+  "wifi vs internet",
+  "weak wifi fix"
+ ],
+ "scenes": [
+  {
+   "say": "Your Wi-Fi works great in the living room, but in the bedroom it crawls. Why?",
+   "kip": "ask",
+   "bub": "curious"
+  },
+  {
+   "say": "Today on Tech from Scratch: how does Wi-Fi work?",
+   "title": true
+  },
+  {
+   "say": "Wi-Fi is a way to connect your devices without wires, using radio waves. The same basic idea as a radio station, just much shorter range.",
+   "card": {
+    "type": "statement",
+    "icon": "wifi",
+    "text": "Wi-Fi uses radio waves instead of wires.",
+    "sub": "Like a tiny radio station in your home"
+   }
+  },
+  {
+   "say": "The heart of it is your router. The internet comes into your home on a cable. The router takes that connection and broadcasts it through the air to your phone, laptop, and TV.",
+   "card": {
+    "type": "flow",
+    "title": "Your home network",
+    "items": [
+     {
+      "icon": "plug",
+      "label": "Cable in",
+      "at": "cable"
+     },
+     {
+      "icon": "router",
+      "label": "Router",
+      "at": "router"
+     },
+     {
+      "icon": "wifi",
+      "label": "Radio waves",
+      "at": "broadcasts"
+     },
+     {
+      "icon": "phone",
+      "label": "Your devices",
+      "at": "phone"
+     }
+    ]
+   }
+  },
+  {
+   "say": "Here's a common mix-up. Wi-Fi is not the internet. Wi-Fi is just the link between your device and your router. If the router's own connection goes down, you can have full Wi-Fi bars and still no internet.",
+   "kip": "shrug",
+   "bub": "confused",
+   "card": {
+    "type": "compare",
+    "title": "Wi-Fi vs. internet",
+    "left": {
+     "icon": "wifi",
+     "title": "Wi-Fi",
+     "points": [
+      "Device to router",
+      "Inside your home",
+      "Radio waves"
+     ]
+    },
+    "right": {
+     "icon": "globe",
+     "title": "Internet",
+     "points": [
+      "Router to the world",
+      "Comes from your provider",
+      "Mostly cables"
+     ]
+    },
+    "at": [
+     "link",
+     "connection"
+    ]
+   }
+  },
+  {
+   "say": "So why is the bedroom slow? Radio waves get weaker with distance, and things in the way soak them up. Thick walls, floors, metal, even a big aquarium.",
+   "card": {
+    "type": "callout",
+    "title": "What weakens Wi-Fi",
+    "items": [
+     {
+      "icon": "house",
+      "label": "Distance",
+      "at": "distance"
+     },
+     {
+      "icon": "cross",
+      "label": "Walls and floors",
+      "at": "walls"
+     },
+     {
+      "icon": "warning",
+      "label": "Metal and water",
+      "at": "metal"
+     }
+    ]
+   }
+  },
+  {
+   "say": "A few easy fixes. Put the router up high, out in the open, near the middle of your home, not in a cabinet. Restart it if things get sluggish. And for big homes, a mesh system adds extra stations around the house.",
+   "bub": "aha",
+   "card": {
+    "type": "steps",
+    "title": "Better Wi-Fi",
+    "items": [
+     {
+      "icon": "house",
+      "label": "Central",
+      "at": "middle",
+      "sub": "Middle of the home"
+     },
+     {
+      "icon": "arrow_out",
+      "label": "Up high",
+      "at": "high",
+      "sub": "Out in the open"
+     },
+     {
+      "icon": "update",
+      "label": "Restart",
+      "at": "Restart",
+      "sub": "When it\u2019s sluggish"
+     },
+     {
+      "icon": "router",
+      "label": "Mesh",
+      "at": "mesh",
+      "sub": "For big homes"
+     }
+    ]
+   }
+  },
+  {
+   "say": "And one more: give it a password. A locked network keeps strangers off your Wi-Fi.",
+   "card": {
+    "type": "statement",
+    "icon": "lock",
+    "text": "Always lock your Wi-Fi with a password."
+   }
+  },
+  {
+   "say": "The router broadcasts. Your devices listen. Walls and distance get in the way. Next time: browsers and search engines, and why they're not the same thing. Subscribe so you don't miss it.",
+   "kip": "rest"
+  }
+ ],
+ "shorts": [
+  {
+   "hook": "Full Wi-Fi bars but no internet?",
+   "scenes": [
+    4,
+    4
+   ]
+  },
+  {
+   "hook": "Where NOT to put your router",
+   "scenes": [
+    5,
+    6
+   ]
+  }
+ ]
+}
