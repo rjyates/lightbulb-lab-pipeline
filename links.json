@@ -1,0 +1,10 @@
+{
+  "_note": "Links added to every video description. Edit freely; 'guides' can be empty. Each guide can list 'series' it fits (empty = all).",
+  "website": {"label": "Free tutorials and cheat sheets", "url": "https://lightbulb-lab.pages.dev/"},
+  "guides": [
+    {"label": "New Computer Starter Guide (Windows 11 & Mac)", "url": "https://lightbulb-lab-shop.fourthwall.com/products/new-computer-starter-guide-windows-11-mac", "series": []},
+    {"label": "Printable Family Tech Binder", "url": "https://lightbulb-lab-shop.fourthwall.com/products/printable-family-tech-binder", "series": []},
+    {"label": "Family Tech Binder + Setup Kit", "url": "https://lightbulb-lab-shop.fourthwall.com/products/family-tech-binder-setup-kit", "series": []}
+  ],
+  "tiktok": "https://www.tiktok.com/@lightbulblab"
+}

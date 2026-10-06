@@ -37,15 +37,29 @@ def pick(cfg, want=None):
         elif e.get('status', 'ready') == 'ready' and e['id'] not in st['done']: return e
     return None
 
+def load_links():
+    p = os.path.join(ROOT, 'links.json')
+    return json.load(open(p)) if os.path.exists(p) else {}
+
+def link_lines(ep, short=False):
+    L = load_links(); out = []
+    if L.get('website'): out.append(f"\U0001F4D8 {L['website']['label']}: {L['website']['url']}")
+    series = ep.get('series', 'Tech from Scratch')
+    guides = [g for g in L.get('guides', []) if not g.get('series') or series in g['series']]
+    for g in guides[:1 if short else 3]: out.append(f"\U0001F4CB {g['label']}: {g['url']}")
+    return out
+
 def description(ep, cfg):
     d = ep.get('description', '').strip()
     lines = [d, ''] if d else []
+    links = link_lines(ep)
+    if links: lines += links + ['']
     if ep.get('chapters'): lines += ['Chapters:'] + ep['chapters'] + ['']
     lines += [f"{ep.get('series', 'Tech from Scratch')} is a beginner-friendly series that explains everyday tech from the ground up, one short episode at a time.", '',
-              'New episodes every week. Subscribe so you don’t miss the next one.', '',
-              'Kip’s voice is AI-generated with ElevenLabs. Animation made with code by Lightbulb Lab.',
+              'New episodes every week. Subscribe so you don\u2019t miss the next one.', '',
+              'Kip\u2019s voice is AI-generated with ElevenLabs. Animation made with code by Lightbulb Lab.',
               'Music: "Nebula" by The Grey Room / Density & Time, from the YouTube Audio Library.', '',
-              'TikTok: @lightbulblab', '', '#techforbeginners #learntech #techfromscratch']
+              f"TikTok: {load_links().get('tiktok', '@lightbulblab')}", '', '#techforbeginners #learntech #techfromscratch']
     return '\n'.join(lines)
 
 def chapters(ep, epi):
@@ -108,7 +122,7 @@ def run(cfg, ep, quick=False, dry=False):
     meta = {'title': title, 'description': desc, 'tags': tags, 'shorts': []}
     for sh, p in shorts:
         a, b = V.short_range(epi, sh); srt(epi, p[:-4] + '.en.srt', a, b)
-        meta['shorts'].append({'file': os.path.basename(p), 'title': f"{sh['hook']} #shorts", 'description': f"From {title}. Full episode on @LightbulbLabYT.\n\nKip’s voice is AI-generated (ElevenLabs).\n\n#techforbeginners #shorts"})
+        meta['shorts'].append({'file': os.path.basename(p), 'title': f"{sh['hook']} #shorts", 'description': f"From {title}. Full episode on @LightbulbLabYT.\n\n" + '\n'.join(link_lines(ep, short=True)) + "\n\nKip’s voice is AI-generated (ElevenLabs).\n\n#techforbeginners #shorts"})
     json.dump(meta, open(os.path.join(out, 'metadata.json'), 'w'), indent=1)
     with open(os.path.join(out, 'UPLOAD-ME.txt'), 'w') as f:
         f.write(f'TITLE\n{title}\n\nDESCRIPTION\n{desc}\n\nTAGS\n{", ".join(tags)}\n\nSETTINGS\nAudience: No, not made for kids | Category: Education | Playlist: {ep.get("series", "Tech from Scratch")}\n'

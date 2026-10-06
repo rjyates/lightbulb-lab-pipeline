@@ -63,6 +63,9 @@ Until this is on, you upload the folder by hand Monday (5 minutes).
 Change the day/time in `systemd/lightbulb-weekly.timer`, then rerun `bash install.sh`.
 Rendering takes roughly (video seconds × 7 ÷ CPU cores) seconds: a 2-minute episode on 4 cores ≈ 4 minutes, plus Shorts.
 
+## Description links
+Every video description gets the website and guide links from `links.json` (Shorts get the website and the first guide). Edit that file to add, remove or reorder links; a guide's `series` list limits it to those series.
+
 ## Adding episodes
 Write `episodes/epNN-title.json` (see `episodes/FORMAT.md`), run the checker, commit, push.
 Episodes run in number order; ones with `"status": "draft"` are skipped. Finished ones are tracked in `output/state.json`.
