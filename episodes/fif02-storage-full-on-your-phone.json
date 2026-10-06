@@ -1,0 +1,221 @@
+{
+ "id": "fif02",
+ "number": 2,
+ "series": "Fix It Friday",
+ "title": "\"Storage Full\" on Your Phone",
+ "youtube_title": "Phone Says \"Storage Full\"? Here's How to Fix It | Fix It Friday",
+ "status": "ready",
+ "next": "Next Friday: My Computer Won't Turn On",
+ "description": "Can't take a photo because your storage is full? Kip and Bub show how to find what's using the space on iPhone and Android, and the safest ways to free it up without losing your photos.",
+ "thumbnail": {
+  "line1": "PHONE STORAGE",
+  "line2": "FULL?",
+  "sub1": "Fix It Friday",
+  "sub2": "iPhone & Android"
+ },
+ "tags": [
+  "phone storage full",
+  "iphone storage full",
+  "android storage full",
+  "free up space on phone"
+ ],
+ "scenes": [
+  {
+   "say": "Your phone says storage is full. You can't take a photo, and updates won't install. Let's fix it.",
+   "kip": "ask",
+   "bub": "confused"
+  },
+  {
+   "say": "It's Fix It Friday. Today: what to do when your phone says storage is full.",
+   "title": true
+  },
+  {
+   "say": "Phones fill up with four things: photos and videos, apps, messages with pictures and videos attached, and downloaded files.",
+   "card": {
+    "type": "grid",
+    "title": "What fills up a phone",
+    "items": [
+     {
+      "icon": "photo",
+      "label": "Photos & videos",
+      "at": "photos"
+     },
+     {
+      "icon": "apps",
+      "label": "Apps",
+      "at": "apps"
+     },
+     {
+      "icon": "chat",
+      "label": "Messages",
+      "at": "messages"
+     },
+     {
+      "icon": "download",
+      "label": "Downloads",
+      "at": "downloaded"
+     }
+    ]
+   }
+  },
+  {
+   "say": "First, see what's actually using the space. On an iPhone, open Settings, then General, then iPhone Storage. On most Android phones, open Settings, then Storage. You'll see a bar showing what's taking up room.",
+   "card": {
+    "type": "compare",
+    "title": "Step 1: See what is using space",
+    "left": {
+     "icon": "phone",
+     "title": "iPhone",
+     "points": [
+      "Settings",
+      "General",
+      "iPhone Storage"
+     ]
+    },
+    "right": {
+     "icon": "phone",
+     "title": "Android",
+     "points": [
+      "Settings",
+      "Storage",
+      "See the breakdown"
+     ]
+    },
+    "at": [
+     "iPhone",
+     "Android"
+    ]
+   }
+  },
+  {
+   "say": "Photos and videos are usually the biggest. Turn on a cloud backup, like iCloud Photos or Google Photos, so your pictures are saved safely online. On iPhone, the Optimize iPhone Storage option then keeps smaller copies on the phone. In Google Photos, Free up space removes copies that are already backed up.",
+   "card": {
+    "type": "callout",
+    "title": "PHOTOS: back up, then slim down",
+    "items": [
+     {
+      "icon": "cloud",
+      "label": "Back up",
+      "at": "backup"
+     },
+     {
+      "icon": "photo",
+      "label": "Keep small copies",
+      "at": "Optimize"
+     },
+     {
+      "icon": "check",
+      "label": "Free up space",
+      "at": "Free up"
+     }
+    ]
+   }
+  },
+  {
+   "say": "Just make sure the backup has finished first. And videos are the real space hogs. A single minute of video can take up as much room as dozens of photos, so delete the ones you don't need.",
+   "kip": "point",
+   "card": {
+    "type": "statement",
+    "icon": "warning",
+    "text": "Check the backup finished before deleting.",
+    "sub": "Videos take the most space"
+   }
+  },
+  {
+   "say": "Next, apps. Remove the ones you haven't opened in months. On iPhone, Offload Unused Apps removes the app but keeps your data, so you can reinstall it later. Many Android phones can archive unused apps the same way.",
+   "card": {
+    "type": "callout",
+    "title": "APPS: remove what you don't use",
+    "items": [
+     {
+      "icon": "apps",
+      "label": "Unused apps",
+      "at": "months"
+     },
+     {
+      "icon": "download",
+      "label": "Offload",
+      "at": "Offload"
+     },
+     {
+      "icon": "update",
+      "label": "Reinstall later",
+      "at": "reinstall"
+     }
+    ]
+   }
+  },
+  {
+   "say": "Messages add up too. Long conversations full of photos and videos can take gigabytes. On iPhone, the Messages settings let you keep messages for one year instead of forever.",
+   "card": {
+    "type": "statement",
+    "icon": "chat",
+    "text": "Old message attachments add up.",
+    "sub": "iPhone: keep messages 1 year, not forever"
+   }
+  },
+  {
+   "say": "Finally, restart the phone. It clears out temporary files the phone has been holding onto.",
+   "card": {
+    "type": "statement",
+    "icon": "update",
+    "text": "Restart to clear temporary files."
+   }
+  },
+  {
+   "say": "So: check what's using space, back up and slim down your photos, remove unused apps, trim old messages, and restart.",
+   "bub": "aha",
+   "card": {
+    "type": "steps",
+    "title": "Free up your phone",
+    "items": [
+     {
+      "icon": "search",
+      "label": "Check",
+      "at": "check"
+     },
+     {
+      "icon": "photo",
+      "label": "Photos",
+      "at": "photos"
+     },
+     {
+      "icon": "apps",
+      "label": "Apps",
+      "at": "apps"
+     },
+     {
+      "icon": "chat",
+      "label": "Messages",
+      "at": "messages"
+     },
+     {
+      "icon": "update",
+      "label": "Restart",
+      "at": "restart"
+     }
+    ]
+   }
+  },
+  {
+   "say": "Got a tech problem you want fixed? Leave it in the comments, and it might be a future Fix It Friday. See you next Friday.",
+   "kip": "rest"
+  }
+ ],
+ "shorts": [
+  {
+   "hook": "Free up phone space without losing photos",
+   "scenes": [
+    4,
+    5
+   ]
+  },
+  {
+   "hook": "The iPhone trick that keeps your app data",
+   "scenes": [
+    6,
+    6
+   ]
+  }
+ ]
+}

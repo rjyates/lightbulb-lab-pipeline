@@ -1,0 +1,198 @@
+{
+ "id": "fif03",
+ "number": 3,
+ "series": "Fix It Friday",
+ "title": "My Computer Won't Turn On",
+ "status": "ready",
+ "next": "Next Friday: I Forgot My Password",
+ "description": "You press the power button and nothing happens. Before you panic, Kip and Bub walk through the simple checks that fix most computers that won't start, and when it's time to get help.",
+ "thumbnail": {
+  "line1": "COMPUTER WON'T",
+  "line2": "TURN ON?",
+  "sub1": "Fix It Friday",
+  "sub2": "Try this first"
+ },
+ "tags": [
+  "computer won't turn on",
+  "laptop won't turn on",
+  "pc not starting",
+  "black screen computer"
+ ],
+ "scenes": [
+  {
+   "say": "You press the power button, and nothing happens. Don't panic. Most of the time, it's something simple.",
+   "kip": "ask",
+   "bub": "confused"
+  },
+  {
+   "say": "It's Fix It Friday. Today: what to do when your computer won't turn on.",
+   "title": true
+  },
+  {
+   "say": "First, figure out what kind of won't turn on you have. Is it completely dead, with no lights and no sounds? Or do lights come on, but the screen stays black? Those are two different problems.",
+   "card": {
+    "type": "compare",
+    "title": "Which one is it?",
+    "left": {
+     "icon": "cross",
+     "title": "Totally dead",
+     "points": [
+      "No lights",
+      "No fan sound",
+      "Nothing at all"
+     ]
+    },
+    "right": {
+     "icon": "screen",
+     "title": "Black screen",
+     "points": [
+      "Lights come on",
+      "Fan runs",
+      "Screen stays dark"
+     ]
+    },
+    "at": [
+     "dead",
+     "lights"
+    ]
+   }
+  },
+  {
+   "say": "If it's totally dead, check the power. For a desktop, make sure the cable is pushed in tight at both ends, and try a different outlet. If it's on a power strip, make sure the strip is switched on. For a laptop, plug in the charger and wait at least fifteen minutes. A fully drained battery needs time before it will start.",
+   "card": {
+    "type": "steps",
+    "title": "Totally dead? Check power",
+    "items": [
+     {
+      "icon": "plug",
+      "label": "Cable tight",
+      "at": "cable"
+     },
+     {
+      "icon": "house",
+      "label": "Other outlet",
+      "at": "outlet"
+     },
+     {
+      "icon": "gear",
+      "label": "Strip on?",
+      "at": "strip"
+     },
+     {
+      "icon": "battery",
+      "label": "Charge it",
+      "at": "charger"
+     }
+    ]
+   }
+  },
+  {
+   "say": "Still nothing? Try a power reset. Unplug it, hold the power button down for fifteen seconds, then plug it back in and try again. This drains leftover power that can confuse the computer.",
+   "card": {
+    "type": "statement",
+    "icon": "plug",
+    "text": "Unplug, hold power 15 seconds, try again.",
+    "sub": "A simple power reset"
+   }
+  },
+  {
+   "say": "If lights come on but the screen is black, the computer may actually be running. For a desktop, check that the monitor is on and its cable is connected. On a laptop, try the brightness keys. And give it a minute. Big updates can take a while to show anything.",
+   "card": {
+    "type": "callout",
+    "title": "BLACK SCREEN: check the display",
+    "items": [
+     {
+      "icon": "screen",
+      "label": "Monitor on?",
+      "at": "monitor"
+     },
+     {
+      "icon": "link",
+      "label": "Cable in?",
+      "at": "cable"
+     },
+     {
+      "icon": "clock",
+      "label": "Give it a minute",
+      "at": "minute"
+     }
+    ]
+   }
+  },
+  {
+   "say": "If nothing works, the problem may be the charger, the battery, or a part inside. Try a different charger if you have one that fits. And if you ever smell burning, or see a laptop's case bulging, unplug it and stop using it right away.",
+   "kip": "shrug",
+   "card": {
+    "type": "statement",
+    "icon": "warning",
+    "text": "Burning smell or bulging case? Unplug it.",
+    "sub": "Then take it to a repair shop"
+   }
+  },
+  {
+   "say": "The good news: when a computer won't start, your files are usually still on the drive. A repair shop can often get them back, even if the computer itself can't be saved.",
+   "bub": "happy",
+   "card": {
+    "type": "statement",
+    "icon": "folder",
+    "text": "Your files are usually still there.",
+    "sub": "A repair shop can often recover them"
+   }
+  },
+  {
+   "say": "So: figure out dead or dark, check the power, do a power reset, check the screen, and get help if it's still stuck.",
+   "bub": "aha",
+   "card": {
+    "type": "steps",
+    "title": "Won't turn on?",
+    "items": [
+     {
+      "icon": "question",
+      "label": "Which one?",
+      "at": "dead"
+     },
+     {
+      "icon": "plug",
+      "label": "Power",
+      "at": "power"
+     },
+     {
+      "icon": "update",
+      "label": "Reset",
+      "at": "reset"
+     },
+     {
+      "icon": "screen",
+      "label": "Screen",
+      "at": "screen"
+     },
+     {
+      "icon": "user",
+      "label": "Get help",
+      "at": "help"
+     }
+    ]
+   }
+  },
+  {
+   "say": "Got a tech problem you want fixed? Leave it in the comments, and it might be a future Fix It Friday. See you next Friday.",
+   "kip": "rest"
+  }
+ ],
+ "shorts": [
+  {
+   "hook": "Dead computer or just a black screen?",
+   "scenes": [
+    2,
+    2
+   ]
+  },
+  {
+   "hook": "The 15-second fix for a computer that won't start",
+   "scenes": [
+    4,
+    4
+   ]
+  }
+ ]
+}

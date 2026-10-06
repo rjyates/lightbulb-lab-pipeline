@@ -24,7 +24,7 @@ def check(path):
 
 if __name__ == '__main__':
     bad = 0
-    for p in sorted(glob.glob(os.path.join(ROOT, 'episodes', 'ep*.json'))):
+    for p in sorted(glob.glob(os.path.join(ROOT, 'episodes', '*.json'))):
         e, n, errs, warn = check(p); bad += len(errs)
         print(f"{'FAIL' if errs else 'ok  '} {os.path.basename(p)}  ({n} characters, status: {e.get('status', 'ready')})")
         for x in errs: print('   error:', x)

@@ -1,0 +1,235 @@
+{
+ "id": "fif01",
+ "number": 1,
+ "series": "Fix It Friday",
+ "title": "Why Is My Computer So Slow?",
+ "status": "ready",
+ "next": "Next Friday: \"Storage Full\" on Your Phone",
+ "description": "Your computer used to be fast, and now everything takes forever. Kip and Bub walk through the five fixes that solve most slowdowns on Windows and Mac: restart, close extras, trim startup programs, free up space, and update.",
+ "thumbnail": {
+  "line1": "WHY IS MY",
+  "line2": "COMPUTER SLOW?",
+  "sub1": "Fix It Friday",
+  "sub2": "5 easy fixes"
+ },
+ "tags": [
+  "why is my computer so slow",
+  "speed up computer",
+  "slow laptop fix",
+  "windows 11 slow",
+  "mac running slow"
+ ],
+ "scenes": [
+  {
+   "say": "Your computer used to be fast. Now it takes forever to open anything. Sound familiar?",
+   "kip": "ask",
+   "bub": "sleepy"
+  },
+  {
+   "say": "It's Fix It Friday. Today: why is my computer so slow, and what can you do about it?",
+   "title": true
+  },
+  {
+   "say": "Most slowdowns come from a few usual suspects. Too many programs open at once. Programs that start by themselves every time you turn it on. A drive that's almost full. Or a computer that hasn't been restarted in weeks.",
+   "card": {
+    "type": "grid",
+    "title": "The usual suspects",
+    "items": [
+     {
+      "icon": "apps",
+      "label": "Too much open",
+      "at": "programs"
+     },
+     {
+      "icon": "clock",
+      "label": "Startup programs",
+      "at": "start"
+     },
+     {
+      "icon": "folder",
+      "label": "Drive almost full",
+      "at": "full"
+     },
+     {
+      "icon": "update",
+      "label": "Needs a restart",
+      "at": "restarted"
+     }
+    ]
+   }
+  },
+  {
+   "say": "Fix number one is the easiest: restart it. Closing the lid isn't the same thing. A real restart clears out memory and finishes updates that are waiting. On Windows, click Start, then the power button, then Restart. On a Mac, click the Apple menu, then Restart.",
+   "card": {
+    "type": "compare",
+    "title": "Fix 1: Restart",
+    "left": {
+     "icon": "laptop",
+     "title": "Windows",
+     "points": [
+      "Click Start",
+      "Click the power button",
+      "Click Restart"
+     ]
+    },
+    "right": {
+     "icon": "laptop",
+     "title": "Mac",
+     "points": [
+      "Click the Apple menu",
+      "Click Restart",
+      "Confirm"
+     ]
+    },
+    "at": [
+     "Windows",
+     "Mac"
+    ]
+   }
+  },
+  {
+   "say": "Fix two: close what you're not using. Every open program and browser tab takes a slice of memory. Remember the counter space from our computer episode? A crowded counter slows the cook down.",
+   "card": {
+    "type": "statement",
+    "icon": "memory",
+    "text": "Fix 2: Close what you're not using.",
+    "sub": "Every open program and tab uses memory"
+   }
+  },
+  {
+   "say": "Fix three: stop programs from starting on their own. On Windows, open Settings, then Apps, then Startup, and switch off anything you don't need right away. On a Mac, open System Settings, then General, then Login Items.",
+   "card": {
+    "type": "compare",
+    "title": "Fix 3: Trim startup programs",
+    "left": {
+     "icon": "laptop",
+     "title": "Windows",
+     "points": [
+      "Settings",
+      "Apps",
+      "Startup"
+     ]
+    },
+    "right": {
+     "icon": "laptop",
+     "title": "Mac",
+     "points": [
+      "System Settings",
+      "General",
+      "Login Items"
+     ]
+    },
+    "at": [
+     "Windows",
+     "Mac"
+    ]
+   }
+  },
+  {
+   "say": "Fix four: free up space. When a drive is nearly full, the computer has no room to work. Empty the trash or recycle bin, delete downloads you don't need, and uninstall apps you never use. Try to keep at least ten to fifteen percent of the drive free.",
+   "card": {
+    "type": "steps",
+    "title": "Fix 4: Free up space",
+    "items": [
+     {
+      "icon": "cross",
+      "label": "Empty trash",
+      "at": "trash",
+      "sub": "Or recycle bin"
+     },
+     {
+      "icon": "download",
+      "label": "Downloads",
+      "at": "downloads"
+     },
+     {
+      "icon": "apps",
+      "label": "Old apps",
+      "at": "uninstall",
+      "sub": "ones you never use"
+     },
+     {
+      "icon": "check",
+      "label": "Keep space",
+      "at": "percent"
+     }
+    ]
+   }
+  },
+  {
+   "say": "Fix five: install updates. They often fix the very bugs that slow things down, and they keep you safer too.",
+   "card": {
+    "type": "statement",
+    "icon": "update",
+    "text": "Fix 5: Install updates.",
+    "sub": "They fix bugs and keep you safer"
+   }
+  },
+  {
+   "say": "Still slow after all that? It might be the hardware. An older computer with a spinning hard drive can feel new again with a solid-state drive, or a little more memory. A local repair shop can tell you if it's worth it.",
+   "kip": "shrug",
+   "bub": "curious",
+   "card": {
+    "type": "statement",
+    "icon": "chip",
+    "text": "An SSD or more memory can help an older computer.",
+    "sub": "Ask a repair shop if it is worth it"
+   }
+  },
+  {
+   "say": "So: restart, close the extras, trim startup programs, free up space, and update. That fixes most slow computers.",
+   "bub": "aha",
+   "card": {
+    "type": "steps",
+    "title": "Speed it up",
+    "items": [
+     {
+      "icon": "update",
+      "label": "Restart",
+      "at": "restart"
+     },
+     {
+      "icon": "cross",
+      "label": "Close extras",
+      "at": "close"
+     },
+     {
+      "icon": "gear",
+      "label": "Trim startup",
+      "at": "startup"
+     },
+     {
+      "icon": "folder",
+      "label": "Free space",
+      "at": "space"
+     },
+     {
+      "icon": "shield",
+      "label": "Update",
+      "at": "update"
+     }
+    ]
+   }
+  },
+  {
+   "say": "Got a tech problem you want fixed? Leave it in the comments, and it might be a future Fix It Friday. See you next Friday.",
+   "kip": "rest"
+  }
+ ],
+ "shorts": [
+  {
+   "hook": "The easiest fix for a slow computer",
+   "scenes": [
+    3,
+    3
+   ]
+  },
+  {
+   "hook": "Is your drive too full?",
+   "scenes": [
+    6,
+    6
+   ]
+  }
+ ]
+}

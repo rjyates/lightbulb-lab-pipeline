@@ -1,0 +1,216 @@
+{
+ "id": "fif05",
+ "number": 5,
+ "series": "Fix It Friday",
+ "title": "Wi-Fi Connected but No Internet",
+ "status": "ready",
+ "next": "Next Friday: My Phone Battery Dies Too Fast",
+ "description": "Full Wi-Fi bars but nothing will load? Kip and Bub explain why that happens and walk through the fixes, from restarting your router the right way to checking for an outage.",
+ "thumbnail": {
+  "line1": "WI-FI BUT",
+  "line2": "NO INTERNET?",
+  "sub1": "Fix It Friday",
+  "sub2": "Phone or computer"
+ },
+ "tags": [
+  "wifi connected but no internet",
+  "no internet connection",
+  "restart router",
+  "internet not working"
+ ],
+ "scenes": [
+  {
+   "say": "Your phone shows full Wi-Fi bars, but nothing will load. How can you be connected, and still have no internet?",
+   "kip": "ask",
+   "bub": "confused"
+  },
+  {
+   "say": "It's Fix It Friday. Today: Wi-Fi connected, but no internet.",
+   "title": true
+  },
+  {
+   "say": "Here's the secret. Wi-Fi is just the link between your device and your router. The router gets the internet from your provider through a cable. If that part breaks, your Wi-Fi still works, but there's nothing on the other end.",
+   "card": {
+    "type": "flow",
+    "title": "Where it can break",
+    "items": [
+     {
+      "icon": "phone",
+      "label": "Your device",
+      "at": "device"
+     },
+     {
+      "icon": "wifi",
+      "label": "Wi-Fi",
+      "at": "Wi-Fi"
+     },
+     {
+      "icon": "router",
+      "label": "Router",
+      "at": "router"
+     },
+     {
+      "icon": "globe",
+      "label": "Internet",
+      "at": "provider"
+     }
+    ]
+   }
+  },
+  {
+   "say": "First, find out how big the problem is. Do other devices have internet? If only one device is stuck, the problem is that device. If everything is down, it's the router or your provider.",
+   "card": {
+    "type": "compare",
+    "title": "One device or all of them?",
+    "left": {
+     "icon": "phone",
+     "title": "One device",
+     "points": [
+      "Restart that device",
+      "Forget and rejoin Wi-Fi"
+     ]
+    },
+    "right": {
+     "icon": "router",
+     "title": "Every device",
+     "points": [
+      "Restart the router",
+      "Check for an outage"
+     ]
+    },
+    "at": [
+     "only",
+     "everything"
+    ]
+   }
+  },
+  {
+   "say": "The fix that works most often: restart your router and modem. Unplug them, wait thirty seconds, and plug them back in. Then give them two or three minutes to fully start up before you test again.",
+   "card": {
+    "type": "steps",
+    "title": "Restart the router the right way",
+    "items": [
+     {
+      "icon": "plug",
+      "label": "Unplug",
+      "at": "Unplug"
+     },
+     {
+      "icon": "clock",
+      "label": "Wait 30 sec",
+      "at": "thirty"
+     },
+     {
+      "icon": "plug",
+      "label": "Plug back in",
+      "at": "plug them"
+     },
+     {
+      "icon": "check",
+      "label": "Wait 2–3 min",
+      "at": "minutes"
+     }
+    ]
+   }
+  },
+  {
+   "say": "If it's just one device, turn its Wi-Fi off and back on, or restart it. Still stuck? Tell the device to forget the network, then join it again with the Wi-Fi password.",
+   "card": {
+    "type": "callout",
+    "title": "ONE DEVICE: try these",
+    "items": [
+     {
+      "icon": "wifi",
+      "label": "Wi-Fi off and on",
+      "at": "off"
+     },
+     {
+      "icon": "update",
+      "label": "Restart it",
+      "at": "restart"
+     },
+     {
+      "icon": "key",
+      "label": "Forget and rejoin",
+      "at": "forget"
+     }
+    ]
+   }
+  },
+  {
+   "say": "One more clue: the lights on your modem. A red or blinking light often means it isn't getting a signal from your provider.",
+   "card": {
+    "type": "statement",
+    "icon": "warning",
+    "text": "Red or blinking modem light?",
+    "sub": "It may not be getting a signal"
+   }
+  },
+  {
+   "say": "If nothing works, it may be an outage. Check your provider's app or website using your phone's mobile data, or give them a call. Sometimes the problem is on their end, and all you can do is wait.",
+   "kip": "shrug",
+   "bub": "sleepy",
+   "card": {
+    "type": "statement",
+    "icon": "globe",
+    "text": "It might be an outage.",
+    "sub": "Check your provider's app on mobile data"
+   }
+  },
+  {
+   "say": "So: figure out if it's one device or all of them, restart the router the right way, rejoin the network, check the modem lights, and check for an outage.",
+   "bub": "aha",
+   "card": {
+    "type": "steps",
+    "title": "Wi-Fi but no internet",
+    "items": [
+     {
+      "icon": "question",
+      "label": "Which?",
+      "at": "device"
+     },
+     {
+      "icon": "router",
+      "label": "Router",
+      "at": "router"
+     },
+     {
+      "icon": "key",
+      "label": "Rejoin",
+      "at": "rejoin"
+     },
+     {
+      "icon": "warning",
+      "label": "Lights",
+      "at": "lights"
+     },
+     {
+      "icon": "globe",
+      "label": "Outage?",
+      "at": "outage"
+     }
+    ]
+   }
+  },
+  {
+   "say": "Got a tech problem you want fixed? Leave it in the comments, and it might be a future Fix It Friday. See you next Friday.",
+   "kip": "rest"
+  }
+ ],
+ "shorts": [
+  {
+   "hook": "Full Wi-Fi bars but no internet?",
+   "scenes": [
+    2,
+    2
+   ]
+  },
+  {
+   "hook": "Restart your router the RIGHT way",
+   "scenes": [
+    4,
+    4
+   ]
+  }
+ ]
+}
