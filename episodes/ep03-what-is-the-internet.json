@@ -5,7 +5,7 @@
  "title": "What Is the Internet?",
  "status": "ready",
  "next": "Next: How Does Wi-Fi Work?",
- "description": "The internet isn\u2019t a cloud floating overhead. It\u2019s a giant network of computers connected mostly by cables, including cables under the ocean. Kip and Bub follow a message from your phone to the other side of the world.",
+ "description": "The internet isn’t a cloud floating overhead. It’s a giant network of computers connected mostly by cables, including cables under the ocean. Kip and Bub follow a message from your phone to the other side of the world.",
  "thumbnail": {
   "line1": "WHAT IS THE",
   "line2": "INTERNET?",
@@ -203,5 +203,7 @@
     7
    ]
   }
- ]
+ ],
+ "youtube_title": "What Is the Internet? Explained Simply for Beginners | Tech from Scratch Ep. 3",
+ "comment_question": "What's the first website you remember using?"
 }

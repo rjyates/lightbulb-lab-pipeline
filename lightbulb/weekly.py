@@ -63,6 +63,24 @@ def description(ep, cfg):
               f"TikTok: {load_links().get('tiktok', '@lightbulblab')}", '', '#techforbeginners #learntech #techfromscratch']
     return '\n'.join(lines)
 
+def pinned_comment(ep):
+    """friendly pinned comment pointing at the best-matching guide (first guide in links.json for this series)"""
+    L = load_links(); series = ep.get('series', 'Tech from Scratch')
+    g = next((g for g in L.get('guides', []) if not g.get('series') or series in g['series']), None)
+    q = ep.get('comment_question') or 'What should Kip and Bub explain next? Tell us in the comments!'
+    lines = [f"\U0001F4A1 {q}"]
+    if g: lines += ['', f"\U0001F4CB Want it all on paper? {g['label']}: {g['url']}"]
+    if L.get('website'): lines += [f"\U0001F4D8 {L['website']['label']}: {L['website']['url']}"]
+    return '\n'.join(lines)
+
+def tiktok_caption(ep):
+    """TikTok works like a search engine: keywords first, 3-4 hashtags"""
+    kw = ep.get('tags', [])[:2]
+    base = ep.get('description', ep['title']).split('. ')[0].rstrip('.') + '.'
+    tags = ['#techforbeginners', '#techtips', '#learnontiktok'] + ['#' + k.replace(' ', '').lower() for k in kw[:1]]
+    sep = ' ' if ep['title'][-1] in '?!.' else ': '
+    return f"{ep['title']}{sep}{base} Follow for part {ep['number'] + 1}! Full episode on YouTube @LightbulbLabYT. {' '.join(tags)}"
+
 def chapters(ep, epi):
     """YouTube chapters from each card block's start (first must be 0:00)"""
     out = ['0:00 Intro']
@@ -70,7 +88,8 @@ def chapters(ep, epi):
         title = blk['spec'].get('title') or blk['spec'].get('text') or ''
         title = title.split(':')[0].strip().rstrip('.').title() if title.isupper() or ':' in title else title.rstrip('.')
         t = max(0, blk['t0']); stamp = f'{int(t // 60)}:{int(t % 60):02d}'
-        if t > 10 and title and stamp != out[-1].split()[0] and len(out) < 12: out.append(f'{stamp} {title}')
+        prev = out[-1].split()[0]; pt = int(prev.split(':')[0]) * 60 + int(prev.split(':')[1])
+        if t >= pt + 10 and title and len(out) < 12: out.append(f'{stamp} {title}')
     return out if len(out) >= 3 else []
 
 def srt(epi, path, t0=0.0, t1=None):
@@ -125,9 +144,16 @@ def run(cfg, ep, quick=False, dry=False):
         a, b = V.short_range(epi, sh); srt(epi, p[:-4] + '.en.srt', a, b)
         meta['shorts'].append({'file': os.path.basename(p), 'title': f"{sh['hook']} #shorts", 'description': f"From {title}. Full episode on @LightbulbLabYT.\n\n" + '\n'.join(link_lines(ep, short=True)) + "\n\nKip’s voice is AI-generated (ElevenLabs).\n\n#techforbeginners #shorts"})
     json.dump(meta, open(os.path.join(out, 'metadata.json'), 'w'), indent=1)
+    meta['pinned_comment'] = pinned_comment(ep)
+    meta['tiktok_caption'] = tiktok_caption(ep)
+    json.dump(meta, open(os.path.join(out, 'metadata.json'), 'w'), indent=1)
     with open(os.path.join(out, 'UPLOAD-ME.txt'), 'w') as f:
         f.write(f'TITLE\n{title}\n\nDESCRIPTION\n{desc}\n\nTAGS\n{", ".join(tags)}\n\nSETTINGS\nAudience: No, not made for kids | Category: Education | Playlist: {ep.get("series", "Tech from Scratch")}\n'
-                f'Thumbnail: {os.path.basename(thumb)} | Subtitles: {name}.en.srt\n\nSHORTS / TIKTOK\n' + '\n'.join(f"{s['file']}: {s['title']}" for s in meta['shorts']) + '\n')
+                f'Thumbnail: {os.path.basename(thumb)} | Subtitles: {name}.en.srt\n'
+                f'End screen: Subscribe + next episode (or "Best for viewer") over the last 10-15 s\n\n'
+                f'PINNED COMMENT (post, then Pin)\n{meta["pinned_comment"]}\n\n'
+                f'SHORTS (YouTube: set "Related video" to the full episode)\n' + '\n\n'.join(f"{s['file']}\nTitle: {s['title']}\nDescription:\n{s['description']}" for s in meta['shorts']) +
+                f'\n\nTIKTOK CAPTION (same Short files)\n{meta["tiktok_caption"]}\n')
     shutil.rmtree(work, ignore_errors=True) if not quick else None
     # ---- YouTube (private draft) or leave the folder
     link = None

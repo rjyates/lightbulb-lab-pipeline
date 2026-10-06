@@ -43,9 +43,21 @@
     "type": "callout",
     "title": "Data centers",
     "items": [
-     {"icon": "house", "label": "Giant buildings", "at": "buildings"},
-     {"icon": "server", "label": "Rows of servers", "at": "servers"},
-     {"icon": "globe", "label": "All over the world", "at": "world"}
+     {
+      "icon": "house",
+      "label": "Giant buildings",
+      "at": "buildings"
+     },
+     {
+      "icon": "server",
+      "label": "Rows of servers",
+      "at": "servers"
+     },
+     {
+      "icon": "globe",
+      "label": "All over the world",
+      "at": "world"
+     }
     ]
    }
   },
@@ -55,10 +67,26 @@
     "type": "flow",
     "title": "Saving to the cloud",
     "items": [
-     {"icon": "phone", "label": "Your phone", "at": "phone"},
-     {"icon": "upload", "label": "Sends a copy", "at": "sends"},
-     {"icon": "globe", "label": "Over the internet", "at": "internet"},
-     {"icon": "server", "label": "A server", "at": "servers"}
+     {
+      "icon": "phone",
+      "label": "Your phone",
+      "at": "phone"
+     },
+     {
+      "icon": "upload",
+      "label": "Sends a copy",
+      "at": "sends"
+     },
+     {
+      "icon": "globe",
+      "label": "Over the internet",
+      "at": "internet"
+     },
+     {
+      "icon": "server",
+      "label": "A server",
+      "at": "servers"
+     }
     ]
    }
   },
@@ -78,10 +106,26 @@
     "type": "grid",
     "title": "Things in the cloud",
     "items": [
-     {"icon": "photo", "label": "Photos", "at": "Photos"},
-     {"icon": "folder", "label": "Documents", "at": "documents"},
-     {"icon": "mail", "label": "Email", "at": "email"},
-     {"icon": "tv", "label": "Streaming", "at": "stream"}
+     {
+      "icon": "photo",
+      "label": "Photos",
+      "at": "Photos"
+     },
+     {
+      "icon": "folder",
+      "label": "Documents",
+      "at": "documents"
+     },
+     {
+      "icon": "mail",
+      "label": "Email",
+      "at": "email"
+     },
+     {
+      "icon": "tv",
+      "label": "Streaming",
+      "at": "stream"
+     }
     ]
    }
   },
@@ -91,9 +135,24 @@
     "type": "tiles",
     "title": "Why it’s handy",
     "items": [
-     {"icon": "shield", "word": "Safe", "sub": "Lose the phone, keep the photos", "at": "safe"},
-     {"icon": "user", "word": "Share", "sub": "Albums in seconds", "at": "share"},
-     {"icon": "laptop", "word": "Anywhere", "sub": "From any device", "at": "device"}
+     {
+      "icon": "shield",
+      "word": "Safe",
+      "sub": "Lose the phone, keep the photos",
+      "at": "safe"
+     },
+     {
+      "icon": "user",
+      "word": "Share",
+      "sub": "Albums in seconds",
+      "at": "share"
+     },
+     {
+      "icon": "laptop",
+      "word": "Anywhere",
+      "sub": "From any device",
+      "at": "device"
+     }
     ]
    }
   },
@@ -104,9 +163,21 @@
     "type": "callout",
     "title": "Keep in mind",
     "items": [
-     {"icon": "wifi", "label": "Needs internet", "at": "internet"},
-     {"icon": "key", "label": "Strong password", "at": "strong"},
-     {"icon": "lock", "label": "Two-step sign-in", "at": "two-step"}
+     {
+      "icon": "wifi",
+      "label": "Needs internet",
+      "at": "internet"
+     },
+     {
+      "icon": "key",
+      "label": "Strong password",
+      "at": "strong"
+     },
+     {
+      "icon": "lock",
+      "label": "Two-step sign-in",
+      "at": "two-step"
+     }
     ]
    }
   },
@@ -118,11 +189,19 @@
  "shorts": [
   {
    "hook": "The cloud isn't in the sky",
-   "scenes": [2, 3]
+   "scenes": [
+    2,
+    3
+   ]
   },
   {
    "hook": "Your password is the key to the cloud",
-   "scenes": [8, 8]
+   "scenes": [
+    8,
+    8
+   ]
   }
- ]
+ ],
+ "youtube_title": "What Is the Cloud? Explained Simply for Beginners | Tech from Scratch Ep. 6",
+ "comment_question": "Do you back up your photos to the cloud? Which service do you use?"
 }

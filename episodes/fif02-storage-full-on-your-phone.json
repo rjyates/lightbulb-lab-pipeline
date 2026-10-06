@@ -3,7 +3,7 @@
  "number": 2,
  "series": "Fix It Friday",
  "title": "\"Storage Full\" on Your Phone",
- "youtube_title": "Phone Says \"Storage Full\"? Here's How to Fix It | Fix It Friday",
+ "youtube_title": "Phone Says \"Storage Full\"? How to Free Up Space (iPhone & Android) | Fix It Friday",
  "status": "ready",
  "next": "Next Friday: My Computer Won't Turn On",
  "description": "Can't take a photo because your storage is full? Kip and Bub show how to find what's using the space on iPhone and Android, and the safest ways to free it up without losing your photos.",
@@ -217,5 +217,6 @@
     6
    ]
   }
- ]
+ ],
+ "comment_question": "What tech problem should we fix next Friday? Tell us in the comments!"
 }
