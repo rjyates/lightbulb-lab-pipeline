@@ -3,7 +3,7 @@
  "number": 2,
  "series": "Tech from Scratch",
  "title": "Hardware vs. Software",
- "status": "ready",
+ "status": "done",
  "next": "Next: What Is the Internet?",
  "description": "Hardware is the stuff you can touch. Software is the instructions that tell it what to do. Kip and Bub explain the difference with a piano and sheet music, and why an update can make an old phone feel new.",
  "thumbnail": {
@@ -60,7 +60,7 @@
    "say": "Software is the instructions. You can't hold it in your hand. It's the apps, the settings, the operating system, everything that tells the hardware what to do.",
    "card": {
     "type": "callout",
-    "title": "SOFTWARE: instructions you can\u2019t touch",
+    "title": "SOFTWARE: instructions you can’t touch",
     "items": [
      {
       "icon": "apps",
@@ -154,7 +154,7 @@
     "type": "statement",
     "icon": "shield",
     "text": "Updates fix problems and keep you safer.",
-    "sub": "When your device asks, it\u2019s usually worth saying yes"
+    "sub": "When your device asks, it’s usually worth saying yes"
    }
   },
   {
