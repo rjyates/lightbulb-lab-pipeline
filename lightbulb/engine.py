@@ -126,7 +126,15 @@ class Episode:
             if i == len(ep['scenes']) - 1: pose = s.get('kip', 'rest')
             self.kip_keys.append((self.s_start[i] - 0.3, pose))
             self.moods.append((self.s_start[i] - 0.2, s.get('bub') or ('aha' if s.get('title') else 'happy')))
-        self.wave_at = self.s_start[-1] + 0.4 * (self.s_end[-1] - self.s_start[-1])
+        # end card: from the start of the last scene, or (if that scene shows a recap card) from "Next time"/"Subscribe"
+        self.end_t = self.s_start[-1]
+        if self.cards and self.cards[-1]['last'] == len(ep['scenes']) - 1:
+            a, b = self.sc[-1]
+            idx = next((i for i in (find_word(timing.text, w, a, b) for w in ('Next time', 'Next week', 'Subscribe')) if i is not None), None)
+            if idx is not None:
+                self.end_t = v(timing.at(idx))
+                blk = self.cards[-1]; blk['t1'] = min(blk['t1'], self.end_t + 0.1)
+        self.wave_at = max(self.end_t, self.s_start[-1] + 0.4 * (self.s_end[-1] - self.s_start[-1]))
         self.title_i = next((i for i, s in enumerate(ep['scenes']) if s.get('title')), None)
         self.room = make_room(); self.vig = K.vignette(); self.motes = Motes()
         sh = Image.new('RGBA', (CWs + 80, CHs + 80), (0, 0, 0, 0)); ImageDraw.Draw(sh).rounded_rectangle([40, 48, CWs + 40, CHs + 48], 38, fill=(0, 0, 0, 150))
@@ -218,7 +226,7 @@ class Episode:
         fr.alpha_composite(card)
 
     def endcard(self, fr, t):
-        a = K.ramp(t, self.s_start[-1] - 0.2, self.s_start[-1] + 0.3)
+        a = K.ramp(t, self.end_t - 0.2, self.end_t + 0.3)
         if a <= 0: return
         ov = Image.new('RGBA', (K.W, K.H), (0, 0, 0, 0)); d = ImageDraw.Draw(ov); lx = 1625
         d.rounded_rectangle([1390, 120, 1860, 680], 40, fill=(6, 16, 34, 215))
