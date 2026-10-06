@@ -1,0 +1,128 @@
+{
+ "id": "ep06",
+ "number": 6,
+ "series": "Tech from Scratch",
+ "title": "What Is the Cloud, Really?",
+ "status": "ready",
+ "next": "Next: Passwords That Actually Work",
+ "description": "Everyone says “it’s in the cloud,” but where is it? Kip and Bub explain what the cloud really is, where your photos actually go, why it’s handy, and two things to keep in mind.",
+ "thumbnail": {
+  "line1": "WHAT IS",
+  "line2": "THE CLOUD?",
+  "sub1": "Tech from Scratch",
+  "sub2": "Episode 6"
+ },
+ "tags": [
+  "what is the cloud",
+  "cloud storage explained",
+  "iCloud and Google Drive for beginners"
+ ],
+ "scenes": [
+  {
+   "say": "Your phone says your photos are saved to the cloud. So are they floating up there somewhere?",
+   "kip": "ask",
+   "bub": "curious"
+  },
+  {
+   "say": "Today on Tech from Scratch: what is the cloud, really?",
+   "title": true
+  },
+  {
+   "say": "Here's the secret. The cloud isn't in the sky. It's other people's computers, kept in giant buildings, that you reach over the internet.",
+   "bub": "aha",
+   "card": {
+    "type": "statement",
+    "icon": "cloud",
+    "text": "The cloud is someone else’s computer.",
+    "sub": "Reached over the internet"
+   }
+  },
+  {
+   "say": "Those buildings are called data centers. They're packed with rows of powerful computers called servers, and companies like Apple, Google, and Microsoft run them all over the world.",
+   "card": {
+    "type": "callout",
+    "title": "Data centers",
+    "items": [
+     {"icon": "house", "label": "Giant buildings", "at": "buildings"},
+     {"icon": "server", "label": "Rows of servers", "at": "servers"},
+     {"icon": "globe", "label": "All over the world", "at": "world"}
+    ]
+   }
+  },
+  {
+   "say": "When your phone saves a photo to the cloud, it sends a copy over the internet to one of those servers. The photo is still on your phone, and now it's safe somewhere else too.",
+   "card": {
+    "type": "flow",
+    "title": "Saving to the cloud",
+    "items": [
+     {"icon": "phone", "label": "Your phone", "at": "phone"},
+     {"icon": "upload", "label": "Sends a copy", "at": "sends"},
+     {"icon": "globe", "label": "Over the internet", "at": "internet"},
+     {"icon": "server", "label": "A server", "at": "servers"}
+    ]
+   }
+  },
+  {
+   "say": "Think of it like renting a storage unit across town. It's your stuff in someone else's building, and your password is the key. That's why you can sign in on a new phone and find everything waiting.",
+   "bub": "happy",
+   "card": {
+    "type": "statement",
+    "icon": "key",
+    "text": "Your password is the key.",
+    "sub": "Sign in anywhere and your things are there"
+   }
+  },
+  {
+   "say": "You probably use the cloud already. Photos in iCloud or Google Photos, documents in Google Drive or OneDrive, your email, even the shows you stream.",
+   "card": {
+    "type": "grid",
+    "title": "Things in the cloud",
+    "items": [
+     {"icon": "photo", "label": "Photos", "at": "Photos"},
+     {"icon": "folder", "label": "Documents", "at": "documents"},
+     {"icon": "mail", "label": "Email", "at": "email"},
+     {"icon": "tv", "label": "Streaming", "at": "stream"}
+    ]
+   }
+  },
+  {
+   "say": "Why use it? If your phone falls in the lake, your photos are safe. You can share an album with family in seconds. And you can reach your files from any device.",
+   "card": {
+    "type": "tiles",
+    "title": "Why it’s handy",
+    "items": [
+     {"icon": "shield", "word": "Safe", "sub": "Lose the phone, keep the photos", "at": "safe"},
+     {"icon": "user", "word": "Share", "sub": "Albums in seconds", "at": "share"},
+     {"icon": "laptop", "word": "Anywhere", "sub": "From any device", "at": "device"}
+    ]
+   }
+  },
+  {
+   "say": "Two things to keep in mind. You need the internet to reach it. And anyone with your password can open your storage unit, so use a strong password and turn on two-step sign-in.",
+   "kip": "point",
+   "card": {
+    "type": "callout",
+    "title": "Keep in mind",
+    "items": [
+     {"icon": "wifi", "label": "Needs internet", "at": "internet"},
+     {"icon": "key", "label": "Strong password", "at": "strong"},
+     {"icon": "lock", "label": "Two-step sign-in", "at": "two-step"}
+    ]
+   }
+  },
+  {
+   "say": "So the cloud is someone else's computer, in a big building, and you hold the key. Next time: passwords that actually work. Subscribe so you don't miss it.",
+   "kip": "rest"
+  }
+ ],
+ "shorts": [
+  {
+   "hook": "The cloud isn't in the sky",
+   "scenes": [2, 3]
+  },
+  {
+   "hook": "Your password is the key to the cloud",
+   "scenes": [8, 8]
+  }
+ ]
+}
