@@ -25,22 +25,16 @@ def bg():
     im.alpha_composite(K.radial(700, (255, 190, 90), 70).resize((1400, 1400)), (VW // 2 - 700, 700))
     return im
 
+COVER_FILES = ['new-computer-starter-guide', 'printable-family-tech-binder', 'family-tech-binder-setup-kit']
 def cover(lines, tag, i):
-    w, h = 420, 560; c = Image.new('RGBA', (w + 40, h + 40), (0, 0, 0, 0)); d = ImageDraw.Draw(c)
-    sh = Image.new('RGBA', c.size, (0, 0, 0, 0)); ImageDraw.Draw(sh).rounded_rectangle([26, 30, w + 26, h + 30], 22, fill=(0, 0, 0, 150))
-    c.alpha_composite(sh.filter(ImageFilter.GaussianBlur(12)))
-    d.rounded_rectangle([12, 12, w + 12, h + 12], 22, fill=K.NAVY)
-    d.rectangle([12, 12, 40, h + 12], fill=K.AMBER if i != 1 else K.SAGE)  # spine
-    d.rounded_rectangle([60, 46, w - 20, 92], 23, fill=K.AMBER); d.text(((w + 52) / 2, 69), tag, font=F(24), fill=K.NAVY, anchor='mm')
-    y = 130
-    for ln in lines:
-        s = 58
-        while d.textlength(ln, font=F(s)) > w - 90: s -= 2
-        d.text(((w + 52) / 2, y), ln, font=F(s), fill=K.CREAM, anchor='mt'); y += s + 8
-    b = draw_bub(scale=0.42, mood='happy', rays=0.6); k = draw_kip(scale=0.42, arm_r=(132, 4), eyes='happy')
-    c.alpha_composite(k, (int(w * 0.36 - k.width / 2), h + 12 - k.height - 6)); c.alpha_composite(b, (int(w * 0.78 - b.width / 2), h + 12 - b.height - 10))
-    d.text(((w + 52) / 2, h - 2), 'LIGHTBULB LAB', font=F(22), fill=(*K.AMBER_L, 255), anchor='mm')
-    return c
+    """the real cover art (assets/brand/guide-covers), with a soft drop shadow"""
+    art = Image.open(os.path.join(K.ASSETS, 'brand', 'guide-covers', COVER_FILES[i] + '.png')).convert('RGBA')
+    art = art.resize((540, int(art.height * 540 / art.width)), Image.LANCZOS)
+    m = Image.new('L', art.size, 0); ImageDraw.Draw(m).rounded_rectangle([0, 0, art.width - 1, art.height - 1], 10, fill=255); art.putalpha(m)
+    c = Image.new('RGBA', (art.width + 60, art.height + 60), (0, 0, 0, 0))
+    sh = Image.new('RGBA', c.size, (0, 0, 0, 0)); ImageDraw.Draw(sh).rounded_rectangle([34, 40, art.width + 34, art.height + 40], 12, fill=(0, 0, 0, 170))
+    c.alpha_composite(sh.filter(ImageFilter.GaussianBlur(14))); c.alpha_composite(art, (24, 20))
+    return c.rotate(2 if i % 2 else -2, resample=Image.BICUBIC, expand=True)
 
 COVERS = None
 def label(fr, y, lines, sizes, colors, alpha, tilt=-2):
@@ -72,13 +66,12 @@ def frame(t, BG):
         if a <= 0: continue
         s = K.back((t - t0) / 0.5)
         cv = COVERS[i].resize((max(1, int(COVERS[i].width * s)), max(1, int(COVERS[i].height * s))), Image.LANCZOS)
-        cv.putalpha(cv.getchannel('A').point(lambda p: int(p * a))); fr.alpha_composite(cv, (VW // 2 - cv.width // 2, 250 + int(300 * (1 - s))))
+        cv.putalpha(cv.getchannel('A').point(lambda p: int(p * a))); fr.alpha_composite(cv, (VW // 2 - cv.width // 2, 120 + int(300 * (1 - s))))
         lay = Image.new('RGBA', (VW, 330), (0, 0, 0, 0)); ld = ImageDraw.Draw(lay)
         ld.text((VW / 2, 20), ' '.join(lines).replace('+ ', '+ '), font=F(62), fill=K.CREAM, anchor='mt')
         for j, ln in enumerate(detail.split('\n')): ld.text((VW / 2, 110 + j * 52), ln, font=M(42), fill=(205, 215, 235), anchor='mt')
         pw = ld.textlength(price, font=F(64)) + 70; ld.rounded_rectangle([VW / 2 - pw / 2, 230, VW / 2 + pw / 2, 318], 44, fill=K.AMBER); ld.text((VW / 2, 274), price, font=F(64), fill=K.NAVY, anchor='mm')
-        lay.putalpha(lay.getchannel('A').point(lambda p: int(p * a))); fr.alpha_composite(lay, (0, 850))
-        d = ImageDraw.Draw(fr); d.text((VW / 2, 190), f'{i + 1} of 3', font=F(44), fill=(*K.AMBER_L, int(255 * a)), anchor='mm')
+        lay.putalpha(lay.getchannel('A').point(lambda p: int(p * a))); fr.alpha_composite(lay, (0, 900))
     a4 = K.ramp(t, 20.9, 21.3)
     if a4 > 0:
         label(fr, 230, ['Large print.', 'Step by step.', 'Windows 11 & Mac.'], [80, 80, 80], [K.CREAM, K.AMBER, K.CREAM], a4 * (1 - K.ramp(t, 23.4, 23.7)))
