@@ -79,7 +79,8 @@ def tiktok_caption(ep):
     base = ep.get('description', ep['title']).split('. ')[0].rstrip('.') + '.'
     tags = ['#techforbeginners', '#techtips', '#learnontiktok'] + ['#' + k.replace(' ', '').lower() for k in kw[:1]]
     sep = ' ' if ep['title'][-1] in '?!.' else ': '
-    return f"{ep['title']}{sep}{base} Follow for part {ep['number'] + 1}! Full episode on YouTube @LightbulbLabYT. {' '.join(tags)}"
+    follow = f"Follow for part {ep['number'] + 1}!" if ep.get('series', 'Tech from Scratch') == 'Tech from Scratch' else 'Follow for more easy fixes!'
+    return f"{ep['title']}{sep}{base} {follow} Full episode on YouTube @LightbulbLabYT. {' '.join(tags)}"
 
 def chapters(ep, epi):
     """YouTube chapters from each card block's start (first must be 0:00)"""
@@ -137,7 +138,7 @@ def run(cfg, ep, quick=False, dry=False):
     # ---- metadata
     if not ep.get('chapters'): ep = dict(ep, chapters=chapters(ep, epi))
     title = ep.get('youtube_title') or f"{ep['title']} | {ep.get('series', 'Tech from Scratch')} Ep. {ep['number']}"
-    desc = description(ep, cfg); tags = ep.get('tags', []) + ['tech for beginners', 'computer basics', 'Lightbulb Lab', 'Tech from Scratch']
+    desc = description(ep, cfg); tags = ep.get('tags', []) + ['tech for beginners', 'computer basics', 'Lightbulb Lab', ep.get('series', 'Tech from Scratch')]
     srt(epi, os.path.join(out, f'{name}.en.srt'))
     meta = {'title': title, 'description': desc, 'tags': tags, 'shorts': []}
     for sh, p in shorts:
