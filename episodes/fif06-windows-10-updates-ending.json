@@ -1,0 +1,124 @@
+{
+ "id": "fif06",
+ "number": 6,
+ "series": "Fix It Friday",
+ "title": "Windows 10 Updates Are Ending",
+ "youtube_title": "Windows 10 Security Updates Are Ending: What to Do Now | Fix It Friday",
+ "status": "draft",
+ "next": "Next Friday: My Phone Battery Dies Too Fast",
+ "description": "Still using a Windows 10 computer? Free security updates for home PCs end on October 13, 2026. Kip and Bub explain what that means, how to check if your computer can move to Windows 11 for free, and the scam pop-ups to ignore.",
+ "thumbnail": {
+  "line1": "WINDOWS 10",
+  "line2": "ENDING?",
+  "sub1": "Fix It Friday",
+  "sub2": "What to do now"
+ },
+ "tags": [
+  "windows 10 end of support",
+  "windows 10 security updates ending",
+  "upgrade to windows 11",
+  "windows 10 extended security updates"
+ ],
+ "scenes": [
+  {
+   "say": "Still using a Windows 10 computer? On October 13th, 2026, free security updates for home computers end. Let's talk about what that means and what to do.",
+   "kip": "ask",
+   "bub": "confused"
+  },
+  {
+   "say": "It's Fix It Friday. Today: Windows 10 updates are ending.",
+   "title": true
+  },
+  {
+   "say": "First, the good news. Your computer won't suddenly stop working. It will still turn on, open your files, and get online.",
+   "bub": "happy",
+   "card": {
+    "type": "statement",
+    "icon": "laptop",
+    "text": "Your computer keeps working.",
+    "sub": "Nothing shuts off on October 13th"
+   }
+  },
+  {
+   "say": "But security updates are the fixes that patch holes criminals use to break in. Without them, new holes stay open, and the computer gets riskier to use online every month.",
+   "card": {
+    "type": "statement",
+    "icon": "shield",
+    "text": "No updates means new holes stay open.",
+    "sub": "Riskier online over time"
+   }
+  },
+  {
+   "say": "Step one: check if your computer can move to Windows 11 for free. Open Settings, then Update and Security, then Windows Update. If it says your PC can run Windows 11, you can upgrade at no cost.",
+   "card": {
+    "type": "steps",
+    "title": "Can I get Windows 11 free?",
+    "items": [
+     {"icon": "gear", "label": "Settings", "at": "Settings"},
+     {"icon": "update", "label": "Update & Security", "at": "Security"},
+     {"icon": "check", "label": "Windows Update", "at": "Windows"}
+    ]
+   }
+  },
+  {
+   "say": "Before you upgrade, back up your photos and documents to a USB drive or the cloud. Upgrades usually keep your files, but a backup means you never have to worry.",
+   "card": {
+    "type": "statement",
+    "icon": "folder",
+    "text": "Back up your files first.",
+    "sub": "USB drive or cloud"
+   }
+  },
+  {
+   "say": "If your computer can't run Windows 11, it may be time for a new one. A Windows 11 computer, a Mac, or a simple Chromebook will all keep getting updates. Use that time to plan, not panic.",
+   "kip": "open",
+   "card": {
+    "type": "grid",
+    "title": "If it can't upgrade",
+    "items": [
+     {"icon": "laptop", "label": "Windows 11 PC", "at": "Windows"},
+     {"icon": "laptop", "label": "Mac", "at": "Mac"},
+     {"icon": "browser", "label": "Chromebook", "at": "Chromebook"}
+    ]
+   }
+  },
+  {
+   "say": "And watch out. Scammers love news like this. A pop-up or phone call saying your Windows has expired and you must call a number right now is a scam. Microsoft will never call you out of the blue.",
+   "bub": "aha",
+   "card": {
+    "type": "statement",
+    "icon": "warning",
+    "text": "\"Windows expired, call now\" is a scam.",
+    "sub": "Microsoft won't call you"
+   }
+  },
+  {
+   "say": "So: your computer keeps working, check if Windows 11 is free for you, back up first, plan a replacement if needed, and ignore scary pop-ups.",
+   "card": {
+    "type": "steps",
+    "title": "Windows 10 checklist",
+    "items": [
+     {"icon": "check", "label": "Check Windows 11", "at": "check"},
+     {"icon": "folder", "label": "Back up", "at": "back"},
+     {"icon": "laptop", "label": "Plan a replacement", "at": "plan"},
+     {"icon": "warning", "label": "Ignore pop-ups", "at": "ignore"}
+    ]
+   }
+  },
+  {
+   "say": "Got a tech problem you want fixed? Leave it in the comments, and it might be a future Fix It Friday. See you next Friday.",
+   "kip": "rest"
+  }
+ ],
+ "shorts": [
+  {
+   "hook": "Windows 10 updates end October 13th",
+   "scenes": [3, 5]
+  },
+  {
+   "hook": "\"Windows expired\" pop-up? It's a scam",
+   "scenes": [8, 8]
+  }
+ ],
+ "comment_question": "Are you still on Windows 10? Tell us what's on your computer in the comments!"
+}
