@@ -2,83 +2,108 @@
  "id": "fif06",
  "number": 6,
  "series": "Fix It Friday",
- "title": "Windows 10 Updates Are Ending",
- "youtube_title": "Windows 10 Security Updates Are Ending: What to Do Now | Fix It Friday",
+ "title": "Windows 10 Got One More Year",
+ "youtube_title": "Windows 10 Security Updates Extended to 2027: What to Do | Fix It Friday",
  "status": "draft",
  "next": "Next Friday: My Phone Battery Dies Too Fast",
- "description": "Still using a Windows 10 computer? Free security updates for home PCs end on October 13, 2026. Kip and Bub explain what that means, how to check if your computer can move to Windows 11 for free, and the scam pop-ups to ignore.",
+ "description": "Still using a Windows 10 computer? Microsoft has extended free security updates for home PCs until October 2027, but only if your computer is enrolled. Kip and Bub show how to check, how to enroll, how to see if Windows 11 is free for you, and the scam pop-ups to ignore.",
  "thumbnail": {
   "line1": "WINDOWS 10",
-  "line2": "ENDING?",
+  "line2": "ONE MORE YEAR",
   "sub1": "Fix It Friday",
-  "sub2": "What to do now"
+  "sub2": "Are you enrolled?"
  },
  "tags": [
+  "windows 10 extended security updates",
+  "windows 10 esu 2027",
   "windows 10 end of support",
-  "windows 10 security updates ending",
-  "upgrade to windows 11",
-  "windows 10 extended security updates"
+  "windows 10 security updates extended",
+  "upgrade to windows 11"
  ],
  "scenes": [
   {
-   "say": "Still using a Windows 10 computer? On October 13th, 2026, free security updates for home computers end. Let's talk about what that means and what to do.",
+   "say": "Still using a Windows 10 computer? Good news: Microsoft quietly gave home computers one more year of free security updates, until October 2027. But there's a catch.",
    "kip": "ask",
-   "bub": "confused"
+   "bub": "curious"
   },
   {
-   "say": "It's Fix It Friday. Today: Windows 10 updates are ending.",
+   "say": "It's Fix It Friday. Today: Windows 10 got one more year.",
    "title": true
   },
   {
-   "say": "First, the good news. Your computer won't suddenly stop working. It will still turn on, open your files, and get online.",
+   "say": "First, your computer won't suddenly stop working. It will still turn on, open your files, and get online.",
    "bub": "happy",
    "card": {
     "type": "statement",
     "icon": "laptop",
     "text": "Your computer keeps working.",
-    "sub": "Nothing shuts off on October 13th"
+    "sub": "Nothing shuts off"
    }
   },
   {
-   "say": "But security updates are the fixes that patch holes criminals use to break in. Without them, new holes stay open, and the computer gets riskier to use online every month.",
+   "say": "Security updates are the fixes that patch holes criminals use to break in. Here's the catch: you only get them if your computer is enrolled in Extended Security Updates.",
    "card": {
     "type": "statement",
     "icon": "shield",
-    "text": "No updates means new holes stay open.",
-    "sub": "Riskier online over time"
+    "text": "Updates only if you're enrolled.",
+    "sub": "Extended Security Updates"
    }
   },
   {
-   "say": "Step one: check if your computer can move to Windows 11 for free. Open Settings, then Update and Security, then Windows Update. If it says your PC can run Windows 11, you can upgrade at no cost.",
+   "say": "To check, open Settings, then Update and Security, then Windows Update. Look for Extended Security Updates. If you see Enroll now, click it. One free way is to turn on Windows Backup with your Microsoft account.",
    "card": {
     "type": "steps",
-    "title": "Can I get Windows 11 free?",
+    "title": "Am I enrolled?",
     "items": [
-     {"icon": "gear", "label": "Settings", "at": "Settings"},
-     {"icon": "update", "label": "Update & Security", "at": "Security"},
-     {"icon": "check", "label": "Windows Update", "at": "Windows"}
+     {
+      "icon": "gear",
+      "label": "Settings",
+      "at": "Settings"
+     },
+     {
+      "icon": "update",
+      "label": "Update & Security",
+      "at": "Security"
+     },
+     {
+      "icon": "check",
+      "label": "Windows Update",
+      "at": "Windows"
+     }
     ]
    }
   },
   {
-   "say": "Before you upgrade, back up your photos and documents to a USB drive or the cloud. Upgrades usually keep your files, but a backup means you never have to worry.",
+   "say": "While you're there, see if your computer can move to Windows 11 for free. If it can, back up your photos and documents first, then upgrade when you're ready.",
    "card": {
     "type": "statement",
     "icon": "folder",
-    "text": "Back up your files first.",
+    "text": "Back up before you upgrade.",
     "sub": "USB drive or cloud"
    }
   },
   {
-   "say": "If your computer can't run Windows 11, it may be time for a new one. A Windows 11 computer, a Mac, or a simple Chromebook will all keep getting updates. Use that time to plan, not panic.",
+   "say": "If your computer can't run Windows 11, use this extra year to plan for a new one. A Windows 11 computer, a Mac, or a simple Chromebook will all keep getting updates. Plan, don't panic.",
    "kip": "open",
    "card": {
     "type": "grid",
     "title": "If it can't upgrade",
     "items": [
-     {"icon": "laptop", "label": "Windows 11 PC", "at": "Windows"},
-     {"icon": "laptop", "label": "Mac", "at": "Mac"},
-     {"icon": "browser", "label": "Chromebook", "at": "Chromebook"}
+     {
+      "icon": "laptop",
+      "label": "Windows 11 PC",
+      "at": "Windows"
+     },
+     {
+      "icon": "laptop",
+      "label": "Mac",
+      "at": "Mac"
+     },
+     {
+      "icon": "browser",
+      "label": "Chromebook",
+      "at": "Chromebook"
+     }
     ]
    }
   },
@@ -93,15 +118,31 @@
    }
   },
   {
-   "say": "So: your computer keeps working, check if Windows 11 is free for you, back up first, plan a replacement if needed, and ignore scary pop-ups.",
+   "say": "So: your computer keeps working, make sure it's enrolled, check if Windows 11 is free, back up first, and ignore scary pop-ups.",
    "card": {
     "type": "steps",
     "title": "Windows 10 checklist",
     "items": [
-     {"icon": "check", "label": "Check Windows 11", "at": "check"},
-     {"icon": "folder", "label": "Back up", "at": "back"},
-     {"icon": "laptop", "label": "Plan a replacement", "at": "plan"},
-     {"icon": "warning", "label": "Ignore pop-ups", "at": "ignore"}
+     {
+      "icon": "check",
+      "label": "Check enrollment",
+      "at": "enrolled"
+     },
+     {
+      "icon": "update",
+      "label": "Check Windows 11",
+      "at": "Windows"
+     },
+     {
+      "icon": "folder",
+      "label": "Back up",
+      "at": "back"
+     },
+     {
+      "icon": "warning",
+      "label": "Ignore pop-ups",
+      "at": "ignore"
+     }
     ]
    }
   },
@@ -112,12 +153,18 @@
  ],
  "shorts": [
   {
-   "hook": "Windows 10 updates end October 13th",
-   "scenes": [3, 5]
+   "hook": "Windows 10 got one more year (if you do this)",
+   "scenes": [
+    3,
+    5
+   ]
   },
   {
    "hook": "\"Windows expired\" pop-up? It's a scam",
-   "scenes": [8, 8]
+   "scenes": [
+    8,
+    8
+   ]
   }
  ],
  "comment_question": "Are you still on Windows 10? Tell us what's on your computer in the comments!"
