@@ -1,0 +1,181 @@
+{
+ "id": "fif07",
+ "number": 7,
+ "series": "Fix It Friday",
+ "title": "Is My Phone Still Getting Updates?",
+ "youtube_title": "Is Your Phone Too Old for Security Updates? How to Check | Fix It Friday",
+ "status": "draft",
+ "next": "Next Friday: My Phone Battery Dies Too Fast",
+ "description": "Phones don't get security updates forever. Kip and Bub show how to check for updates on an iPhone or Android phone, how to find your phone's security date, and what to do if your phone has stopped getting updates.",
+ "thumbnail": {
+  "line1": "IS YOUR PHONE",
+  "line2": "TOO OLD?",
+  "sub1": "Fix It Friday",
+  "sub2": "Check in 1 minute"
+ },
+ "tags": [
+  "is my phone still getting updates",
+  "phone security updates",
+  "how to update my phone",
+  "android security patch level",
+  "iphone software update",
+  "pixel 6 end of support"
+ ],
+ "scenes": [
+  {
+   "say": "Is your phone still getting security updates? Most people never check. And this month, some popular phones, like Google's Pixel 6, reach the end of their update window.",
+   "kip": "ask",
+   "bub": "curious"
+  },
+  {
+   "say": "It's Fix It Friday. Today: is my phone still getting updates?",
+   "title": true
+  },
+  {
+   "say": "Security updates are fixes that patch holes criminals use to break in. Phone makers only send them for a few years. After that, the phone still works, but those holes stay open.",
+   "card": {
+    "type": "statement",
+    "icon": "shield",
+    "text": "Updates don't last forever.",
+    "sub": "Usually a few years"
+   }
+  },
+  {
+   "say": "On an iPhone, open Settings, then General, then Software Update. If an update is waiting, tap Update Now.",
+   "card": {
+    "type": "steps",
+    "title": "iPhone",
+    "items": [
+     {
+      "icon": "gear",
+      "label": "Settings",
+      "at": "Settings"
+     },
+     {
+      "icon": "phone",
+      "label": "General",
+      "at": "General"
+     },
+     {
+      "icon": "update",
+      "label": "Software Update",
+      "at": "Software"
+     }
+    ]
+   }
+  },
+  {
+   "say": "On an Android phone, open Settings and look for Software update, or System, then Software updates. The names change a little between brands.",
+   "card": {
+    "type": "steps",
+    "title": "Android",
+    "items": [
+     {
+      "icon": "gear",
+      "label": "Settings",
+      "at": "Settings"
+     },
+     {
+      "icon": "phone",
+      "label": "System",
+      "at": "System"
+     },
+     {
+      "icon": "update",
+      "label": "Software update",
+      "at": "updates"
+     }
+    ]
+   }
+  },
+  {
+   "say": "Here's a handy trick for Android. In Settings, open About phone and look for the security update date, sometimes called security patch level. If it's many months old and no update shows up, your phone may be out of support.",
+   "bub": "aha",
+   "card": {
+    "type": "statement",
+    "icon": "calendar",
+    "text": "Check your security update date.",
+    "sub": "Settings, About phone"
+   }
+  },
+  {
+   "say": "If your phone has stopped getting updates, don't panic. It won't stop working tomorrow. But start planning for a newer phone, and be extra careful with links in texts and emails until then.",
+   "kip": "open",
+   "card": {
+    "type": "statement",
+    "icon": "phone",
+    "text": "Plan, don't panic.",
+    "sub": "Be extra careful with links"
+   }
+  },
+  {
+   "say": "When you shop, ask how many years of updates the phone gets. Many newer phones promise five years or more. That's money well spent.",
+   "card": {
+    "type": "statement",
+    "icon": "star",
+    "text": "Ask: how many years of updates?",
+    "sub": "Before you buy"
+   }
+  },
+  {
+   "say": "And watch out. A pop-up or text saying your phone is infected or out of date, with a link or a number to call, is a scam. Real updates only come from your phone's Settings.",
+   "bub": "aha",
+   "card": {
+    "type": "statement",
+    "icon": "warning",
+    "text": "Real updates come from Settings.",
+    "sub": "Not from pop-ups or texts"
+   }
+  },
+  {
+   "say": "So: check Settings for updates, look at your security date, plan ahead if your phone is out of support, and ignore scary pop-ups.",
+   "card": {
+    "type": "steps",
+    "title": "Phone update checklist",
+    "items": [
+     {
+      "icon": "update",
+      "label": "Check for updates",
+      "at": "updates"
+     },
+     {
+      "icon": "calendar",
+      "label": "Security date",
+      "at": "security"
+     },
+     {
+      "icon": "phone",
+      "label": "Plan ahead",
+      "at": "plan"
+     },
+     {
+      "icon": "warning",
+      "label": "Ignore pop-ups",
+      "at": "ignore"
+     }
+    ]
+   }
+  },
+  {
+   "say": "Got a tech problem you want fixed? Leave it in the comments, and it might be a future Fix It Friday. See you next Friday.",
+   "kip": "rest"
+  }
+ ],
+ "shorts": [
+  {
+   "hook": "Is your phone too old to be safe? Check this",
+   "scenes": [
+    3,
+    6
+   ]
+  },
+  {
+   "hook": "\"Your phone is out of date\" text? It's a scam",
+   "scenes": [
+    9,
+    9
+   ]
+  }
+ ],
+ "comment_question": "How old is your phone? Tell us in the comments!"
+}
