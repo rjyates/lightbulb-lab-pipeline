@@ -43,4 +43,4 @@ Aim for 10–14 scenes and 1,300–1,900 characters total (about 2 minutes).
 `at` = a word from that scene's `say`. The item pops in the moment Kip says it.
 Run the checker to see the full icon list.
 
-**Shorts**: `scenes: [first, last]` (inclusive), keep under ~55 seconds. The `hook` is the big text at the top.
+**Shorts**: `scenes: [first, last]` (inclusive), keep under ~55 seconds. Scene numbers **count from 0** (the hook is scene 0, the title is scene 1). Run `python3 -m lightbulb.check --shorts` to see where each Short starts. The `hook` is the big text at the top.

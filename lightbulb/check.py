@@ -18,7 +18,10 @@ def check(path):
             for a in [x.get('at') for x in c.get('items', [])] + c.get('at', []):
                 if a and a.lower() not in s['say'].lower(): warn.append(f'scene {i}: "at" word "{a}" not in this scene (item will pop in on its own)')
     for sh in e.get('shorts', []):
-        a, b = sh['scenes']; n = sum(len(e['scenes'][j]['say']) for j in range(a, b + 1))
+        a, b = sh['scenes']; ns = len(e.get('scenes', []))
+        if not (0 <= a <= b < ns): errs.append(f'short "{sh["hook"]}": scenes {sh["scenes"]} out of range (count from 0; last scene is {ns - 1})'); continue
+        n = sum(len(e['scenes'][j]['say']) for j in range(a, b + 1))
+        print(f'   short {e["id"]} {sh["scenes"]} "{sh["hook"]}" -> starts: "{e["scenes"][a]["say"][:50]}"') if '--shorts' in sys.argv else None
         if n > 900: warn.append(f'short "{sh["hook"]}" may run over 60 seconds')
     n = len(E.full_text(e)); return e, n, errs, warn
 
