@@ -1,0 +1,139 @@
+{
+ "id": "fif08",
+ "number": 8,
+ "series": "Fix It Friday",
+ "title": "Is This Call Really From Medicare?",
+ "youtube_title": "Medicare Open Enrollment Scams: How to Spot a Fake Call | Fix It Friday",
+ "status": "draft",
+ "next": "Next Friday: another fix from your comments",
+ "description": "Medicare Open Enrollment runs October 15 to December 7, and scammers know it. Kip and Bub show the warning signs of a fake Medicare call, text or letter, what Medicare will never ask for, and the safe way to check: hang up and call 1-800-MEDICARE (1-800-633-4227) yourself.",
+ "thumbnail": {
+  "line1": "MEDICARE",
+  "line2": "CALLING?",
+  "sub1": "Fix It Friday",
+  "sub2": "Spot the scam"
+ },
+ "tags": [
+  "medicare scam",
+  "medicare open enrollment scam",
+  "fake medicare call",
+  "is medicare calling me",
+  "medicare number scam",
+  "scams targeting seniors"
+ ],
+ "scenes": [
+  {
+   "say": "Your phone rings. The caller says they're from Medicare, and you need to act today or lose your coverage. Is it real?",
+   "kip": "ask",
+   "bub": "confused"
+  },
+  {
+   "say": "It's Fix It Friday. Today: is this call really from Medicare?",
+   "title": true
+  },
+  {
+   "say": "Medicare Open Enrollment runs from October fifteenth to December seventh. It's a real time to review your plan. But it's also the busiest season of the year for scammers.",
+   "card": {
+    "type": "statement",
+    "icon": "calendar",
+    "text": "Oct 15 to Dec 7",
+    "sub": "Open Enrollment, and scam season"
+   }
+  },
+  {
+   "say": "Here are the warning signs. They rush you. They ask for your Medicare number. They offer a free gift or a new card. Or they threaten that you'll lose your coverage.",
+   "card": {
+    "type": "grid",
+    "title": "Warning signs",
+    "items": [
+     {"icon": "clock", "label": "Rushing you", "at": "rush"},
+     {"icon": "key", "label": "Asks for your number", "at": "number"},
+     {"icon": "star", "label": "Free gift or card", "at": "gift"},
+     {"icon": "warning", "label": "Threats", "at": "threaten"}
+    ]
+   }
+  },
+  {
+   "say": "Remember this one rule. Medicare won't call you out of the blue asking for your Medicare number or your bank details. Treat your Medicare number like a credit card.",
+   "bub": "aha",
+   "card": {
+    "type": "statement",
+    "icon": "shield",
+    "text": "Guard your Medicare number.",
+    "sub": "Like a credit card"
+   }
+  },
+  {
+   "say": "And caller ID can lie. Scammers can make any name or number show up on your screen, even one that says Medicare.",
+   "card": {
+    "type": "statement",
+    "icon": "phone",
+    "text": "Caller ID can be faked.",
+    "sub": "Even if it says Medicare"
+   }
+  },
+  {
+   "say": "So what do you do? Hang up. Then call Medicare yourself at one, eight hundred, Medicare. That's one, eight hundred, six three three, four two two seven. If the call was real, they'll know.",
+   "kip": "open",
+   "card": {
+    "type": "steps",
+    "title": "The safe way to check",
+    "items": [
+     {"icon": "cross", "label": "Hang up", "at": "Hang"},
+     {"icon": "phone", "label": "1-800-633-4227", "at": "call"},
+     {"icon": "check", "label": "Ask if it's real", "at": "real"}
+    ]
+   }
+  },
+  {
+   "say": "The same goes for texts, emails and letters that look official. Don't tap the link or call the number in the message. Use the number on your Medicare card instead.",
+   "card": {
+    "type": "callout",
+    "title": "Same rule for",
+    "items": [
+     {"icon": "chat", "label": "Texts", "at": "texts"},
+     {"icon": "mail", "label": "Emails", "at": "emails"},
+     {"icon": "house", "label": "Letters", "at": "letters"}
+    ]
+   }
+  },
+  {
+   "say": "Want real help choosing a plan? Every state has a free Medicare counseling program, often called SHIP. They don't sell anything, and they won't rush you.",
+   "bub": "happy",
+   "card": {
+    "type": "statement",
+    "icon": "user",
+    "text": "Free, honest help: SHIP",
+    "sub": "Your state's Medicare counselors"
+   }
+  },
+  {
+   "say": "So: slow down, guard your Medicare number, don't trust caller ID, and hang up and call Medicare yourself.",
+   "card": {
+    "type": "steps",
+    "title": "Medicare scam checklist",
+    "items": [
+     {"icon": "clock", "label": "Slow down", "at": "slow"},
+     {"icon": "shield", "label": "Guard your number", "at": "guard"},
+     {"icon": "phone", "label": "Don't trust caller ID", "at": "caller"},
+     {"icon": "check", "label": "Call Medicare yourself", "at": "yourself"}
+    ]
+   }
+  },
+  {
+   "say": "Share this with someone on Medicare. It could save them a lot of trouble. Got a tech problem you want fixed? Leave it in the comments. See you next Friday.",
+   "kip": "rest"
+  }
+ ],
+ "shorts": [
+  {
+   "hook": "\"Medicare\" calling? Do this first",
+   "scenes": [5, 6]
+  },
+  {
+   "hook": "4 signs a Medicare call is a scam",
+   "scenes": [3, 4]
+  }
+ ],
+ "comment_question": "Have you gotten a call or letter claiming to be from Medicare? Tell us what it said, so others can watch out."
+}
