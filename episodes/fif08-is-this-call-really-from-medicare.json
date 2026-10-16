@@ -6,7 +6,7 @@
  "youtube_title": "Medicare Open Enrollment Scams: How to Spot a Fake Call | Fix It Friday",
  "status": "draft",
  "next": "Next Friday: another fix from your comments",
- "description": "Medicare Open Enrollment runs October 15 to December 7, and scammers know it. Kip and Bub show the warning signs of a fake Medicare call, text or letter, what Medicare will never ask for, and the safe way to check: hang up and call 1-800-MEDICARE (1-800-633-4227) yourself.",
+ "description": "Medicare Open Enrollment runs October 15 to December 7, and scammers know it. Kip and Bub show the warning signs of a fake Medicare call, text or letter, what Medicare will never ask for, how to avoid fake Medicare ads in search results, and the safe way to check: hang up and call 1-800-MEDICARE (1-800-633-4227) yourself.",
  "thumbnail": {
   "line1": "MEDICARE",
   "line2": "CALLING?",
@@ -19,7 +19,8 @@
   "fake medicare call",
   "is medicare calling me",
   "medicare number scam",
-  "scams targeting seniors"
+  "scams targeting seniors",
+  "fake medicare website"
  ],
  "scenes": [
   {
@@ -94,6 +95,18 @@
      {"icon": "chat", "label": "Texts", "at": "texts"},
      {"icon": "mail", "label": "Emails", "at": "emails"},
      {"icon": "house", "label": "Letters", "at": "letters"}
+    ]
+   }
+  },
+  {
+   "say": "Searching online for Medicare help? Watch the top results. Scammers pay for ads that look like Medicare. Skip anything marked Sponsored, and type Medicare dot gov yourself.",
+   "card": {
+    "type": "steps",
+    "title": "Searching online?",
+    "items": [
+     {"icon": "warning", "label": "Skip \"Sponsored\" results", "at": "Sponsored"},
+     {"icon": "keyboard", "label": "Type Medicare.gov", "at": "type"},
+     {"icon": "check", "label": "Check it ends in .gov", "at": "gov"}
     ]
    }
   },
