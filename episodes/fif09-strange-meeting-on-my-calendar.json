@@ -1,0 +1,142 @@
+{
+ "id": "fif09",
+ "number": 9,
+ "series": "Fix It Friday",
+ "title": "A Strange Meeting Is on My Calendar!",
+ "youtube_title": "Spam Calendar Invites: What to Do (and What NOT to Tap) | Fix It Friday",
+ "status": "draft",
+ "next": "Next Friday: another fix from your comments",
+ "description": "A meeting you never made just showed up on your phone's calendar, warning about a charge or a problem with your bank. Kip and Bub explain why it's a scam, why you shouldn't tap Accept or Decline, and how to clear it out on iPhone and Google Calendar so it stops coming back.",
+ "thumbnail": {
+  "line1": "STRANGE",
+  "line2": "MEETING?",
+  "sub1": "Fix It Friday",
+  "sub2": "Calendar spam"
+ },
+ "tags": [
+  "calendar spam",
+  "spam calendar invite",
+  "iphone calendar spam",
+  "google calendar spam",
+  "calendar virus iphone",
+  "how to remove calendar spam",
+  "scams targeting seniors"
+ ],
+ "scenes": [
+  {
+   "say": "You open your calendar and there's a meeting you never made. It says there's a problem with your account, and to call a number right away. What is this?",
+   "kip": "ask",
+   "bub": "confused"
+  },
+  {
+   "say": "It's Fix It Friday. Today: a strange meeting is on my calendar!",
+   "title": true
+  },
+  {
+   "say": "First, take a breath. This is calendar spam. Scammers send fake invites to your email address, and some calendars add them for you. It doesn't mean your phone has been hacked.",
+   "bub": "aha",
+   "card": {
+    "type": "statement",
+    "icon": "calendar",
+    "text": "Calendar spam",
+    "sub": "Not a hacked phone"
+   }
+  },
+  {
+   "say": "The invite usually claims a strange charge, a payment that failed, or a problem with your bank. It wants you to tap a link or call a number. That's the trap.",
+   "card": {
+    "type": "grid",
+    "title": "What the invite says",
+    "items": [
+     {"icon": "warning", "label": "A strange charge", "at": "charge"},
+     {"icon": "cross", "label": "Payment failed", "at": "payment"},
+     {"icon": "lock", "label": "Bank problem", "at": "bank"},
+     {"icon": "link", "label": "Tap or call now", "at": "link"}
+    ]
+   }
+  },
+  {
+   "say": "So here's the rule. Don't tap the link and don't call the number. And don't tap Accept, Maybe or Decline either. Any answer tells the scammer your address is real.",
+   "card": {
+    "type": "statement",
+    "icon": "touch",
+    "text": "Don't answer it at all.",
+    "sub": "Not even Decline"
+   }
+  },
+  {
+   "say": "Worried about the charge? Check it the safe way. Open your bank's own app, or call the number on the back of your card.",
+   "kip": "open",
+   "card": {
+    "type": "statement",
+    "icon": "phone",
+    "text": "Call the number on your card.",
+    "sub": "Never the one in the invite"
+   }
+  },
+  {
+   "say": "On an iPhone, if a whole calendar of junk keeps popping up, tap one of the events. Then tap Unsubscribe from this Calendar, and tap Unsubscribe again.",
+   "card": {
+    "type": "steps",
+    "title": "iPhone: stop junk calendars",
+    "items": [
+     {"icon": "calendar", "label": "Open Calendar", "at": "iPhone"},
+     {"icon": "touch", "label": "Tap a junk event", "at": "tap"},
+     {"icon": "cross", "label": "Unsubscribe", "at": "Unsubscribe"}
+    ]
+   }
+  },
+  {
+   "say": "Using Google Calendar? On a computer, open Settings, then Event settings. Under Add invitations to my calendar, choose Only if the sender is known.",
+   "card": {
+    "type": "steps",
+    "title": "Google Calendar",
+    "items": [
+     {"icon": "gear", "label": "Settings", "at": "Settings"},
+     {"icon": "calendar", "label": "Event settings", "at": "Event"},
+     {"icon": "user", "label": "Only if the sender is known", "at": "known"}
+    ]
+   }
+  },
+  {
+   "say": "Already tapped something? Don't panic. Change any password you typed in, and call your bank if you gave card details. If you let someone onto your computer, unplug it from the internet and get help from someone you trust.",
+   "card": {
+    "type": "callout",
+    "title": "Already tapped it?",
+    "items": [
+     {"icon": "key", "label": "Change that password", "at": "password"},
+     {"icon": "phone", "label": "Call your bank", "at": "bank"},
+     {"icon": "wifi", "label": "Go offline", "at": "unplug"}
+    ]
+   }
+  },
+  {
+   "say": "So: it's spam, not a hack. Don't tap or call anything in it, don't answer it, and clear it out in your settings.",
+   "card": {
+    "type": "steps",
+    "title": "Calendar spam checklist",
+    "items": [
+     {"icon": "shield", "label": "It's spam, not a hack", "at": "spam"},
+     {"icon": "cross", "label": "Don't tap or call", "at": "call"},
+     {"icon": "chat", "label": "Don't answer it", "at": "answer"},
+     {"icon": "gear", "label": "Clear it in settings", "at": "settings"}
+    ]
+   }
+  },
+  {
+   "say": "Know someone who'd panic at a meeting like that? Share this with them. Got a tech problem you want fixed? Leave it in the comments. See you next Friday.",
+   "kip": "rest"
+  }
+ ],
+ "shorts": [
+  {
+   "hook": "Strange meeting on your calendar? Don't tap it",
+   "scenes": [2, 5]
+  },
+  {
+   "hook": "Stop iPhone calendar spam in 3 taps",
+   "scenes": [6, 6]
+  }
+ ],
+ "comment_question": "Has a strange meeting or alert ever shown up on your calendar? What did it say?"
+}
