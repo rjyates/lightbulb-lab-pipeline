@@ -1,0 +1,129 @@
+{
+ "id": "fif10",
+ "number": 10,
+ "series": "Fix It Friday",
+ "title": "Is That Really My Grandson Calling?",
+ "youtube_title": "AI Voice Scam Calls: How to Tell If It's Really Your Family | Fix It Friday",
+ "status": "draft",
+ "next": "Next Friday: another fix from your comments",
+ "description": "The phone rings, and it sounds exactly like your grandson. He's in trouble and needs money right now. Kip and Bub explain how scammers copy voices with AI, the one call that checks it, and how a family code word stops this scam cold.",
+ "thumbnail": {
+  "line1": "IS IT REALLY",
+  "line2": "THEM?",
+  "sub1": "Fix It Friday",
+  "sub2": "Voice scam calls"
+ },
+ "tags": [
+  "grandparent scam",
+  "ai voice scam",
+  "voice cloning scam",
+  "family emergency scam",
+  "family code word",
+  "scam calls seniors",
+  "scams targeting seniors"
+ ],
+ "scenes": [
+  {
+   "say": "The phone rings. It sounds just like your grandson. He's scared, he's in trouble, and he needs money right now. But is it really him?",
+   "kip": "ask",
+   "bub": "confused"
+  },
+  {
+   "say": "It's Fix It Friday. Today: is that really my grandson calling?",
+   "title": true
+  },
+  {
+   "say": "Here's the new trick. Scammers can copy a voice with AI, using just a few seconds of someone talking in a video online. So a familiar voice is no longer proof.",
+   "bub": "aha",
+   "card": {
+    "type": "statement",
+    "icon": "mic",
+    "text": "Voices can be copied.",
+    "sub": "A familiar voice isn't proof"
+   }
+  },
+  {
+   "say": "The story is always urgent. A car crash, an arrest, a lost wallet on a trip. And there's often a secret: please don't tell Mom and Dad.",
+   "card": {
+    "type": "grid",
+    "title": "Warning signs",
+    "items": [
+     {"icon": "car", "label": "A crash or arrest", "at": "crash"},
+     {"icon": "clock", "label": "Money right now", "at": "urgent"},
+     {"icon": "lock", "label": "Keep it a secret", "at": "secret"}
+    ]
+   }
+  },
+  {
+   "say": "Then comes the payment. Gift cards, a wire transfer, cryptocurrency, or cash picked up by a courier. Real emergencies don't get paid that way.",
+   "card": {
+    "type": "callout",
+    "title": "Scammers ask for",
+    "items": [
+     {"icon": "star", "label": "Gift cards", "at": "Gift"},
+     {"icon": "arrow_out", "label": "Wires or crypto", "at": "wire"},
+     {"icon": "house", "label": "Cash at your door", "at": "courier"}
+    ]
+   }
+  },
+  {
+   "say": "So here's the fix. Hang up. Then call your grandson back on the number you already have for him. If he doesn't answer, call his parents or someone else in the family.",
+   "kip": "open",
+   "card": {
+    "type": "statement",
+    "icon": "phone",
+    "text": "Hang up and call back.",
+    "sub": "On the number you already know"
+   }
+  },
+  {
+   "say": "Even better: pick a family code word. Choose a silly word only your family knows. If a caller can't say it, it isn't them.",
+   "bub": "happy",
+   "card": {
+    "type": "statement",
+    "icon": "key",
+    "text": "Pick a family code word.",
+    "sub": "No word, no money"
+   }
+  },
+  {
+   "say": "Already sent money? Act fast. Call your bank or the gift card company right away, and report it at ReportFraud dot F T C dot gov.",
+   "card": {
+    "type": "steps",
+    "title": "Already paid?",
+    "items": [
+     {"icon": "phone", "label": "Call your bank", "at": "bank"},
+     {"icon": "star", "label": "Call the gift card company", "at": "gift"},
+     {"icon": "shield", "label": "ReportFraud.ftc.gov", "at": "report"}
+    ]
+   }
+  },
+  {
+   "say": "So: a voice can be faked. Hang up, call back on a number you know, and use a family code word.",
+   "card": {
+    "type": "steps",
+    "title": "Voice scam checklist",
+    "items": [
+     {"icon": "mic", "label": "Voices can be faked", "at": "voice"},
+     {"icon": "phone", "label": "Hang up, call back", "at": "Hang"},
+     {"icon": "key", "label": "Use a code word", "at": "code"}
+    ]
+   }
+  },
+  {
+   "say": "Share this with your family and pick your code word together. Got a tech problem you want fixed? Leave it in the comments. See you next Friday.",
+   "kip": "rest"
+  }
+ ],
+ "shorts": [
+  {
+   "hook": "That call sounds like family. It might be AI",
+   "scenes": [2, 5]
+  },
+  {
+   "hook": "The one word that stops voice scam calls",
+   "scenes": [6, 6]
+  }
+ ],
+ "comment_question": "Does your family have a code word? Has anyone ever called pretending to be a relative?"
+}
