@@ -1,0 +1,134 @@
+{
+ "id": "fif11",
+ "number": 11,
+ "series": "Fix It Friday",
+ "title": "A Pop-Up Says My Computer Has a Virus!",
+ "youtube_title": "Fake Virus Pop-Up? What to Do (and Never Do) | Fix It Friday",
+ "status": "draft",
+ "next": "Next Friday: another fix from your comments",
+ "description": "A loud warning fills your screen: your computer is infected, call this number now. Kip and Bub explain why it's fake, how to close it safely, and what to do if you already called or let someone into your computer.",
+ "thumbnail": {
+  "line1": "VIRUS",
+  "line2": "WARNING?",
+  "sub1": "Fix It Friday",
+  "sub2": "Fake pop-ups"
+ },
+ "tags": [
+  "tech support scam",
+  "fake virus warning",
+  "fake virus pop up",
+  "microsoft scam pop up",
+  "computer virus scam",
+  "scams targeting seniors",
+  "remote access scam"
+ ],
+ "scenes": [
+  {
+   "say": "Suddenly your screen goes red. An alarm beeps. It says your computer is infected, and you must call this number right now. What do you do?",
+   "kip": "ask",
+   "bub": "confused"
+  },
+  {
+   "say": "It's Fix It Friday. Today: a pop-up says my computer has a virus!",
+   "title": true
+  },
+  {
+   "say": "Here's the good news. That warning is fake. It's just a web page made to look scary. Real companies like Microsoft and Apple don't put phone numbers in warnings like that.",
+   "bub": "aha",
+   "card": {
+    "type": "statement",
+    "icon": "warning",
+    "text": "The warning is fake.",
+    "sub": "Real companies don't do this"
+   }
+  },
+  {
+   "say": "The tricks are always the same. A loud alarm, a scary countdown, a company logo, and a phone number to call right now.",
+   "card": {
+    "type": "grid",
+    "title": "Warning signs",
+    "items": [
+     {"icon": "speaker", "label": "A loud alarm", "at": "alarm"},
+     {"icon": "clock", "label": "A countdown", "at": "countdown"},
+     {"icon": "star", "label": "A company logo", "at": "logo"},
+     {"icon": "phone", "label": "A number to call", "at": "number"}
+    ]
+   }
+  },
+  {
+   "say": "If you call, a friendly person says they'll fix it. They ask to get into your computer, then charge you hundreds of dollars for repairs you never needed.",
+   "card": {
+    "type": "flow",
+    "title": "How the scam works",
+    "items": [
+     {"icon": "warning", "label": "Scary pop-up", "at": "call"},
+     {"icon": "phone", "label": "You call", "at": "friendly"},
+     {"icon": "laptop", "label": "They get in", "at": "into"},
+     {"icon": "arrow_out", "label": "You pay", "at": "charge"}
+    ]
+   }
+  },
+  {
+   "say": "So here's the fix. Don't call the number, and don't click anything inside the warning. Just close your web browser.",
+   "kip": "open",
+   "card": {
+    "type": "statement",
+    "icon": "browser",
+    "text": "Don't call. Close the browser.",
+    "sub": "Never click inside the warning"
+   }
+  },
+  {
+   "say": "Won't close? Restart the computer. Hold the power button until it turns off, wait a moment, then turn it back on. The warning is gone.",
+   "card": {
+    "type": "steps",
+    "title": "If it won't close",
+    "items": [
+     {"icon": "plug", "label": "Hold the power button", "at": "Hold"},
+     {"icon": "clock", "label": "Wait a moment", "at": "wait"},
+     {"icon": "check", "label": "Turn it back on", "at": "back"}
+    ]
+   }
+  },
+  {
+   "say": "Already called, or let them in? Turn off the internet, run your security scan, and change your passwords. Call your bank or card company about any charges, and report it at ReportFraud dot F T C dot gov.",
+   "card": {
+    "type": "steps",
+    "title": "Already called?",
+    "items": [
+     {"icon": "wifi", "label": "Turn off the internet", "at": "internet"},
+     {"icon": "shield", "label": "Run a security scan", "at": "scan"},
+     {"icon": "key", "label": "Change passwords", "at": "passwords"},
+     {"icon": "phone", "label": "Call your bank", "at": "bank"}
+    ]
+   }
+  },
+  {
+   "say": "So: the warning is fake. Don't call, close the browser, and restart if you need to.",
+   "card": {
+    "type": "steps",
+    "title": "Fake virus checklist",
+    "items": [
+     {"icon": "warning", "label": "It's fake", "at": "fake"},
+     {"icon": "phone", "label": "Don't call", "at": "call"},
+     {"icon": "browser", "label": "Close the browser", "at": "close"}
+    ]
+   }
+  },
+  {
+   "say": "Share this with someone who'd panic at that alarm. Got a tech problem you want fixed? Leave it in the comments. See you next Friday.",
+   "kip": "rest"
+  }
+ ],
+ "shorts": [
+  {
+   "hook": "That virus warning is FAKE. Here's what to do",
+   "scenes": [2, 5]
+  },
+  {
+   "hook": "Already called the number on the pop-up?",
+   "scenes": [7, 7]
+  }
+ ],
+ "comment_question": "Have you ever seen a scary virus warning pop up? What did you do?"
+}
