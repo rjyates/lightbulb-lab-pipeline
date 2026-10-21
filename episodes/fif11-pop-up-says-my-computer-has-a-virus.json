@@ -6,7 +6,7 @@
  "youtube_title": "Fake Virus Pop-Up? What to Do (and Never Do) | Fix It Friday",
  "status": "draft",
  "next": "Next Friday: another fix from your comments",
- "description": "A loud warning fills your screen: your computer is infected, call this number now. Kip and Bub explain why it's fake, how to close it safely, and what to do if you already called or let someone into your computer.",
+ "description": "A loud warning fills your screen: your computer is infected, call this number now. Kip and Bub explain why it's fake, how to close it safely, and what to do if you already called or let someone into your computer, including the follow-up call that tells you to move your money.",
  "thumbnail": {
   "line1": "VIRUS",
   "line2": "WARNING?",
@@ -20,7 +20,7 @@
   "microsoft scam pop up",
   "computer virus scam",
   "scams targeting seniors",
-  "remote access scam"
+  "remote access scam", "phantom hacker scam", "safe account scam"
  ],
  "scenes": [
   {
@@ -104,6 +104,11 @@
    }
   },
   {
+   "say": "Then watch for the next call. Someone may say they're from your bank or the government, and that you must move your money to a safe account. That's the same scam. Hang up, and call your bank's real number yourself.",
+   "bub": "aha",
+   "card": {"type": "statement", "icon": "warning", "text": "Never move money to a \"safe\" account.", "sub": "Hang up and call your bank yourself"}
+  },
+  {
    "say": "So: the warning is fake. Don't call, close the browser, and restart if you need to.",
    "card": {
     "type": "steps",
@@ -127,7 +132,7 @@
   },
   {
    "hook": "Already called the number on the pop-up?",
-   "scenes": [7, 7]
+   "scenes": [7, 8]
   }
  ],
  "comment_question": "Have you ever seen a scary virus warning pop up? What did you do?"
