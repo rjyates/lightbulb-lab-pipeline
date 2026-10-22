@@ -1,76 +1,66 @@
-# Lightbulb Lab pipeline
+<p align="center"><img src="docs/assets/banner.svg" alt="Lightbulb Lab — A scripted pipeline for beginner-friendly technology videos." width="100%"></p>
 
-Every Sunday morning your server takes the next script in `episodes/`, has Kip read it (ElevenLabs),
-animates the full episode plus Shorts, makes the thumbnail, and pings your phone. Monday you review and publish.
+[Regan Yates](https://github.com/rjyates) · [Homelab](https://github.com/rjyates/homelab)
 
-Costs nothing: ElevenLabs free plan (~10,000 characters/month, each episode is ~1,300–1,800),
-YouTube API (free), ntfy (free), everything else is open source.
 
-## What you get each Sunday
-A folder in `output/` like `output/ep02-hardware-vs-software/`:
-- `ep02-hardware-vs-software.mp4`: the episode (1080p)
-- `short1-....mp4`, `short2-....mp4`: vertical clips for YouTube Shorts and TikTok
-- `...-thumbnail.jpg`, `...en.srt` (captions)
-- `UPLOAD-ME.txt`: title, description, tags and settings to paste
+# Lightbulb Lab — content production pipeline
 
-Once YouTube upload is switched on (below), the episode and Shorts also land in YouTube Studio as **private** drafts.
+A Python pipeline that turns structured episode scripts into narrated animation, short-form clips, thumbnails, captions, and publishing metadata. It combines reusable visual templates with a review-oriented media workflow.
 
-## One-time setup on the Ubuntu server
-```bash
-git clone https://github.com/rjyates/lightbulb-lab-pipeline.git
-cd lightbulb-lab-pipeline
-bash install.sh          # installs ffmpeg + Python packages, sets up the Sunday timer
-nano config.env          # paste your keys (see below)
-.venv/bin/python -m lightbulb.check        # checks the scripts
-.venv/bin/python -m lightbulb.weekly --dry-run
+**Status:** evolving production tooling. The local episode checker passed for the 17 bundled episode definitions on October 22, 2026. No paid voice generation, full render, upload, scheduled job, or notification was executed during this documentation review.
+
+## Pipeline
+
+```mermaid
+flowchart LR
+    Scripts[Episode JSON] --> Check[Script validation]
+    Check --> Voice[Narration and timing]
+    Voice --> Render[Animation and video rendering]
+    Render --> Pack[Episode, Shorts, captions and thumbnail]
+    Pack --> Review[Human review]
+    Review -. optional configured upload .-> Platform[Publishing platform]
 ```
-The repo is private, so the server needs permission to clone/pull: easiest is `sudo apt install gh && gh auth login`.
-The Sunday job runs `git pull` first, so new scripts you push show up automatically.
 
-### 1. ElevenLabs (Kip's voice)
-1. elevenlabs.io → profile icon → **API Keys** → Create. Paste it as `ELEVENLABS_API_KEY`.
-2. **Voices** → Kip → ⋯ → **Copy voice ID** → `ELEVENLABS_VOICE_ID`.
-3. Free-plan note: free voices are for non-commercial use and need credit (the description already credits ElevenLabs).
-   Before the channel is monetized you'll need a paid plan (Starter) for commercial rights.
+## What the code supports
 
-Out of credits that month? Record the script on the ElevenLabs website, save it as `episodes/audio/ep02.mp3`,
-and the pipeline uses that file instead (timing is worked out from the pauses).
+- Structured scenes, narration text, animation poses, timed explainer cards, and short-form ranges.
+- Reusable character/room artwork, transitions, captions, and thumbnail generation.
+- Narration through ElevenLabs or a supplied audio file, as configured.
+- FFmpeg-based video work and local output/state tracking.
+- Optional YouTube upload and phone notification integrations.
+- Linux/systemd installation scripts for a recurring workflow, when deliberately enabled.
 
-### 2. Phone notification (optional, free)
-Install the **ntfy** app, subscribe to a long random topic name, put the same name in `NTFY_TOPIC`.
+The code can perform external actions when configured. A diagram is not an enforced approval mechanism: keep upload disabled until you intend to use it and review the relevant configuration.
 
-### 3. YouTube drafts (optional, later)
-Until this is on, you upload the folder by hand Monday (5 minutes).
-1. console.cloud.google.com → new project → enable **YouTube Data API v3**.
-2. OAuth consent screen: External, add your Lightbulb Lab Google account as a test user.
-3. Credentials → Create OAuth client ID → **Desktop app** → download JSON → save as `secrets/client_secret.json` on the server.
-4. Sign in once: from your laptop `ssh -L 8765:localhost:8765 you@server`, then on the server
-   `.venv/bin/python -m lightbulb.youtube auth` and open the link on your laptop.
-5. Important: YouTube locks every video uploaded by an un-audited API project to private forever.
-   Apply for the free audit (search "YouTube API Services audit and quota extension form"). After approval set `YOUTUBE_UPLOAD=true`.
-6. `.venv/bin/python -m lightbulb.youtube playlists` → copy the Tech from Scratch ID into `YOUTUBE_PLAYLIST_ID`.
+## Start with local validation
 
-## Everyday commands
-| Do this | Command |
-|---|---|
-| Check scripts | `.venv/bin/python -m lightbulb.check` |
-| Run this week's episode now | `sudo systemctl start lightbulb-weekly` |
-| Watch it work | `journalctl -u lightbulb-weekly -f` |
-| Make one specific episode | `.venv/bin/python -m lightbulb.weekly --episode ep03` |
-| Cheap test (3 scenes, ~300 credits) | `.venv/bin/python -m lightbulb.weekly --quick` |
-| When it runs next | `systemctl list-timers lightbulb-weekly.timer` |
+Create an isolated Python environment and install [requirements.txt](requirements.txt), then run:
 
-Change the day/time in `systemd/lightbulb-weekly.timer`, then rerun `bash install.sh`.
-Rendering takes roughly (video seconds × 7 ÷ CPU cores) seconds: a 2-minute episode on 4 cores ≈ 4 minutes, plus Shorts.
+```text
+python -m lightbulb.check
+python -m lightbulb.weekly --dry-run
+```
 
-## Description links
-Every video description gets the website and guide links from `links.json` (Shorts get the website and the first guide). Edit that file to add, remove or reorder links; a guide's `series` list limits it to those series.
+The checker validates scripts; the dry-run describes the selected workflow. Rendering additionally needs FFmpeg/ffprobe and the repository's fonts/assets. Voice generation can consume provider credits; a quick render is not necessarily a free or offline operation.
 
-## Adding episodes
-Write `episodes/epNN-title.json` (see `episodes/FORMAT.md`), run the checker, commit, push.
-Episodes run in number order; ones with `"status": "draft"` are skipped. Finished ones are tracked in `output/state.json`.
+See [operations and configuration](docs/operations.md) before enabling scheduling or external services. This public README does not claim that a timer is currently installed or a channel is publishing automatically.
 
-## Layout
-`lightbulb/` code (engine = timeline, cards = explainer cards, characters/room = art, video = render, weekly = the Sunday job) ·
-`assets/` fonts, music, sound effects, brand sheet · `legacy/` the hand-built Episode 1 code.
-Music: "Nebula" by The Grey Room / Density & Time (YouTube Audio Library). Keep this repo private.
+## Source map
+
+| Location | Responsibility |
+| :--- | :--- |
+| [episodes/](episodes/) | Structured scripts; [format reference](episodes/FORMAT.md) |
+| [lightbulb/check.py](lightbulb/check.py) | Episode/schema consistency checks |
+| [lightbulb/weekly.py](lightbulb/weekly.py) | Workflow orchestration and output state |
+| `lightbulb/engine.py`, `cards.py`, `characters.py`, `room.py` | Timeline and animation elements |
+| `lightbulb/video.py`, `voice.py`, `thumbnail.py` | Media-generation stages |
+| `lightbulb/youtube.py`, `notify.py` | Optional external integrations |
+| [systemd/](systemd/) | Optional service/timer definitions |
+
+## Ownership, privacy, and reuse
+
+Runtime `config.env`, OAuth tokens, secrets, output, and supplied episode audio are Git-excluded. Exclusion does not protect credentials that were previously committed. Review generated media and metadata before any upload.
+
+Earlier instructions described this repository as private; it is currently public. Visibility was not changed by this documentation update. Asset provenance and redistribution rights need review before wider reuse; no new software or media license is asserted.
+
+Existing music attribution is preserved: **“Nebula” by The Grey Room / Density & Time**, from the YouTube Audio Library. Verify applicable terms for music, voice, fonts, and artwork before publishing or commercial reuse; no current free-tier entitlement or monetization permission is claimed here.
