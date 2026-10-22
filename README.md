@@ -43,6 +43,20 @@ python -m lightbulb.weekly --dry-run
 
 The checker validates scripts; the dry-run describes the selected workflow. Rendering additionally needs FFmpeg/ffprobe and the repository's fonts/assets. Voice generation can consume provider credits; a quick render is not necessarily a free or offline operation.
 
+### VS Code verification
+
+Create `.venv` with Python 3.12 and install the existing requirements:
+
+```powershell
+py -3.12 -m venv .venv
+.\.venv\Scripts\python.exe -m pip install -r requirements.txt
+.\.venv\Scripts\python.exe -X utf8 -B -m lightbulb.check
+```
+
+On macOS/Linux, use `python3 -m venv .venv` and `.venv/bin/python` for installation and validation. In VS Code, select this environment with **Python: Select Interpreter**, then run **Tasks: Run Test Task → Verify episode scripts**. The task validates bundled episode definitions locally; it does not generate narration, render videos, upload, or enable scheduling. Passing this check does not establish publishing readiness or validate every pipeline stage.
+
+The task enables Python UTF-8 mode so episode files are read consistently on Windows. The repository shares the manual task; machine-specific `.vscode/settings.json` remains Git-excluded. No task runs automatically when the folder opens.
+
 See [operations and configuration](docs/operations.md) before enabling scheduling or external services. This public README does not claim that a timer is currently installed or a channel is publishing automatically.
 
 ## Source map
