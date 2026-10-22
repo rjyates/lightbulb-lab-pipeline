@@ -6,3 +6,7 @@ __pycache__/
 *.pyc
 episodes/audio/*.mp3
 episodes/audio/*.wav
+
+# Keep machine-specific editor settings local; share only the manual check task.
+.vscode/*
+!.vscode/tasks.json
