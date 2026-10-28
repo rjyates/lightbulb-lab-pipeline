@@ -555,6 +555,8 @@ Integration with the existing pipeline:
 - Kip's voice is defined by a committed, versioned voice recipe (model version, voice blend weights, speed), so every episode sounds the same.
 - Bub keeps the existing SFX chirps; nothing changes there.
 
+[tools/voice_samples.py](../../tools/voice_samples.py) renders four candidate blends from the openings of ep03 and fif05 in its own environment. It has not been run yet.
+
 Acceptance (M0/M1): render the same three scripts with 3–4 candidate blends; the owner picks one by ear; the chosen voice must give Whisper word error rate ≤ 5% on 5 episodes, pronounce a project dictionary of tech terms correctly (Wi-Fi, iOS, ESU, 2FA, router), and render a 2-minute episode in under 10 minutes on the worker. The video description credit changes from "AI-generated with ElevenLabs" to naming the model used.
 
 ### 8.2 Running the worker on a laptop
