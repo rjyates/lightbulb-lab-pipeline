@@ -2,9 +2,8 @@
 
 [Overview](../../README.md) · [Operations](../operations.md) · [ADR 0001](../decisions/0001-split-agent-and-worker.md)
 
-- **Status:** Proposed. Nothing in this document has been deployed, scheduled or enabled.
+- **Status:** Accepted in principle on 2026-10-28; see the [decision log](#12-owner-decisions). Nothing has been deployed or enabled yet.
 - **Date:** 2026-10-28
-- **Owner decisions needed:** see [section 12](#12-decisions-the-owner-needs-to-make-now).
 
 ## Contents
 
@@ -19,7 +18,7 @@
 9. [Continuous improvement](#9-continuous-improvement)
 10. [Milestones](#10-milestones)
 11. [Testing and launch criteria](#11-testing-and-launch-criteria)
-12. [Decisions the owner needs to make now](#12-decisions-the-owner-needs-to-make-now)
+12. [Owner decisions](#12-owner-decisions)
 13. [What will still require the owner](#13-what-will-still-require-the-owner)
 14. [Unverified assumptions and open questions](#14-unverified-assumptions-and-open-questions)
 
@@ -38,9 +37,9 @@ The recommended shape:
 - **Records (Git).** This public repository keeps code, scripts and documentation. A new **private** operations repository keeps the publishing ledger, queue, analytics, experiments, change log and dashboard data.
 - **Content buffer.** The worker keeps three or more weeks of finished, gated videos scheduled ahead. Claude usage limits, a bad night or an outage then delay *new* work without stopping publication.
 
-Expected additional recurring cost: **$0** if a free local voice is acceptable, or about **$5–6/month** if the ElevenLabs voice stays (see [section 8](#8-expected-recurring-costs); the free ElevenLabs tier does not allow commercial use).
+Expected additional recurring cost: **$0**. The owner chose a free local voice (see [section 8](#8-expected-recurring-costs) and [12](#12-owner-decisions)).
 
-The two hard external blockers for unattended publishing are **YouTube's API compliance audit** (until it passes, every API upload is locked to private) and the **voice licensing decision**. Both need owner action and should start immediately because they have lead time.
+The two hard external blockers for unattended publishing are **YouTube's API compliance audit** (until it passes, every API upload is locked to private) and **replacing the ElevenLabs free-tier voice**, which is not licensed for commercial use. Both are now approved and in progress.
 
 ---
 
@@ -87,8 +86,10 @@ Audit performed 2026-10-28 by reading the repository at `9a69c6e`. No narration,
 - [install.sh](../../install.sh) and [systemd/](../../systemd/) define a Sunday 06:00 timer on an Ubuntu host. The service runs `git pull --ff-only` and then the pipeline. **Any commit that reaches `main` therefore executes on a machine holding the YouTube and ElevenLabs credentials.** That is acceptable while only the owner commits; it is not acceptable once an agent commits.
 - No `.github/` workflows exist.
 - No local Desktop scheduled tasks exist on this machine (checked 2026-10-28).
-- A **Claude cloud scheduled task** produced `reports/2026-10-06…2026-10-22.md` and several script commits as author "Claude". Reports stop after Oct 22, so the task is probably paused or failing; its current state is visible only at claude.ai/code/routines.
-- Every report says the task could not open the channel, website or shop "for N nights". That matches the documented behaviour of the cloud **Default** environment, whose "Trusted" network level allows only an allowlist of package registries and development domains; other hosts get `403 host_not_allowed`. Pasting URLs into the prompt cannot fix it; the environment's network setting can.
+- Two **Claude cloud scheduled tasks** exist, both created from a Claude project in early October:
+  - *Lightbulb Lab nightly improvement check* (daily, midnight Central). It wrote `reports/2026-10-06…2026-10-28.md` and several script commits, pushing **directly to `main`**. Its runs succeed, but every `WebFetch` of the channel, website or shop raised a permission prompt that nobody answered, so it timed out after about 5 minutes and the run continued without the page. The cause is unanswered permission prompts, not network blocking. **Paused on 2026-10-28** at the owner's request.
+  - *Weekly Tech News Short* (Fridays 07:55 Central, still enabled). It researches the week's tech and science news, writes a 60–90 s script as a Claude Doc and messages the owner to record it. It does not touch the repository.
+- Whatever replaces the nightly task must not need page fetches that wait for approval: the worker supplies channel and shop data through APIs instead (see [5.6](#56-analytics-collection-worker-daily)).
 
 ### 2.5 Digital products
 
@@ -262,6 +263,37 @@ Status lifecycle: `idea → draft → reviewed → approved → produced → gat
 
 ## 5. Autonomous workflows
 
+### 5.0 Publishing calendar
+
+Owner-set cadence (2026-10-28). Times are Central and are starting points for experiments.
+
+| Day | Item | Series | Buffered ahead? |
+| :--- | :--- | :--- | :--- |
+| Monday | "Tech This Week" news Short (60–90 s) | Tech This Week | **No**: made fresh every weekend |
+| Tuesday | Long-form general tech explainer (about 2 min) | Tech from Scratch | Yes, 3+ weeks |
+| Friday | Long-form helpdesk how-to (about 2 min) | Fix It Friday | Yes, 3+ weeks |
+| Wednesday, Thursday, Saturday | Shorts cut from that week's episodes (1–2 per episode) | Same as parent | Yes, rendered with the parent |
+
+That is 2 long-form videos and about 5 Shorts a week, which sets the sizing:
+
+- **Scripts:** 2 long-form scripts a week. The daily editorial task drafts at most one per run, so the backlog can grow faster than it is consumed.
+- **Narration:** about 3,500 characters a week for episodes plus about 1,200 for the news Short. A local voice has no character limit.
+- **Rendering:** two episodes plus Shorts a week; a few CPU-hours on the worker.
+- **Uploads:** about 7 a week, far inside the default YouTube quota.
+- **Claude usage:** see [5.9](#59-claude-usage-budget).
+
+#### Monday news Short: a different kind of workflow
+
+News cannot be buffered weeks ahead, so the Monday Short gets its own pipeline and stricter rules:
+
+1. **Saturday morning:** a cloud task researches the past 7 days (AI, security, outages and scams, space, science, policy that affects ordinary people), keeps only stories confirmed by a reputable source dated within the window, and writes a `news` episode JSON on a `claude/news-<date>` branch. This replaces the current Friday "Weekly Tech News Short" task, which asks the owner to record the script.
+2. **Saturday midday:** the independent review task checks every claim against its source, political neutrality, and "no product advertising" (the rules already in the existing task's prompt carry over).
+3. **Saturday evening:** the worker narrates, renders and gates it. A new vertical "news" card template is needed (M2), because current Shorts are crops of the 16:9 episode.
+4. **Monday 07:00:** scheduled publication.
+5. **Fail closed.** If any step misses its deadline or a gate fails, **that week's news Short is skipped**, not published late or with weaker checks. The owner is told in the digest. Stale or unverified news is worse than none.
+6. Images: none by default. Public-domain government imagery (NASA, NOAA, USGS) only with a manifest entry recording source and license.
+7. News Shorts start at L2 (owner approves each one) and need their own launch criteria: 6 consecutive weeks with no factual correction from the owner.
+
 ### 5.1 Editorial: research, backlog and selection (daily cloud task, about 06:00)
 
 1. Read the ops repository: backlog, queue depth, analytics summary, open experiments, the last report.
@@ -355,6 +387,19 @@ Weekly digest: a Sunday ntfy notification links to the dashboard. Urgent items (
 - PRs touching protected paths always wait for the owner and a signed release. Others follow the path-guard rule in [4.2](#42-trust-boundary-in-detail) once M8 is reached.
 - Dependency updates are proposed, never auto-merged.
 - The worker smoke-tests every new ref (check, a 3-scene quick render with a cached or free test voice, gates on the result) before switching to it, and rolls back on failure.
+
+### 5.9 Claude usage budget
+
+| Task | When | Runs/week |
+| :--- | :--- | :--- |
+| Editorial research and drafting | Daily | 7 |
+| Independent review | Daily, skipped when nothing is waiting | up to 7 |
+| News Short research and draft | Saturday | 1 |
+| News Short review | Saturday | 1 |
+| Weekly strategy, experiments, dashboard digest | Sunday | 1 |
+| Maintenance | When a `bug` issue is open, at most twice a week | 0–2 |
+
+About 12–19 runs a week, never more than 3 on one day. If Pro turns out to allow only 5 runs a day, this still fits. The tasks write a short summary of their own run count to the ops repository so the weekly report can show usage trends; a run rejected at the usage limit is logged and retried at the next scheduled time, never paid for.
 
 ---
 
@@ -485,15 +530,45 @@ Spending or enabling paid plans and usage credits; refunds, discounts, payouts o
 | Claude Pro | Existing subscription, $0 additional | Usage shared with your own Claude work. Usage credits stay **off**. |
 | Claude API | $0 | Not used. |
 | GitHub (public repo, private ops repo, Actions on the public repo) | $0 | Keep CI on the public repository so Actions minutes are free. |
-| YouTube Data and Analytics APIs | $0 | Quota-limited; no billing account needed. Google's quota table has listed uploads at 100 units against a 10,000/day default; confirm current figures. |
+| YouTube Data and Analytics APIs | $0 | Quota-limited; no billing account needed. Google's audit guide lists the default as 100 `videos.insert` calls/day plus 10,000 units/day for other endpoints, far above this channel's needs. |
 | Fourthwall | No subscription | Platform and payment fees come out of each sale; confirm the current digital-product fee. |
 | Worker machine | Existing hardware, electricity | Rendering is a few CPU-hours per week. |
 | ntfy, Whisper, FFmpeg, Typst | $0 | Open source or free. |
 | Website (Cloudflare Pages) | $0 | Unchanged. |
-| **Voice** | **$0 or about $5–6/month** | **Owner decision.** ElevenLabs free tier is non-commercial. Options: (a) a free open-source local TTS voice (for example Kokoro or Piper; check each model's license) with a new consistent "Kip" voice; (b) ElevenLabs Starter, which includes a commercial license for audio generated while subscribed; (c) owner-recorded narration, which is not autonomous. |
+| Voice | $0 | Owner chose a free local voice ([8.1](#81-free-local-voice-plan)). ElevenLabs free tier is non-commercial; ElevenLabs Starter (about $5–6/month) remains the fallback if the local voice fails the listening test. |
 | Custom domain | Optional, about $10–15/year | Previously listed as "needs approval"; not required. |
 
-**Total additional recurring cost: $0 with option (a), about $5–6/month with option (b).** Nothing in this design purchases anything automatically; the policy file has a `monthly_spend_limit: 0`, and the worker has no payment credentials.
+**Total additional recurring cost: $0.** Nothing in this design purchases anything automatically; the policy file has a `monthly_spend_limit: 0`, and the worker has no payment credentials.
+
+### 8.1 Free local voice plan
+
+ElevenLabs' free plan cannot be used commercially, so the free path is an offline open-source TTS model on the worker:
+
+- **First candidate: Kokoro** (82M parameters, CPU-friendly, reported Apache-2.0). It ships several English voices and allows **blending voice embeddings**, so a distinctive Kip voice can be made by mixing presets rather than cloning any real person's voice.
+- **Fallback: Piper** (very light, but check its license: the current repository is reported as GPL-3.0, and each voice file has its own license).
+- **Avoid** models with non-commercial licenses (for example XTTS v2's CPML) and any voice cloned from a real person.
+
+Integration with the existing pipeline:
+
+- The engine already supports audio without ElevenLabs timestamps (`Timing.from_pauses`, used for supplied recordings). Better timing comes from word timestamps produced by the TTS model or by the local Whisper pass in [6.3](#63-audio-content-gate), which also verifies the narration.
+- `voice.py` gets a provider setting (`LBL_VOICE=kokoro|elevenlabs|file`); ElevenLabs stays available but off.
+- Kip's voice is defined by a committed, versioned voice recipe (model version, voice blend weights, speed), so every episode sounds the same.
+- Bub keeps the existing SFX chirps; nothing changes there.
+
+Acceptance (M0/M1): render the same three scripts with 3–4 candidate blends; the owner picks one by ear; the chosen voice must give Whisper word error rate ≤ 5% on 5 episodes, pronounce a project dictionary of tech terms correctly (Wi-Fi, iOS, ESU, 2FA, router), and render a 2-minute episode in under 10 minutes on the worker. The video description credit changes from "AI-generated with ElevenLabs" to naming the model used.
+
+### 8.2 Running the worker on a laptop
+
+A laptop works as the worker, and its battery is a useful built-in UPS. Requirements:
+
+- **Operating system:** rendering uses Linux `fork` multiprocessing. Use Linux (Ubuntu Server or Desktop, which `install.sh` already targets). Windows with WSL2 also works but adds sleep and update complications.
+- **Never sleep:** disable suspend on lid close (`HandleLidSwitch=ignore` in systemd-logind) and on idle; enable automatic power-on after power loss in the BIOS if available.
+- **Battery health:** keep it plugged in; use a charge limit (for example 80%) if the firmware supports it, because laptops kept at 100% around the clock wear their batteries.
+- **Resources:** 4+ CPU cores, 8+ GB RAM and about 50 GB free disk for renders, caches and the voice and Whisper models.
+- **Updates and restarts:** unattended security updates on; the worker's systemd timers use `Persistent=true` so missed runs resume after a reboot.
+- **Health check:** the worker pings a heartbeat file in the ops repository daily; the weekly cloud task flags a missing heartbeat to the owner.
+- **Security:** full-disk encryption; a dedicated service user that owns the credentials (file mode 600); no other users; SSH key login only.
+
 
 ---
 
@@ -548,7 +623,7 @@ Each milestone is a branch and PR series with tests and documentation. Durations
 
 | # | Milestone | Main deliverables | Owner involvement |
 | :--- | :--- | :--- | :--- |
-| M0 | Decisions and prerequisites (week 1) | Answers to [section 12](#12-decisions-the-owner-needs-to-make-now); YouTube API audit submitted; worker host chosen; private ops repo created; signing key set up; old nightly task reviewed and paused | High (one-off) |
+| M0 | Decisions and prerequisites (week 1) | Decisions logged ([section 12](#12-owner-decisions)); ops repo created and old nightly task paused (done); YouTube audit submitted; worker host chosen and prepared; signing key set up; free voice selected | High (one-off) |
 | M1 | Foundations (weeks 1–3) | pytest suite and GitHub Actions CI; schema v2 with backward compatibility; asset manifest; checkpointed stages; structured logs; ledger in ops repo; trusted-ref deploy, smoke test and rollback on the worker | PR reviews |
 | M2 | Quality gates (weeks 3–5) | Technical, audio (Whisper), visual, caption and rights gates with broken-fixture tests; `qa-report.json`; contact sheets; script gates in CI | Review gate reports |
 | M3 | Editorial agent, shadow mode (weeks 4–7) | Rubric and brand-voice guide; daily research/draft task; independent review task; cloud environment with the right network access; owner reviews every PR and scores it | About 20 min per draft, falling |
@@ -600,20 +675,22 @@ Three products built and validated by the pipeline with no owner corrections to 
 
 ---
 
-## 12. Decisions the owner needs to make now
+## 12. Owner decisions
 
-1. **Voice:** free local TTS (new Kip voice, $0), ElevenLabs Starter (about $5–6/month, keeps the current voice), or your own narration. Please also confirm which ElevenLabs plan produced the audio already published.
-2. **YouTube API audit:** approve submitting the Google Cloud project for the YouTube API compliance audit. Also confirm the OAuth consent screen is "In production" so refresh tokens do not expire weekly.
-3. **Worker host:** which always-on Linux machine runs the worker (the original systemd host, or a homelab VM or container). This document deliberately does not name hosts.
-4. **Private ops repository:** approve creating `lightbulb-lab-ops` (private, free) and moving `reports/` there.
-5. **Signing key:** approve using an SSH or GPG signing key, kept only on your personal machine, for policy and release tags.
-6. **The existing nightly cloud task:** pause or delete it at claude.ai/code/routines until M3 replaces it. Its network block comes from the environment's network setting, not the prompt.
-7. **Mission and sensitive-topic policy:** confirm the audience (non-technical adults, many of them older) and which topic categories always need you.
-8. **The six pending drafts (fif06–fif11):** review them as the first calibration set for the rubric. The timely ones (fif08 Medicare) lose value soon.
-9. **Product sources:** where the three existing guides' source files live, so they can be brought under version control.
-10. **Cadence target:** for example one long-form episode per week per series plus Shorts, so the buffer and usage budget can be sized.
+Decision log from 2026-10-28. Items marked *open* still need an answer.
 
----
+| # | Topic | Decision | Follow-up |
+| :- | :--- | :--- | :--- |
+| 1 | Voice | **Free local voice.** Build a distinctive "Kip" voice with an open-source TTS model that runs offline on the worker. | [Section 8.1](#81-free-local-voice-plan); confirm which ElevenLabs plan produced already-published audio. |
+| 2 | YouTube API audit | **Approved.** | Owner submits Google's *Audit and Quota Extension Form* while signed in to the channel's Google account; draft answers are prepared in the private ops repository. Also set the OAuth consent screen to "In production" so refresh tokens do not expire weekly. |
+| 3 | Worker host | *Open.* Most likely an office laptop kept on permanently as a server. | [Section 8.2](#82-running-the-worker-on-a-laptop). |
+| 4 | Private ops repository | **Approved and done.** `rjyates/lightbulb-lab-ops` (private) created; reports moved there and removed from this repository's working tree. Earlier reports remain in this repository's Git history. | |
+| 5 | Signing key | **Approved.** | Owner creates the key on a personal machine; instructions go in the M1 runbook. The agent never creates or handles the key. |
+| 6 | Old nightly task | **Paused** on 2026-10-28. | Replaced by the M3 tasks. |
+| 7 | Audience | **Confirmed:** non-technical adults, many of them older. | Sensitive categories as listed in [5.2](#52-editorial-independent-review-separate-cloud-task-about-1200). |
+| 8 | fif06–fif11 | **Agreed:** they are the first calibration set for the review rubric. | |
+| 9 | Product sources | *Open:* location unknown. | Search for the original guide files before M8. |
+| 10 | Cadence | **Tuesday** general tech episode (Tech from Scratch), **Friday** helpdesk how-to episode (Fix It Friday), Shorts cut from both, and a **Monday** "Tech This Week" news Short. | [Section 5.0](#50-publishing-calendar). |
 
 ## 13. What will still require the owner
 
@@ -644,14 +721,14 @@ Three products built and validated by the pipeline with no owner corrections to 
 | :--- | :--- | :--- |
 | Pro daily run limit for cloud scheduled tasks (5/day at launch vs. hourly limits in current docs) | Conflicting sources | Check claude.ai/code/routines |
 | Actual Pro usage consumed per daily run | Unknown | Measure during M3 at claude.ai/settings/usage |
-| YouTube upload quota cost and default quota | Third-party sources conflict | Google's current quota cost table |
+| YouTube default quota | Resolved: 100 uploads/day and 10,000 units/day by default (Google audit guide) | |
 | YouTube audit lead time and requirements | Unknown for this project | Submit in M0 |
 | Fourthwall draft/hidden product state, scopes that exclude payouts and refunds, digital-product fees | Not confirmed | Fourthwall Open API docs and a read-only test user |
-| ElevenLabs Starter price and license terms | Secondary sources | ElevenLabs pricing and terms pages |
-| Licenses of candidate free TTS models | Not checked | Each model's license file |
+| Licenses of candidate free TTS models and voice files | Kokoro reported Apache-2.0; Piper engine reported as GPL-3.0 in its current repository, and voice files may differ | Read each license file before adoption (M0) |
+| Whether the YouTube audit lifts the private-upload lock for this project | Expected, per secondary sources; Google's audit guide does not say | Ask in the audit form |
 | Music track terms for TikTok and promos | Not checked | YouTube Audio Library track page |
 | Whether the AI-narration disclosure setting should be on | Agent analysis only | YouTube Help on altered or synthetic content; owner policy |
 | YouTube "inauthentic/mass-produced content" monetization policy risk for an AI-produced channel | Risk noted | YPP policies; keep cadence modest and quality high |
-| State of the old nightly cloud task | Unknown | claude.ai/code/routines |
+| Old nightly cloud task | Resolved: paused 2026-10-28 | |
 
 Sources consulted on 2026-10-28: Claude Code docs ([cloud scheduled tasks](https://code.claude.com/docs/en/routines), [Desktop scheduled tasks](https://code.claude.com/docs/en/desktop-scheduled-tasks)); [Anthropic routines announcement](https://claude.com/blog/introducing-routines-in-claude-code); Fourthwall docs ([create digital products](https://docs.fourthwall.com/guides/create-digital-products), [digital file upload URL](https://docs.fourthwall.com/api-reference/platform/digital-products/request-digital-file-upload-url)); ElevenLabs help centre ([publishing generated content](https://elevenlabs.io/docs/help-center/legal/can-i-publish-the-content-i-generate-on-the-platform)); secondary reports on the YouTube API private-upload lock for unaudited projects.
