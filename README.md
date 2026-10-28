@@ -70,6 +70,7 @@ See [operations and configuration](docs/operations.md) before enabling schedulin
 | `lightbulb/video.py`, `voice.py`, `thumbnail.py` | Media-generation stages |
 | `lightbulb/youtube.py`, `notify.py` | Optional external integrations |
 | [systemd/](systemd/) | Optional service/timer definitions |
+| [docs/autonomy/proposal.md](docs/autonomy/proposal.md) | Proposed (not deployed) design for autonomous operation; decisions in [docs/decisions/](docs/decisions/) |
 
 ## Ownership, privacy, and reuse
 
