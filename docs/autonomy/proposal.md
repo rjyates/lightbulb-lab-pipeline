@@ -34,7 +34,7 @@ The recommended shape:
 
 - **Agent (Claude Code cloud scheduled tasks, on the existing Pro plan).** Research, scripts, independent editorial review, analytics interpretation, experiment design and code fixes. It works only through Git branches, pull requests and issues. It holds **no** publishing, storefront or payment credentials.
 - **Worker (deterministic Python on an always-on Linux machine you already own).** Validates, narrates, renders, runs quality gates, uploads, schedules, lists products and collects analytics. It holds the credentials, makes **no** LLM calls, and runs only code from owner-signed releases (with a narrow, path-guarded exception for low-risk fixes later).
-- **Records (Git).** This public repository keeps code, scripts and documentation. A new **private** operations repository keeps the publishing ledger, queue, analytics, experiments, change log and dashboard data.
+- **Records (Git).** This repository (private since 2026-10-28) keeps code, scripts and documentation. A new **private** operations repository keeps the publishing ledger, queue, analytics, experiments, change log and dashboard data.
 - **Content buffer.** The worker keeps three or more weeks of finished, gated videos scheduled ahead. Claude usage limits, a bad night or an outage then delay *new* work without stopping publication.
 
 Expected additional recurring cost: **$0**. The owner chose a free local voice (see [section 8](#8-expected-recurring-costs) and [12](#12-owner-decisions)).
@@ -151,12 +151,12 @@ Sources: Claude Code documentation pages for [cloud scheduled tasks](https://cod
 | Topic research, script drafting, editorial review, analytics interpretation, experiment design, code fixes | Reasoning, web search, Git | **Claude cloud scheduled tasks** | Needs the model; works fine from a fresh clone; runs with machines off. |
 | Narration, rendering, media QA, transcription check | CPU, FFmpeg, 10–60 min per episode, GBs of scratch space, secrets | **Your always-on Linux machine** (the original systemd host or a homelab VM) | Deterministic and heavy. Cloud sessions are ephemeral and must not hold credentials. |
 | Uploading, scheduling, storefront listing, analytics collection | Credentials, idempotency, retries | **Linux worker** | Credentials never leave the owner's machine. |
-| Tests, script validation, lint on every PR | Python | **GitHub Actions** (free for public repositories) | Independent check that the agent cannot skip. |
+| Tests, script validation, lint on every PR | Python | **GitHub Actions** (included minutes on GitHub Free) | Independent check that the agent cannot skip. |
 | Dashboard generation | Ops data | **Linux worker**, viewed privately | See [5.7](#57-owner-dashboard). |
 
 Options considered and rejected:
 
-- *Render in GitHub Actions.* Free for public repositories, but rendering needs voice and upload secrets inside a workflow that agent-authored PRs can modify. Rejected for the publishing path; acceptable later for secret-free test renders.
+- *Render in GitHub Actions.* Would use up the included private-repository minutes, and rendering needs voice and upload secrets inside a workflow that agent-authored PRs can modify. Rejected for the publishing path; acceptable later for secret-free test renders.
 - *Desktop scheduled tasks on the Windows PC.* Only run while the PC is awake with the app open, and rendering does not run on native Windows. Rejected as the primary scheduler; fine for occasional owner-initiated jobs.
 - *Claude Messages API in the worker.* Requires paid API credits. Rejected by the budget rule.
 
@@ -174,7 +174,7 @@ flowchart LR
         M[Maintenance fixes]
     end
     subgraph GH["GitHub"]
-        PUB[(Public pipeline repo<br/>code, scripts, docs)]
+        PUB[(Private pipeline repo<br/>code, scripts, docs)]
         OPS[(Private ops repo<br/>ledger, queue, analytics,<br/>experiments, change log)]
         CI[Actions CI]
     end
@@ -223,7 +223,7 @@ Because a cloud task acts with the owner's GitHub identity, GitHub alone cannot 
 
 ### 4.3 Repositories and data
 
-**Public `lightbulb-lab-pipeline` (this repository):** code, episode scripts, asset manifest, policy *schema*, documentation, ADRs.
+**Private `lightbulb-lab-pipeline` (this repository; public until 2026-10-28):** code, episode scripts, asset manifest, policy *schema*, documentation, ADRs.
 
 **New private `lightbulb-lab-ops`:** business state that should not be public:
 
@@ -240,7 +240,7 @@ dashboard/                 generated status page data
 policy/autonomy.yaml       owner-signed operating policy
 ```
 
-Episode scripts stay public, as now. Moving `reports/` to the ops repository addresses the earlier "make the repo private" item without hiding the code.
+Episode scripts stay in this repository. Reports and business state moved to the ops repository first; the owner then also made this repository private on 2026-10-28 (decision 11).
 
 ### 4.4 Episode schema v2 (backward compatible)
 
@@ -376,7 +376,7 @@ A static page generated by the worker from the ops repository after each analyti
 - **Changes:** automated changes in the last 30 days with links.
 - **Needs you:** sensitive drafts, failed gates, credential expiry, policy proposals. The list is kept short by design.
 
-Viewing options, simplest first: open the HTML from the private repository on GitHub or locally; or have the weekly cloud task publish it as a private Claude Artifact (visible only to you unless shared). It is **not** published on GitHub Pages, because the pipeline repository is public.
+Viewing options, simplest first: open the HTML from the private repository on GitHub or locally; or have the weekly cloud task publish it as a private Claude Artifact (visible only to you unless shared). It is **not** published on GitHub Pages, because a Pages site is public.
 
 Weekly digest: a Sunday ntfy notification links to the dashboard. Urgent items (gate failures, credential problems, queue under 2 weeks) notify immediately. The ntfy topic should be self-hosted or long and unguessable, because notifications include business information.
 
@@ -529,7 +529,7 @@ Spending or enabling paid plans and usage credits; refunds, discounts, payouts o
 | :--- | :--- | :--- |
 | Claude Pro | Existing subscription, $0 additional | Usage shared with your own Claude work. Usage credits stay **off**. |
 | Claude API | $0 | Not used. |
-| GitHub (public repo, private ops repo, Actions on the public repo) | $0 | Keep CI on the public repository so Actions minutes are free. |
+| GitHub (private pipeline and ops repos, Actions on the pipeline repo) | $0 | GitHub Free includes a monthly allowance of Actions minutes for private repositories (2,000 at last check); script checks and tests need a few minutes per PR. The Actions spending limit stays $0, so CI pauses rather than bills if the allowance runs out. |
 | YouTube Data and Analytics APIs | $0 | Quota-limited; no billing account needed. Google's audit guide lists the default as 100 `videos.insert` calls/day plus 10,000 units/day for other endpoints, far above this channel's needs. |
 | Fourthwall | No subscription | Platform and payment fees come out of each sale; confirm the current digital-product fee. |
 | Worker machine | Existing hardware, electricity | Rendering is a few CPU-hours per week. |
@@ -693,6 +693,7 @@ Decision log from 2026-10-28. Items marked *open* still need an answer.
 | 8 | fif06–fif11 | **Agreed:** they are the first calibration set for the review rubric. | |
 | 9 | Product sources | *Open:* location unknown. | Search for the original guide files before M8. |
 | 10 | Cadence | **Tuesday** general tech episode (Tech from Scratch), **Friday** helpdesk how-to episode (Fix It Friday), Shorts cut from both, and a **Monday** "Tech This Week" news Short. | [Section 5.0](#50-publishing-calendar). |
+| 11 | Pipeline repository visibility | **Private.** The owner changed it on 2026-10-28. | Earlier commits carry the owner's personal email; new commits use the GitHub noreply address. Rewriting history is not planned. CI runs on included Actions minutes ([section 8](#8-expected-recurring-costs)). |
 
 ## 13. What will still require the owner
 
@@ -732,5 +733,6 @@ Decision log from 2026-10-28. Items marked *open* still need an answer.
 | Whether the AI-narration disclosure setting should be on | Agent analysis only | YouTube Help on altered or synthetic content; owner policy |
 | YouTube "inauthentic/mass-produced content" monetization policy risk for an AI-produced channel | Risk noted | YPP policies; keep cadence modest and quality high |
 | Old nightly cloud task | Resolved: paused 2026-10-28 | |
+| GitHub Free Actions minutes for private repositories | 2,000/month assumed; not re-checked on 2026-10-28 | github.com/settings/billing |
 
 Sources consulted on 2026-10-28: Claude Code docs ([cloud scheduled tasks](https://code.claude.com/docs/en/routines), [Desktop scheduled tasks](https://code.claude.com/docs/en/desktop-scheduled-tasks)); [Anthropic routines announcement](https://claude.com/blog/introducing-routines-in-claude-code); Fourthwall docs ([create digital products](https://docs.fourthwall.com/guides/create-digital-products), [digital file upload URL](https://docs.fourthwall.com/api-reference/platform/digital-products/request-digital-file-upload-url)); ElevenLabs help centre ([publishing generated content](https://elevenlabs.io/docs/help-center/legal/can-i-publish-the-content-i-generate-on-the-platform)); secondary reports on the YouTube API private-upload lock for unaudited projects.

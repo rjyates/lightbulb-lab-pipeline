@@ -10,7 +10,7 @@ Lightbulb Lab should research, produce, publish and improve with minimal owner a
 1. **Agent does everything in the cloud** (render and upload from scheduled tasks). Pros: one system. Cons: credentials in a cloud environment reachable by a prompt-injectable agent; ephemeral disk; heavy renders consume subscription usage; publishing stops whenever usage runs out.
 2. **Everything on the owner's machine with `claude -p`.** Pros: local files. Cons: the same agent still holds credentials; depends on one machine for thinking as well as producing.
 3. **Split: cloud agent proposes through Git; a deterministic worker on the owner's Linux machine holds credentials, gates and publishes from a buffered queue, running only owner-signed code for protected paths.** Pros: credentials and policy enforcement stay out of the agent's reach; usage limits only delay new work; gates are testable code. Cons: two components to maintain; the owner must manage a signing key.
-4. **Render in GitHub Actions.** Free for public repos, but production secrets would sit in workflows that agent PRs can modify.
+4. **Render in GitHub Actions.** Uses included Actions minutes, but production secrets would sit in workflows that agent PRs can modify.
 
 ## Decision
 Option 3. The agent works only through branches, PRs, issues and the private ops repository. The worker deploys owner-signed tags (later also `main` when no protected path changed), makes no LLM calls, and enforces the signed policy, rate limits and endpoint allowlists in code.

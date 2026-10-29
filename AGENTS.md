@@ -15,4 +15,4 @@ Python pipeline that turns structured episode scripts (`episodes/`) into narrate
 ## Working conventions
 - Branch per change. Run `python -m lightbulb.check` before committing.
 - Keep episode JSON schema changes backward compatible or migrate all bundled episodes in the same change.
-- This repo is public: no personal data, keys or channel credentials.
+- This repo is private (public until 2026-10-28), but keep it shareable: no personal data, keys or channel credentials.

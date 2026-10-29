@@ -57,7 +57,7 @@ On macOS/Linux, use `python3 -m venv .venv` and `.venv/bin/python` for installat
 
 The task enables Python UTF-8 mode so episode files are read consistently on Windows. The repository shares the manual task; machine-specific `.vscode/settings.json` remains Git-excluded. No task runs automatically when the folder opens.
 
-See [operations and configuration](docs/operations.md) before enabling scheduling or external services. This public README does not claim that a timer is currently installed or a channel is publishing automatically.
+See [operations and configuration](docs/operations.md) before enabling scheduling or external services. This README does not claim that a timer is currently installed or a channel is publishing automatically.
 
 ## Source map
 
@@ -76,6 +76,6 @@ See [operations and configuration](docs/operations.md) before enabling schedulin
 
 Runtime `config.env`, OAuth tokens, secrets, output, and supplied episode audio are Git-excluded. Exclusion does not protect credentials that were previously committed. Review generated media and metadata before any upload.
 
-Earlier instructions described this repository as private; it is currently public. Visibility was not changed by this documentation update. Asset provenance and redistribution rights need review before wider reuse; no new software or media license is asserted.
+This repository was public until 2026-10-28, when the owner made it private; its earlier history may still exist in copies made while it was public. Asset provenance and redistribution rights need review before wider reuse; no new software or media license is asserted.
 
 Existing music attribution is preserved: **“Nebula” by The Grey Room / Density & Time**, from the YouTube Audio Library. Verify applicable terms for music, voice, fonts, and artwork before publishing or commercial reuse; no current free-tier entitlement or monetization permission is claimed here.
