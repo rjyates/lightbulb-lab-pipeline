@@ -25,7 +25,7 @@ flowchart LR
 
 - Structured scenes, narration text, animation poses, timed explainer cards, and short-form ranges.
 - Reusable character/room artwork, transitions, captions, and thumbnail generation.
-- Narration through ElevenLabs or a supplied audio file, as configured.
+- Narration with Kokoro, a free local voice (default; recipe in `assets/voice/kip.json`, extras in `requirements-voice.txt`), ElevenLabs, or a supplied audio file.
 - FFmpeg-based video work and local output/state tracking.
 - Optional YouTube upload and phone notification integrations.
 - Linux/systemd installation scripts for a recurring workflow, when deliberately enabled.

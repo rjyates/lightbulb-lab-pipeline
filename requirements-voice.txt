@@ -1,0 +1,5 @@
+# Kip's local voice (LBL_VOICE=kokoro). Install alongside requirements.txt on the machine that narrates.
+# On a CPU-only machine, install torch first from https://download.pytorch.org/whl/cpu to avoid the large GPU build.
+torch>=2.4
+kokoro==0.9.4
+soundfile>=0.12

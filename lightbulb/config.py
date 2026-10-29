@@ -17,6 +17,7 @@ def load():
     cfg.setdefault('YOUTUBE_UPLOAD', 'false'); cfg.setdefault('YOUTUBE_PRIVACY', 'private')
     cfg.setdefault('YOUTUBE_CLIENT_SECRET', os.path.join(ROOT, 'secrets', 'client_secret.json'))
     cfg.setdefault('YOUTUBE_TOKEN', os.path.join(ROOT, 'secrets', 'youtube_token.json'))
+    cfg.setdefault('LBL_VOICE', 'kokoro')
     cfg.setdefault('LBL_OUTPUT', os.path.join(ROOT, 'output'))
     cfg.setdefault('LBL_WORKERS', str(max(1, (os.cpu_count() or 2))))
     return cfg

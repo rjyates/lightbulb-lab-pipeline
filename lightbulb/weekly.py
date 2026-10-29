@@ -9,7 +9,7 @@ import argparse, glob, json, os, re, shutil, subprocess, sys, time, traceback
 from datetime import datetime
 from .config import load, truthy
 from .core import ROOT
-from . import engine as E, video as V, thumbnail as T, notify as N
+from . import engine as E, video as V, thumbnail as T, notify as N, voice_kokoro as VK
 
 EPISODES = os.path.join(ROOT, 'episodes')
 
@@ -50,6 +50,11 @@ def link_lines(ep, short=False):
     for g in guides[:1 if short else 3]: out.append(f"\U0001F4CB {g['label']}: {g['url']}")
     return out
 
+VOICE_CREDIT = {'kokoro': 'Kip’s voice is AI-generated with Kokoro, an open-source voice model.',
+                'elevenlabs': 'Kip’s voice is AI-generated with ElevenLabs.'}
+
+def voice_credit(cfg): return VOICE_CREDIT.get(cfg.get('LBL_VOICE', 'kokoro'), VOICE_CREDIT['kokoro'])
+
 def description(ep, cfg):
     d = ep.get('description', '').strip()
     lines = [d, ''] if d else []
@@ -58,7 +63,7 @@ def description(ep, cfg):
     if ep.get('chapters'): lines += ['Chapters:'] + ep['chapters'] + ['']
     lines += [f"{ep.get('series', 'Tech from Scratch')} is a beginner-friendly series that explains everyday tech from the ground up, one short episode at a time.", '',
               'New episodes every week. Subscribe so you don\u2019t miss the next one.', '',
-              'Kip\u2019s voice is AI-generated with ElevenLabs. Animation made with code by Lightbulb Lab.',
+              voice_credit(cfg) + ' Animation made with code by Lightbulb Lab.',
               'Music: "Nebula" by The Grey Room / Density & Time, from the YouTube Audio Library.', '',
               f"TikTok: {load_links().get('tiktok', '@lightbulblab')}", '', '#techforbeginners #learntech #techfromscratch']
     return '\n'.join(lines)
@@ -109,22 +114,30 @@ def run(cfg, ep, quick=False, dry=False):
     name = f"{ep['id']}-{slug(ep['title'])}"; out = os.path.join(cfg['LBL_OUTPUT'], name + ('-quicktest' if quick else ''))
     work = os.path.join(out, 'work'); os.makedirs(work, exist_ok=True)
     text = E.full_text(ep); print(f'[{name}] {len(ep["scenes"])} scenes, {len(text)} characters')
-    # ---- voice: a hand-made file in episodes/audio/ wins (free fallback), else the ElevenLabs API
+    # ---- voice: a hand-made file in episodes/audio/ wins, else LBL_VOICE: kokoro (free, local; default) or elevenlabs
     manual = next((p for p in (os.path.join(EPISODES, 'audio', ep['id'] + x) for x in ('.mp3', '.wav')) if os.path.exists(p)), None)
-    mp3, al = os.path.join(work, 'voice.mp3'), os.path.join(work, 'voice.json')
+    provider = cfg['LBL_VOICE']
+    if provider not in ('kokoro', 'elevenlabs'): raise RuntimeError(f'LBL_VOICE must be kokoro or elevenlabs, not {provider!r}')
+    mp3 = os.path.join(work, 'voice.wav' if provider == 'kokoro' else 'voice.mp3')
+    al = os.path.join(work, f'voice-{provider}.json')
     if dry:
-        print('dry run: voice from', manual or 'ElevenLabs API', '->', out); return None
+        print('dry run: voice from', manual or provider, '->', out); return None
+    take = json.load(open(al, encoding='utf-8')) if os.path.exists(al) else {}
     if manual and not quick:
+        mp3 = os.path.join(work, 'voice' + os.path.splitext(manual)[1])
         shutil.copy(manual, mp3); timing = E.Timing.from_pauses(text, E.scene_text(ep), mp3); print('voice: using', manual)
-    elif os.path.exists(mp3) and os.path.exists(al) and json.load(open(al, encoding='utf-8')).get('text') == text:
-        timing = E.Timing.from_alignment(text, json.load(open(al, encoding='utf-8'))['alignment']); print('voice: reusing earlier take')
+    elif os.path.exists(mp3) and take.get('text') == text and (provider != 'kokoro' or take.get('recipe_version') == VK.recipe()['version']):
+        timing = E.Timing.from_alignment(text, take['alignment']); print('voice: reusing earlier take')
+    elif provider == 'kokoro':
+        VK.synthesize(E.scene_text(ep), mp3, al)
+        timing = E.Timing.from_alignment(text, json.load(open(al, encoding='utf-8'))['alignment']); print('voice: generated with Kokoro')
     else:
         from . import voice as VO
         left = VO.characters_left(cfg)
         if left is not None and left < len(text):
             raise RuntimeError(f'ElevenLabs free credits too low this month ({left} left, need {len(text)}). '
                                f'Record it in the ElevenLabs website and save it as episodes/audio/{ep["id"]}.mp3, then rerun.')
-        VO.synthesize(text, cfg, mp3, al); timing = E.Timing.from_alignment(text, json.load(open(al, encoding='utf-8'))['alignment']); print('voice: generated')
+        VO.synthesize(text, cfg, mp3, al); timing = E.Timing.from_alignment(text, json.load(open(al, encoding='utf-8'))['alignment']); print('voice: generated with ElevenLabs')
     epi = E.Episode(ep, timing, audio_len(mp3)); epi.set_audio(mp3)
     # ---- audio + video
     mix = os.path.join(work, 'mix.wav'); V.mix_audio(epi, mp3, mix)
@@ -143,7 +156,7 @@ def run(cfg, ep, quick=False, dry=False):
     meta = {'title': title, 'description': desc, 'tags': tags, 'shorts': []}
     for sh, p in shorts:
         a, b = V.short_range(epi, sh); srt(epi, p[:-4] + '.en.srt', a, b)
-        meta['shorts'].append({'file': os.path.basename(p), 'title': f"{sh['hook']} #shorts", 'description': f"From {title}. Full episode on @LightbulbLabYT.\n\n" + '\n'.join(link_lines(ep, short=True)) + "\n\nKip’s voice is AI-generated (ElevenLabs).\n\n#techforbeginners #shorts"})
+        meta['shorts'].append({'file': os.path.basename(p), 'title': f"{sh['hook']} #shorts", 'description': f"From {title}. Full episode on @LightbulbLabYT.\n\n" + '\n'.join(link_lines(ep, short=True)) + "\n\n" + voice_credit(cfg) + "\n\n#techforbeginners #shorts"})
     json.dump(meta, open(os.path.join(out, 'metadata.json'), 'w', encoding='utf-8'), indent=1)
     meta['pinned_comment'] = pinned_comment(ep)
     meta['tiktok_caption'] = tiktok_caption(ep)
