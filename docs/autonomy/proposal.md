@@ -271,7 +271,7 @@ Owner-set cadence (2026-10-28). Times are Central and are starting points for ex
 | :--- | :--- | :--- | :--- |
 | Monday | "Tech This Week" news Short (60–90 s) | Tech This Week | **No**: made fresh every weekend |
 | Tuesday | Long-form general tech explainer (about 2 min) | Tech from Scratch | Yes, 3+ weeks |
-| Wednesday | Long-form beginner programming lesson (about 2–3 min), Python first | *Name to be chosen* ([below](#wednesday-beginner-programming-series)) | Yes, 3+ weeks |
+| Wednesday | Long-form beginner programming lesson (about 2–3 min), Python first | Coding with Kip ([below](#wednesday-beginner-programming-series-coding-with-kip)) | Yes, 3+ weeks |
 | Friday | Long-form helpdesk how-to (about 2 min) | Fix It Friday | Yes, 3+ weeks |
 | Thursday, Saturday, Sunday | Shorts cut from that week's episodes (1–2 per episode) | Same as parent | Yes, rendered with the parent |
 
@@ -283,7 +283,7 @@ Shorts moved off Wednesday on 2026-10-28 to make room for the programming series
 - **Uploads:** about 10 a week, far inside the default YouTube quota.
 - **Claude usage:** see [5.9](#59-claude-usage-budget).
 
-#### Wednesday beginner programming series
+#### Wednesday beginner programming series: Coding with Kip
 
 Owner request (2026-10-28): a how-to-program series for complete beginners, every Wednesday, starting with Python and the very basics. It needs its own name, separate from the other series.
 
@@ -296,7 +296,7 @@ Owner request (2026-10-28): a how-to-program series for complete beginners, ever
   - The review rubric gets programming-specific checks: the code matches what Kip says, it runs on Windows and Mac, and the episode uses no idea it has not taught yet.
 - **Shorts:** one "try this" snippet per episode works well as a vertical Short.
 - **Products:** a printable beginner Python cheat sheet or workbook in the large-print binder style is a natural companion, once the product pipeline exists (M8).
-- **Name:** open (decision 12). Candidates: *Coding with Kip* (recommended: ties the series to the host, sounds friendly rather than technical), *Code Made Simple*, *Python for the Rest of Us*. Before choosing, check the name is not already a YouTube channel or series in the same niche.
+- **Name:** **Coding with Kip**, chosen by the owner on 2026-10-28. A web search the same day found no YouTube channel or series with that name (the nearest, Kipkay, is a DIY channel).
 - **Start:** the first scripts can be drafted once the rubric is calibrated (M3). The first episodes can publish once the `code` card and code gate exist (M2) and the voice and worker are ready.
 
 #### Monday news Short: a different kind of workflow
@@ -710,7 +710,7 @@ Decision log from 2026-10-28. Items marked *open* still need an answer.
 | 8 | fif06–fif11 | **Agreed:** they are the first calibration set for the review rubric. | |
 | 9 | Product sources | *Open:* location unknown. | Search for the original guide files before M8. |
 | 10 | Cadence | **Tuesday** general tech episode (Tech from Scratch), **Friday** helpdesk how-to episode (Fix It Friday), Shorts cut from both, and a **Monday** "Tech This Week" news Short. | [Section 5.0](#50-publishing-calendar). |
-| 12 | Programming series | **Approved:** beginner how-to-program series every **Wednesday**, starting with Python and the very basics. Shorts move to Thursday, Saturday and Sunday. *Open:* series name. | [Section 5.0](#wednesday-beginner-programming-series); `code` card and code gate in M2. |
+| 12 | Programming series | **Approved:** beginner how-to-program series every **Wednesday**, starting with Python and the very basics. Shorts move to Thursday, Saturday and Sunday. Named **Coding with Kip**. | [Section 5.0](#wednesday-beginner-programming-series-coding-with-kip); `code` card and code gate in M2. |
 
 ## 13. What will still require the owner
 
