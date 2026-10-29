@@ -33,7 +33,7 @@ The proposal is therefore built around one idea: **replace per-item owner approv
 The recommended shape:
 
 - **Agent (Claude Code cloud scheduled tasks, on the existing Pro plan).** Research, scripts, independent editorial review, analytics interpretation, experiment design and code fixes. It works only through Git branches, pull requests and issues. It holds **no** publishing, storefront or payment credentials.
-- **Worker (deterministic Python on an always-on Linux machine you already own).** Validates, narrates, renders, runs quality gates, uploads, schedules, lists products and collects analytics. It holds the credentials, makes **no** LLM calls, and runs only code from owner-signed releases (with a narrow, path-guarded exception for low-risk fixes later).
+- **Worker (deterministic Python on a Windows computer you already own, on for some hours each week).** Validates, narrates, renders, runs quality gates, uploads, schedules, lists products and collects analytics. It holds the credentials, makes **no** LLM calls, and runs only code from owner-signed releases (with a narrow, path-guarded exception for low-risk fixes later).
 - **Records (Git).** This public repository keeps code, scripts and documentation. A new **private** operations repository keeps the publishing ledger, queue, analytics, experiments, change log and dashboard data.
 - **Content buffer.** The worker keeps three or more weeks of finished, gated videos scheduled ahead. Claude usage limits, a bad night or an outage then delay *new* work without stopping publication.
 
@@ -149,15 +149,15 @@ Sources: Claude Code documentation pages for [cloud scheduled tasks](https://cod
 | Job | Needs | Runs on | Why |
 | :--- | :--- | :--- | :--- |
 | Topic research, script drafting, editorial review, analytics interpretation, experiment design, code fixes | Reasoning, web search, Git | **Claude cloud scheduled tasks** | Needs the model; works fine from a fresh clone; runs with machines off. |
-| Narration, rendering, media QA, transcription check | CPU, FFmpeg, 10–60 min per episode, GBs of scratch space, secrets | **Your always-on Linux machine** (the original systemd host or a homelab VM) | Deterministic and heavy. Cloud sessions are ephemeral and must not hold credentials. |
-| Uploading, scheduling, storefront listing, analytics collection | Credentials, idempotency, retries | **Linux worker** | Credentials never leave the owner's machine. |
+| Narration, rendering, media QA, transcription check | CPU, FFmpeg, 10–60 min per episode, GBs of scratch space, secrets | **The worker** (a Windows computer the owner already uses; see [8.2](#82-running-the-worker-on-windows)) | Deterministic and heavy. Cloud sessions are ephemeral and must not hold credentials. |
+| Uploading, scheduling, storefront listing, analytics collection | Credentials, idempotency, retries | **The worker** | Credentials never leave the owner's machine. |
 | Tests, script validation, lint on every PR | Python | **GitHub Actions** (free for public repositories) | Independent check that the agent cannot skip. |
-| Dashboard generation | Ops data | **Linux worker**, viewed privately | See [5.7](#57-owner-dashboard). |
+| Dashboard generation | Ops data | **The worker**, viewed privately | See [5.7](#57-owner-dashboard). |
 
 Options considered and rejected:
 
 - *Render in GitHub Actions.* Free for public repositories, but rendering needs voice and upload secrets inside a workflow that agent-authored PRs can modify. Rejected for the publishing path; acceptable later for secret-free test renders.
-- *Desktop scheduled tasks on the Windows PC.* Only run while the PC is awake with the app open, and rendering does not run on native Windows. Rejected as the primary scheduler; fine for occasional owner-initiated jobs.
+- *Desktop scheduled tasks on the Windows PC.* Only run while the PC is awake with the app open, and they would put an LLM session next to the credentials. Rejected as the primary scheduler; fine for occasional owner-initiated jobs.
 - *Claude Messages API in the worker.* Requires paid API credits. Rejected by the budget rule.
 
 ---
@@ -178,7 +178,7 @@ flowchart LR
         OPS[(Private ops repo<br/>ledger, queue, analytics,<br/>experiments, change log)]
         CI[Actions CI]
     end
-    subgraph Home["Owner's Linux machine: worker (credentials, no LLM)"]
+    subgraph Home["Owner's Windows computer: worker (credentials, no LLM)"]
         G[Gates]
         P[Produce: voice, render, QA]
         Q[Publish queue]
@@ -316,7 +316,7 @@ A second task, with a different prompt and a fresh session, acts as the editor. 
 - CI runs `lightbulb.check`, the schema-v2 validator, reading-level and length checks, the source-reachability check and the claims-coverage check on every PR.
 - In the shadow phase, the owner merges. From milestone M7, a workflow auto-merges PRs that change only `episodes/` files, pass CI, carry an `approve` review, and are not sensitive. The worker independently re-runs the same checks from its trusted code, so a modified workflow cannot bypass them.
 
-### 5.4 Production and publishing (worker, systemd timers)
+### 5.4 Production and publishing (worker, scheduled tasks)
 
 ```mermaid
 stateDiagram-v2
@@ -477,7 +477,7 @@ Every gate is code with a numeric threshold, a test, and an entry in `qa-report.
 | :--- | :--- | :--- | :--- | :--- |
 | Owner | Personal accounts, signing key | Everything | Change policy, sign releases, veto, resume, spend | |
 | Cloud agent | Claude scheduled tasks acting through the owner's GitHub connector | GitHub access only; no other connectors; no environment secrets | Push `claude/*` branches, open PRs and issues, write reports to the ops repo | Reach credentials; make changes take effect on protected paths; spend; publish directly |
-| Worker | Linux service account on the owner's machine | YouTube upload token, YouTube read-only analytics token, Fourthwall API user (product write, order read), voice provider key, ntfy topic, narrow GitHub tokens | Produce, gate, upload, schedule, list, collect within signed policy | Run unsigned code on protected paths; exceed policy caps; call endpoints outside its allowlist |
+| Worker | A Windows account on the owner's computer | YouTube upload token, YouTube read-only analytics token, Fourthwall API user (product write, order read), voice provider key, ntfy topic, narrow GitHub tokens | Produce, gate, upload, schedule, list, collect within signed policy | Run unsigned code on protected paths; exceed policy caps; call endpoints outside its allowlist |
 | CI | GitHub Actions `GITHUB_TOKEN` | No production secrets | Run tests and checks | Publish anything |
 
 Because the agent uses the owner's GitHub identity, **GitHub permissions are not the boundary**. The boundary is that the agent has no production credentials and the worker ignores unsigned changes to policy and publishing code.
@@ -517,7 +517,7 @@ Spending or enabling paid plans and usage credits; refunds, discounts, payouts o
 
 ### 7.4 Kill switches
 
-- **Owner:** a signed policy commit with `publishing: paused`, or a `PAUSE` file on the worker host, or (fastest) stopping the systemd timer.
+- **Owner:** a signed policy commit with `publishing: paused`, or a `PAUSE` file on the worker, or (fastest) disabling the worker's scheduled tasks.
 - **Automatic pause** when: two gate failures in a row, any duplicate detected, a YouTube policy or copyright notice appears in the API, the ledger cannot be pushed, or analytics show an anomaly such as a sudden dislike or report spike.
 - Paused state stops new uploads and removes `publishAt` from videos due within 48 hours. Resuming requires the owner.
 
@@ -559,17 +559,20 @@ Integration with the existing pipeline:
 
 Acceptance (M0/M1): render the same three scripts with 3–4 candidate blends; the owner picks one by ear; the chosen voice must give Whisper word error rate ≤ 5% on 5 episodes, pronounce a project dictionary of tech terms correctly (Wi-Fi, iOS, ESU, 2FA, router), and render a 2-minute episode in under 10 minutes on the worker. The video description credit changes from "AI-generated with ElevenLabs" to naming the model used.
 
-### 8.2 Running the worker on a laptop
+### 8.2 Running the worker on Windows
 
-A laptop works as the worker, and its battery is a useful built-in UPS. Requirements:
+**Owner decision (2026-10-28):** the worker runs on native **Windows**, on a machine that also stays in normal daily use. No Linux install, no wiped laptop. Rendering was the only Linux-only part (it used `fork` multiprocessing); the renderer now uses `spawn` on Windows, and FFmpeg for Windows is installed with `winget install Gyan.FFmpeg`.
 
-- **Operating system:** rendering uses Linux `fork` multiprocessing. Use Linux (Ubuntu Server or Desktop, which `install.sh` already targets). Windows with WSL2 also works but adds sleep and update complications.
-- **Never sleep:** disable suspend on lid close (`HandleLidSwitch=ignore` in systemd-logind) and on idle; enable automatic power-on after power loss in the BIOS if available.
-- **Battery health:** keep it plugged in; use a charge limit (for example 80%) if the firmware supports it, because laptops kept at 100% around the clock wear their batteries.
-- **Resources:** 4+ CPU cores, 8+ GB RAM and about 50 GB free disk for renders, caches and the voice and Whisper models.
-- **Updates and restarts:** unattended security updates on; the worker's systemd timers use `Persistent=true` so missed runs resume after a reboot.
-- **Health check:** the worker pings a heartbeat file in the ops repository daily; the weekly cloud task flags a missing heartbeat to the owner.
-- **Security:** full-disk encryption; a dedicated service user that owns the credentials (file mode 600); no other users; SSH key login only.
+The buffer means the worker does not need to be on around the clock, only for some hours each week. What that implies:
+
+- **Scheduling:** Windows Task Scheduler instead of systemd timers, set to *run as soon as possible after a missed start* and *wake the computer to run this task* where the machine allows it. Jobs are short and resumable (stage checkpoints, M1), so being switched off mid-job costs time, not output.
+- **When it must be on:** a few hours a week for producing the buffered episodes (any day), and **Saturday evening** for the Monday news Short. If the machine is off then, that week's news Short is skipped, as the fail-closed rule already says.
+- **Not in the way of daily work:** renders run at low priority, use fewer cores while someone is using the computer, and never restart the machine. Voice and Whisper models need about 1 GB of disk; renders and caches about 20–50 GB, kept **outside OneDrive** (for example `C:\LightbulbLab\work`).
+- **Which machine:** prefer a computer the owner personally owns. The worker holds the YouTube upload and Fourthwall credentials, and a computer owned or managed by an employer may be monitored, reset by IT, or covered by a policy that forbids running a personal business on it. *Open:* the owner confirms which computer (decision 3).
+- **Security:** BitLocker or Device Encryption on; credentials in a folder only the owner's Windows account can read (or Windows Credential Manager); a separate standard Windows user for the worker if the machine is shared.
+- **Updates and restarts:** Windows Update active hours cover working hours; the worker resumes after restarts because missed tasks run at the next start.
+- **Health check:** the worker pings a heartbeat file in the ops repository after each run; the weekly cloud task flags a missing heartbeat to the owner.
+- **Fallback:** WSL2 or a Linux machine still work with the same code if Windows ever becomes a problem.
 
 
 ---
@@ -685,7 +688,7 @@ Decision log from 2026-10-28. Items marked *open* still need an answer.
 | :- | :--- | :--- | :--- |
 | 1 | Voice | **Free local voice.** Build a distinctive "Kip" voice with an open-source TTS model that runs offline on the worker. | [Section 8.1](#81-free-local-voice-plan); confirm which ElevenLabs plan produced already-published audio. |
 | 2 | YouTube API audit | **Approved.** | Owner submits Google's *Audit and Quota Extension Form* while signed in to the channel's Google account; draft answers are prepared in the private ops repository. Also set the OAuth consent screen to "In production" so refresh tokens do not expire weekly. |
-| 3 | Worker host | *Open.* Most likely an office laptop kept on permanently as a server. | [Section 8.2](#82-running-the-worker-on-a-laptop). |
+| 3 | Worker host | **Native Windows** (2026-10-28): the machine stays a normal everyday computer; no Linux install. *Open:* which computer. A personally owned one is preferred over a work laptop. | [Section 8.2](#82-running-the-worker-on-windows). Renderer made Windows-compatible. |
 | 4 | Private ops repository | **Approved and done.** `rjyates/lightbulb-lab-ops` (private) created; reports moved there and removed from this repository's working tree. Earlier reports remain in this repository's Git history. | |
 | 5 | Signing key | **Approved.** | Owner creates the key on a personal machine; instructions go in the M1 runbook. The agent never creates or handles the key. |
 | 6 | Old nightly task | **Paused** on 2026-10-28. | Replaced by the M3 tasks. |
