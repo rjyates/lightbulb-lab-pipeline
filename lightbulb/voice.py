@@ -20,7 +20,7 @@ def synthesize(text, cfg, out_mp3, out_json):
     data = r.json()
     with open(out_mp3, 'wb') as f: f.write(base64.b64decode(data['audio_base64']))
     al = data.get('normalized_alignment') if not data.get('alignment') else data['alignment']
-    json.dump({'text': text, 'alignment': al}, open(out_json, 'w'))
+    json.dump({'text': text, 'alignment': al}, open(out_json, 'w', encoding='utf-8'))
     return out_mp3, out_json
 
 def characters_left(cfg):

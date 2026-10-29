@@ -18,7 +18,7 @@ def _creds(cfg, interactive=False):
         from google_auth_oauthlib.flow import InstalledAppFlow
         flow = InstalledAppFlow.from_client_secrets_file(cfg['YOUTUBE_CLIENT_SECRET'], SCOPES)
         creds = flow.run_local_server(port=8765, open_browser=False)
-    os.makedirs(os.path.dirname(tok), exist_ok=True); open(tok, 'w').write(creds.to_json()); return creds
+    os.makedirs(os.path.dirname(tok), exist_ok=True); open(tok, 'w', encoding='utf-8').write(creds.to_json()); return creds
 
 def client(cfg, interactive=False):
     from googleapiclient.discovery import build

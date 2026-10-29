@@ -43,7 +43,7 @@ def _parallel(kind, t0, t1, out_mp4, workdir, workers, extra=None):
     ctx = mp.get_context('fork')
     with ctx.Pool(n) as pool: parts = pool.map(_render_part, jobs)
     lst = os.path.join(workdir, f'{kind}_parts.txt')
-    open(lst, 'w').write(''.join(f"file '{os.path.abspath(p)}'\n" for p in parts))
+    open(lst, 'w', encoding='utf-8').write(''.join(f"file '{os.path.abspath(p)}'\n" for p in parts))
     subprocess.run(['ffmpeg', '-y', '-v', 'error', '-f', 'concat', '-safe', '0', '-i', lst, '-c', 'copy', out_mp4], check=True)
     for p in parts: os.remove(p)
     os.remove(lst)

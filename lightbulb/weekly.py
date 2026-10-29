@@ -19,14 +19,14 @@ def audio_len(path):
 
 def state_path(cfg): return os.path.join(cfg['LBL_OUTPUT'], 'state.json')
 def load_state(cfg):
-    p = state_path(cfg); return json.load(open(p)) if os.path.exists(p) else {'done': {}}
+    p = state_path(cfg); return json.load(open(p, encoding='utf-8')) if os.path.exists(p) else {'done': {}}
 def save_state(cfg, st):
-    os.makedirs(cfg['LBL_OUTPUT'], exist_ok=True); json.dump(st, open(state_path(cfg), 'w'), indent=1)
+    os.makedirs(cfg['LBL_OUTPUT'], exist_ok=True); json.dump(st, open(state_path(cfg), 'w', encoding='utf-8'), indent=1)
 
 def all_episodes():
     eps = []
     for p in sorted(glob.glob(os.path.join(EPISODES, '*.json'))):
-        e = json.load(open(p)); e['_path'] = p; eps.append(e)
+        e = json.load(open(p, encoding='utf-8')); e['_path'] = p; eps.append(e)
     return sorted(eps, key=lambda e: (e.get('series', ''), e['number']))
 
 def pick(cfg, want=None, series=None):
@@ -40,7 +40,7 @@ def pick(cfg, want=None, series=None):
 
 def load_links():
     p = os.path.join(ROOT, 'links.json')
-    return json.load(open(p)) if os.path.exists(p) else {}
+    return json.load(open(p, encoding='utf-8')) if os.path.exists(p) else {}
 
 def link_lines(ep, short=False):
     L = load_links(); out = []
@@ -101,7 +101,7 @@ def srt(epi, path, t0=0.0, t1=None):
         a, b = max(t, t0) - t0, (min(e, t1) if t1 else e) - t0
         f = lambda x: f'{int(x // 3600):02d}:{int(x % 3600 // 60):02d}:{int(x % 60):02d},{int(x * 1000 % 1000):03d}'
         rows.append(f'{len(rows) + 1}\n{f(a)} --> {f(b)}\n{s}\n')
-    open(path, 'w').write('\n'.join(rows))
+    open(path, 'w', encoding='utf-8').write('\n'.join(rows))
 
 def run(cfg, ep, quick=False, dry=False):
     t_start = time.time(); workers = int(cfg['LBL_WORKERS'])
@@ -116,15 +116,15 @@ def run(cfg, ep, quick=False, dry=False):
         print('dry run: voice from', manual or 'ElevenLabs API', '->', out); return None
     if manual and not quick:
         shutil.copy(manual, mp3); timing = E.Timing.from_pauses(text, E.scene_text(ep), mp3); print('voice: using', manual)
-    elif os.path.exists(mp3) and os.path.exists(al) and json.load(open(al)).get('text') == text:
-        timing = E.Timing.from_alignment(text, json.load(open(al))['alignment']); print('voice: reusing earlier take')
+    elif os.path.exists(mp3) and os.path.exists(al) and json.load(open(al, encoding='utf-8')).get('text') == text:
+        timing = E.Timing.from_alignment(text, json.load(open(al, encoding='utf-8'))['alignment']); print('voice: reusing earlier take')
     else:
         from . import voice as VO
         left = VO.characters_left(cfg)
         if left is not None and left < len(text):
             raise RuntimeError(f'ElevenLabs free credits too low this month ({left} left, need {len(text)}). '
                                f'Record it in the ElevenLabs website and save it as episodes/audio/{ep["id"]}.mp3, then rerun.')
-        VO.synthesize(text, cfg, mp3, al); timing = E.Timing.from_alignment(text, json.load(open(al))['alignment']); print('voice: generated')
+        VO.synthesize(text, cfg, mp3, al); timing = E.Timing.from_alignment(text, json.load(open(al, encoding='utf-8'))['alignment']); print('voice: generated')
     epi = E.Episode(ep, timing, audio_len(mp3)); epi.set_audio(mp3)
     # ---- audio + video
     mix = os.path.join(work, 'mix.wav'); V.mix_audio(epi, mp3, mix)
@@ -144,11 +144,11 @@ def run(cfg, ep, quick=False, dry=False):
     for sh, p in shorts:
         a, b = V.short_range(epi, sh); srt(epi, p[:-4] + '.en.srt', a, b)
         meta['shorts'].append({'file': os.path.basename(p), 'title': f"{sh['hook']} #shorts", 'description': f"From {title}. Full episode on @LightbulbLabYT.\n\n" + '\n'.join(link_lines(ep, short=True)) + "\n\nKip’s voice is AI-generated (ElevenLabs).\n\n#techforbeginners #shorts"})
-    json.dump(meta, open(os.path.join(out, 'metadata.json'), 'w'), indent=1)
+    json.dump(meta, open(os.path.join(out, 'metadata.json'), 'w', encoding='utf-8'), indent=1)
     meta['pinned_comment'] = pinned_comment(ep)
     meta['tiktok_caption'] = tiktok_caption(ep)
-    json.dump(meta, open(os.path.join(out, 'metadata.json'), 'w'), indent=1)
-    with open(os.path.join(out, 'UPLOAD-ME.txt'), 'w') as f:
+    json.dump(meta, open(os.path.join(out, 'metadata.json'), 'w', encoding='utf-8'), indent=1)
+    with open(os.path.join(out, 'UPLOAD-ME.txt'), 'w', encoding='utf-8') as f:
         f.write(f'TITLE\n{title}\n\nDESCRIPTION\n{desc}\n\nTAGS\n{", ".join(tags)}\n\nSETTINGS\nAudience: No, not made for kids | Category: Education | Playlist: {ep.get("series", "Tech from Scratch")}\n'
                 f'Thumbnail: {os.path.basename(thumb)} | Subtitles: {name}.en.srt\n'
                 f'End screen: Subscribe + next episode (or "Best for viewer") over the last 10-15 s\n\n'

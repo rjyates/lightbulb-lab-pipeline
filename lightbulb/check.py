@@ -4,7 +4,7 @@ from . import cards as C, engine as E
 from .core import ROOT
 
 def check(path):
-    e = json.load(open(path)); errs = []; warn = []
+    e = json.load(open(path, encoding='utf-8')); errs = []; warn = []
     for k in ('id', 'number', 'title', 'scenes'):
         if k not in e: errs.append(f'missing "{k}"')
     for i, s in enumerate(e.get('scenes', [])):

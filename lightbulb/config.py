@@ -6,7 +6,7 @@ def load():
     cfg = {}
     path = os.path.join(ROOT, 'config.env')
     if os.path.exists(path):
-        for line in open(path):
+        for line in open(path, encoding='utf-8'):
             line = line.strip()
             if line and not line.startswith('#') and '=' in line:
                 k, v = line.split('=', 1); cfg[k.strip()] = v.strip().strip('"').strip("'")
