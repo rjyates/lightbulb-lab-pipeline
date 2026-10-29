@@ -562,7 +562,19 @@ Pronunciation check of the chosen blend (same date): Wi-Fi, router, iPhone, iOS,
 - "2FA" is read as "two fah". The recipe's `spoken_forms` replaces it with "two-F-A" before synthesis.
 - Phone numbers written as digits are grouped wrongly ("six thirty-three, four twenty-two…"). Scripts must write phone numbers as spoken words, as fif08 already does ("one, eight hundred, six three three…").
 
-Licenses: `kokoro` and `misaki` are Apache-2.0; the phonemizer (`phonemizer-fork`) and the bundled espeak-ng are GPL-3.0. They are used only to generate audio on the owner's machines; revisit if the pipeline is ever distributed.
+Accuracy check (same date, [tools/voice_accuracy.py](../../tools/voice_accuracy.py), faster-whisper `base.en` on CPU): **passed** on 5 full episodes.
+
+| Episode | Narration | Synthesis time | Words | Word error rate |
+| :- | -: | -: | -: | -: |
+| ep03 | 100 s | 91 s | 255 | 0.4% |
+| ep06 | 105 s | 87 s | 268 | 0.0% |
+| fif05 | 110 s | 93 s | 287 | 0.7% |
+| fif08 | 124 s | 92 s | 309 | 1.9% (0.6% after counting "15th" as "fifteenth") |
+| fif10 | 97 s | 83 s | 246 | 2.0% |
+
+Almost every mismatch is spelling ("Fix It" as "FixIt", "too" as "to"). One is worth a listen: in fif10 "an arrest" was heard as "and a rest". Synthesis runs faster than real time on the owner's Windows PC; the render-time criterion still has to be measured on the worker.
+
+Licenses: `kokoro` and `misaki` are Apache-2.0; faster-whisper and CTranslate2 are MIT; the phonemizer (`phonemizer-fork`) and the bundled espeak-ng are GPL-3.0. They are used only to generate audio on the owner's machines; revisit if the pipeline is ever distributed.
 
 Acceptance (M0/M1): render the same three scripts with 3–4 candidate blends; the owner picks one by ear; the chosen voice must give Whisper word error rate ≤ 5% on 5 episodes, pronounce a project dictionary of tech terms correctly (Wi-Fi, iOS, ESU, 2FA, router), and render a 2-minute episode in under 10 minutes on the worker. The video description credit changes from "AI-generated with ElevenLabs" to naming the model used.
 
@@ -690,7 +702,7 @@ Decision log from 2026-10-28. Items marked *open* still need an answer.
 
 | # | Topic | Decision | Follow-up |
 | :- | :--- | :--- | :--- |
-| 1 | Voice | **Free local voice.** Build a distinctive "Kip" voice with an open-source TTS model that runs offline on the worker. **Chosen 2026-10-28: Kokoro blend B-warm** ([recipe](../../assets/voice/kip.json)). | [Section 8.1](#81-free-local-voice-plan); still to pass: Whisper word error rate ≤ 5% on 5 episodes and render time on the worker. Confirm which ElevenLabs plan produced already-published audio. |
+| 1 | Voice | **Free local voice.** Build a distinctive "Kip" voice with an open-source TTS model that runs offline on the worker. **Chosen 2026-10-28: Kokoro blend B-warm** ([recipe](../../assets/voice/kip.json)). | [Section 8.1](#81-free-local-voice-plan); Whisper word error rate ≤ 5% on 5 episodes **passed** 2026-10-28 (0–2%); render time on the worker still to measure. Confirm which ElevenLabs plan produced already-published audio. |
 | 2 | YouTube API audit | **Approved.** | Owner submits Google's *Audit and Quota Extension Form* while signed in to the channel's Google account; draft answers are prepared in the private ops repository. Also set the OAuth consent screen to "In production" so refresh tokens do not expire weekly. |
 | 3 | Worker host | *Open.* Most likely an office laptop kept on permanently as a server. | [Section 8.2](#82-running-the-worker-on-a-laptop). |
 | 4 | Private ops repository | **Approved and done.** `rjyates/lightbulb-lab-ops` (private) created; reports moved there and removed from this repository's working tree. Earlier reports remain in this repository's Git history. | |
