@@ -5,8 +5,8 @@
  "title": "Windows 10 Got One More Year",
  "youtube_title": "Windows 10 Security Updates Extended to 2027: What to Do | Fix It Friday",
  "status": "draft",
- "next": "Next Friday: My Phone Battery Dies Too Fast",
- "description": "Still using a Windows 10 computer? Microsoft has extended free security updates for home PCs until October 2027, but only if your computer is enrolled. Kip and Bub show how to check, how to enroll, how to see if Windows 11 is free for you, what Office 2021's October 13 end date means, and the scam pop-ups to ignore.",
+ "next": "Next Friday: another fix from your comments",
+ "description": "Still using a Windows 10 computer? Microsoft has extended free security updates for home PCs until October 2027, but only if your computer is enrolled. Kip and Bub show how to check, how to enroll, how to see if Windows 11 is free for you, what the end of Office 2021 updates on October 13 means, and the scam pop-ups to ignore.",
  "thumbnail": {
   "line1": "WINDOWS 10",
   "line2": "ONE MORE YEAR",
@@ -51,7 +51,7 @@
    }
   },
   {
-   "say": "To check, open Settings, then Update and Security, then Windows Update. Look for Extended Security Updates. If you see Enroll now, click it. One free way is to turn on Windows Backup with your Microsoft account.",
+   "say": "To check, open Settings, then Update and Security, then Windows Update. Look for Extended Security Updates. If you see Enroll now, click it.",
    "card": {
     "type": "steps",
     "title": "Am I enrolled?",
@@ -72,6 +72,15 @@
       "at": "Windows"
      }
     ]
+   }
+  },
+  {
+   "say": "It's free if you turn on Windows Backup to save your settings with a Microsoft account. You don't have to back up all your files.",
+   "card": {
+    "type": "statement",
+    "icon": "cloud",
+    "text": "Free: turn on Windows Backup.",
+    "sub": "It saves your settings"
    }
   },
   {
@@ -109,16 +118,16 @@
    }
   },
   {
-   "say": "One more date: if you use Office 2021, like Word or Excel, its security updates end on October 13th. The apps keep working, and Microsoft also offers free online versions of Word and Excel.",
+   "say": "One more date: if you use Office 2021, like Word or Excel, its security updates ended on October 13th. The apps still work, and Microsoft also offers free online versions of Word and Excel.",
    "card": {
     "type": "statement",
     "icon": "calendar",
-    "text": "Office 2021 updates end Oct 13.",
+    "text": "Office 2021 updates ended Oct 13.",
     "sub": "The apps keep working"
    }
   },
   {
-   "say": "And watch out. Scammers love news like this. A pop-up or phone call saying your Windows has expired and you must call a number right now is a scam. Microsoft will never call you out of the blue.",
+   "say": "And watch out. Scammers love news like this. A pop-up or phone call saying your Windows has expired and you must call a number right now is a scam. Microsoft will never call you out of the blue. If you're worried, look up Microsoft's support website yourself.",
    "bub": "aha",
    "card": {
     "type": "statement",
@@ -172,8 +181,8 @@
   {
    "hook": "\"Windows expired\" pop-up? It's a scam",
    "scenes": [
-    8,
-    8
+    9,
+    9
    ]
   }
  ],

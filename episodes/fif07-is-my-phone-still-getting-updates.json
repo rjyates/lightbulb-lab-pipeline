@@ -5,7 +5,7 @@
  "title": "Is My Phone Still Getting Updates?",
  "youtube_title": "Is Your Phone Too Old for Security Updates? How to Check | Fix It Friday",
  "status": "draft",
- "next": "Next Friday: My Phone Battery Dies Too Fast",
+ "next": "Next Friday: another fix from your comments",
  "description": "Phones don't get security updates forever. Kip and Bub show how to check for updates on an iPhone or Android phone, how to find your phone's security date, and what to do if your phone has stopped getting updates.",
  "thumbnail": {
   "line1": "IS YOUR PHONE",
@@ -23,7 +23,7 @@
  ],
  "scenes": [
   {
-   "say": "Is your phone still getting security updates? Most people never check. And this month, some popular phones, like Google's Pixel 6, reach the end of their update window.",
+   "say": "Is your phone still getting security updates? Most people never check. And popular phones like Google's Pixel 6 just got their last one.",
    "kip": "ask",
    "bub": "curious"
   },

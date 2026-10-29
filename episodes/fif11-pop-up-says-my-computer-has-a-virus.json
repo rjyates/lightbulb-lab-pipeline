@@ -79,7 +79,7 @@
    }
   },
   {
-   "say": "Won't close? Restart the computer. Hold the power button until it turns off, wait a moment, then turn it back on. The warning is gone.",
+   "say": "Won't close? Restart the computer. Hold the power button until it turns off, wait a moment, then turn it back on. If your browser offers to restore your pages, choose No.",
    "card": {
     "type": "steps",
     "title": "If it won't close",
@@ -91,7 +91,7 @@
    }
   },
   {
-   "say": "Already called, or let them in? Turn off the internet, run your security scan, and change your passwords. Call your bank or card company about any charges, and report it at ReportFraud dot F T C dot gov.",
+   "say": "Already called, or let them in? Turn off the internet, run a virus scan with Windows Security or your security app, and change your passwords. Call your bank or card company about any charges, and report it at ReportFraud dot F T C dot gov.",
    "card": {
     "type": "steps",
     "title": "Already called?",
