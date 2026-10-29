@@ -6,7 +6,7 @@ from . import cards as C
 from .engine import OFFSET
 
 MUSIC = os.path.join(K.ASSETS, 'music', 'nebula-the-grey-room-density-time.mp3')
-_EP = None  # set before forking workers
+_EP = None  # the episode each render worker draws; inherited on fork, sent to each worker on spawn (Windows)
 
 def mix_audio(ep, voice_mp3, out_wav):
     """voice + Bub/pop cues + ducked music -> out_wav"""
@@ -26,6 +26,9 @@ def _pipe(path, w, h):
     return subprocess.Popen(['ffmpeg', '-y', '-v', 'error', '-f', 'rawvideo', '-pix_fmt', 'rgb24', '-s', f'{w}x{h}', '-r', str(K.FPS), '-i', '-',
                              '-c:v', 'libx264', '-preset', 'medium', '-crf', '19', '-pix_fmt', 'yuv420p', path], stdin=subprocess.PIPE)
 
+def _init_worker(ep):
+    global _EP; _EP = ep
+
 def _render_part(args):
     kind, t0, t1, path, extra = args
     w, h = (K.W, K.H) if kind == 'main' else (1080, 1920)
@@ -40,8 +43,8 @@ def _parallel(kind, t0, t1, out_mp4, workdir, workers, extra=None):
     global _EP
     n = max(1, workers); step = (t1 - t0) / n
     jobs = [(kind, t0 + i * step, t0 + (i + 1) * step if i < n - 1 else t1, os.path.join(workdir, f'{kind}_part{i}.mp4'), extra) for i in range(n)]
-    ctx = mp.get_context('fork')
-    with ctx.Pool(n) as pool: parts = pool.map(_render_part, jobs)
+    ctx = mp.get_context('spawn' if os.name == 'nt' else 'fork')  # Windows has no fork
+    with ctx.Pool(n, initializer=_init_worker, initargs=(_EP,)) as pool: parts = pool.map(_render_part, jobs)
     lst = os.path.join(workdir, f'{kind}_parts.txt')
     open(lst, 'w', encoding='utf-8').write(''.join(f"file '{os.path.abspath(p)}'\n" for p in parts))
     subprocess.run(['ffmpeg', '-y', '-v', 'error', '-f', 'concat', '-safe', '0', '-i', lst, '-c', 'copy', out_mp4], check=True)
