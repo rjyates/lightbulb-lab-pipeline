@@ -1,0 +1,16 @@
+{
+ "_note": "Kip's narration voice recipe. Changing any value changes how every new episode sounds; bump 'version' and note why in docs/autonomy/proposal.md section 12.",
+ "version": 1,
+ "chosen": "2026-10-28",
+ "provider": "kokoro",
+ "package": "kokoro==0.9.4",
+ "model": {"repo": "hexgrad/Kokoro-82M", "revision": "f3ff3571791e39611d31c381e3a41a3af07b4987", "license": "Apache-2.0"},
+ "lang_code": "a",
+ "blend": {"af_heart": 0.4, "am_michael": 0.6},
+ "speed": 0.97,
+ "sample_rate": 24000,
+ "scene_gap_s": 0.55,
+ "spoken_forms": {
+  "2FA": "two-F-A"
+ }
+}
