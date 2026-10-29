@@ -271,16 +271,33 @@ Owner-set cadence (2026-10-28). Times are Central and are starting points for ex
 | :--- | :--- | :--- | :--- |
 | Monday | "Tech This Week" news Short (60–90 s) | Tech This Week | **No**: made fresh every weekend |
 | Tuesday | Long-form general tech explainer (about 2 min) | Tech from Scratch | Yes, 3+ weeks |
+| Wednesday | Long-form beginner programming lesson (about 2–3 min), Python first | *Name to be chosen* ([below](#wednesday-beginner-programming-series)) | Yes, 3+ weeks |
 | Friday | Long-form helpdesk how-to (about 2 min) | Fix It Friday | Yes, 3+ weeks |
-| Wednesday, Thursday, Saturday | Shorts cut from that week's episodes (1–2 per episode) | Same as parent | Yes, rendered with the parent |
+| Thursday, Saturday, Sunday | Shorts cut from that week's episodes (1–2 per episode) | Same as parent | Yes, rendered with the parent |
 
-That is 2 long-form videos and about 5 Shorts a week, which sets the sizing:
+Shorts moved off Wednesday on 2026-10-28 to make room for the programming series. That is 3 long-form videos and about 6 Shorts a week, which sets the sizing:
 
-- **Scripts:** 2 long-form scripts a week. The daily editorial task drafts at most one per run, so the backlog can grow faster than it is consumed.
-- **Narration:** about 3,500 characters a week for episodes plus about 1,200 for the news Short. A local voice has no character limit.
-- **Rendering:** two episodes plus Shorts a week; a few CPU-hours on the worker.
-- **Uploads:** about 7 a week, far inside the default YouTube quota.
+- **Scripts:** 3 long-form scripts a week. The daily editorial task drafts at most one per run, so the backlog can still grow faster than it is consumed, but with less slack.
+- **Narration:** about 5,500 characters a week for episodes plus about 1,200 for the news Short. A local voice has no character limit.
+- **Rendering:** three episodes plus Shorts a week; a few CPU-hours on the worker.
+- **Uploads:** about 10 a week, far inside the default YouTube quota.
 - **Claude usage:** see [5.9](#59-claude-usage-budget).
+
+#### Wednesday beginner programming series
+
+Owner request (2026-10-28): a how-to-program series for complete beginners, every Wednesday, starting with Python and the very basics. It needs its own name, separate from the other series.
+
+- **Audience:** the channel's viewers who have never written code, many of them older. No maths beyond arithmetic, no jargon without an explanation, one new idea per episode, and every episode ends with a tiny thing the viewer can try.
+- **Tools:** only free ones. Python from python.org and the IDLE editor that comes with it, on Windows and Mac. No accounts or sign-ups needed to follow along.
+- **First season (about 12 episodes, in order):** what programming is; installing Python and opening IDLE; your first line (`print`); variables as labelled boxes; numbers and simple maths; text (strings); asking the user a question (`input`); making decisions (`if`); repeating (loops); lists; reading error messages calmly; your first small program (for example a tip calculator). Each episode reuses only what earlier episodes taught.
+- **Pipeline changes:**
+  - A new `code` card type that shows a short snippet (at most about 6 lines) in large monospace text, with the line Kip is reading highlighted, plus its output. Added in M2 with a golden-frame test.
+  - A **code gate**: CI runs every snippet in the episode with the pinned Python version and compares it with the `output` shown on screen. A snippet that fails or prints something different blocks the episode.
+  - The review rubric gets programming-specific checks: the code matches what Kip says, it runs on Windows and Mac, and the episode uses no idea it has not taught yet.
+- **Shorts:** one "try this" snippet per episode works well as a vertical Short.
+- **Products:** a printable beginner Python cheat sheet or workbook in the large-print binder style is a natural companion, once the product pipeline exists (M8).
+- **Name:** open (decision 12). Candidates: *Coding with Kip* (recommended: ties the series to the host, sounds friendly rather than technical), *Code Made Simple*, *Python for the Rest of Us*. Before choosing, check the name is not already a YouTube channel or series in the same niche.
+- **Start:** the first scripts can be drafted once the rubric is calibrated (M3). The first episodes can publish once the `code` card and code gate exist (M2) and the voice and worker are ready.
 
 #### Monday news Short: a different kind of workflow
 
@@ -627,7 +644,7 @@ Each milestone is a branch and PR series with tests and documentation. Durations
 | :--- | :--- | :--- | :--- |
 | M0 | Decisions and prerequisites (week 1) | Decisions logged ([section 12](#12-owner-decisions)); ops repo created and old nightly task paused (done); YouTube audit submitted; worker host chosen and prepared; signing key set up; free voice selected | High (one-off) |
 | M1 | Foundations (weeks 1–3) | pytest suite and GitHub Actions CI; schema v2 with backward compatibility; asset manifest; checkpointed stages; structured logs; ledger in ops repo; trusted-ref deploy, smoke test and rollback on the worker | PR reviews |
-| M2 | Quality gates (weeks 3–5) | Technical, audio (Whisper), visual, caption and rights gates with broken-fixture tests; `qa-report.json`; contact sheets; script gates in CI | Review gate reports |
+| M2 | Quality gates (weeks 3–5) | Technical, audio (Whisper), visual, caption and rights gates with broken-fixture tests; `qa-report.json`; contact sheets; script gates in CI; `code` card and code gate for the programming series | Review gate reports |
 | M3 | Editorial agent, shadow mode (weeks 4–7) | Rubric and brand-voice guide; daily research/draft task; independent review task; cloud environment with the right network access; owner reviews every PR and scores it | About 20 min per draft, falling |
 | M4 | Idempotent publishing pilot (weeks 6–9) | Uploader with ledger and reconciliation; captions upload; Shorts linking; queue and pre-publish recheck; fault-injection tests; recovery runbooks. Uploads private; owner sets public | Flip to public, report problems |
 | M5 | Analytics and dashboard (weeks 8–10) | Read-only analytics and comment export; static dashboard; weekly digest; anomaly-triggered pause | Read the digest |
@@ -693,6 +710,7 @@ Decision log from 2026-10-28. Items marked *open* still need an answer.
 | 8 | fif06–fif11 | **Agreed:** they are the first calibration set for the review rubric. | |
 | 9 | Product sources | *Open:* location unknown. | Search for the original guide files before M8. |
 | 10 | Cadence | **Tuesday** general tech episode (Tech from Scratch), **Friday** helpdesk how-to episode (Fix It Friday), Shorts cut from both, and a **Monday** "Tech This Week" news Short. | [Section 5.0](#50-publishing-calendar). |
+| 12 | Programming series | **Approved:** beginner how-to-program series every **Wednesday**, starting with Python and the very basics. Shorts move to Thursday, Saturday and Sunday. *Open:* series name. | [Section 5.0](#wednesday-beginner-programming-series); `code` card and code gate in M2. |
 
 ## 13. What will still require the owner
 
