@@ -41,6 +41,8 @@ python -m lightbulb.check
 python -m lightbulb.weekly --dry-run
 ```
 
+For development, install [requirements-dev.txt](requirements-dev.txt) and run `python -m pytest`. The tests run offline: uploads are simulated, and nothing calls ElevenLabs or YouTube. GitHub Actions runs the checker and the tests on every pull request. The checker also verifies that every file in `assets/` is listed in [assets/MANIFEST.json](assets/MANIFEST.json) with its source and license.
+
 The checker validates scripts; the dry-run describes the selected workflow. Rendering additionally needs FFmpeg/ffprobe and the repository's fonts/assets. Voice generation can consume provider credits; a quick render is not necessarily a free or offline operation.
 
 ### VS Code verification

@@ -44,3 +44,15 @@ Aim for 10–14 scenes and 1,300–1,900 characters total (about 2 minutes).
 Run the checker to see the full icon list.
 
 **Shorts**: `scenes: [first, last]` (inclusive), keep under ~55 seconds. Scene numbers **count from 0** (the hook is scene 0, the title is scene 1). Run `python3 -m lightbulb.check --shorts` to see where each Short starts. The `hook` is the big text at the top.
+
+**Status**: `draft` while being written, `ready` when it can be made (the picker takes `ready` or `approved`), `done` once published. The checker also accepts the newer lifecycle names (`idea`, `reviewed`, `approved`, `produced`, `gated`, `scheduled`, `published`, `measured`, `blocked`, `retired`).
+
+**Facts (optional; required for `approved`)**: list where each fact comes from so it can be checked automatically.
+
+```json
+ "sensitive": false,
+ "sources": [{"url": "https://www.microsoft.com/...", "publisher": "Microsoft", "accessed": "2026-10-20"}],
+ "claims": [{"scene": 3, "text": "Free Windows 10 ESU runs to Oct 2027", "source": 0, "valid_until": "2027-10-13"}]
+```
+
+`source` is the index of an entry in `sources`, and `scene` counts from 0. `valid_until` (YYYY-MM-DD) is the date a time-sensitive fact stops being true. An expired claim is an error unless the episode is still a draft (a note) or already published. Set `sensitive: true` for health, money, legal or government-benefit topics, which always need the owner's review.

@@ -52,3 +52,7 @@ def test_expired_claim_blocks_approved_but_only_warns_draft():
 
 def test_sensitive_must_be_bool():
     assert errs_of(ep(sensitive='yes'))
+
+def test_asset_manifest_covers_every_asset():
+    errs, _ = CK.check_assets()
+    assert errs == []

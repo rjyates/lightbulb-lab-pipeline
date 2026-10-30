@@ -29,6 +29,17 @@ def check_facts(e, today=None):
     if status == 'approved' and not (sources and claims): errs.append('status "approved" needs "sources" and "claims"')
     return errs, warn
 
+def check_assets():
+    """every file in assets/ needs a MANIFEST.json entry; unknown licenses are flagged until the owner confirms them"""
+    adir = os.path.join(ROOT, 'assets'); man = json.load(open(os.path.join(adir, 'MANIFEST.json'), encoding='utf-8'))
+    files = [os.path.relpath(p, adir).replace(os.sep, '/') for p in glob.glob(os.path.join(adir, '**', '*'), recursive=True)
+             if os.path.isfile(p) and not p.endswith(('.md', 'MANIFEST.json'))]
+    errs = [f'assets/{f}: not in assets/MANIFEST.json' for f in files if f not in man]
+    errs += [f'assets/MANIFEST.json: "{k}" has no file' for k in man if not k.startswith('_') and k not in files]
+    errs += [f'assets/{k}: needs "source" and "license"' for k, v in man.items() if not k.startswith('_') and not (isinstance(v, dict) and v.get('source') and v.get('license'))]
+    warn = [f'assets/{k}: license unknown' for k, v in man.items() if isinstance(v, dict) and v.get('license') == 'unknown']
+    return errs, warn
+
 def check(path):
     e = json.load(open(path, encoding='utf-8')); errs = []; warn = []
     for k in ('id', 'number', 'title', 'scenes'):
@@ -59,4 +70,7 @@ if __name__ == '__main__':
         print(f"{'FAIL' if errs else 'ok  '} {os.path.basename(p)}  ({n} characters, status: {e.get('status', 'ready')})")
         for x in errs: print('   error:', x)
         for x in warn: print('   note: ', x)
+    aerrs, awarn = check_assets(); bad += len(aerrs)
+    print(f"\n{'FAIL' if aerrs else 'ok  '} assets/MANIFEST.json  ({len(awarn)} unknown licenses)")
+    for x in aerrs: print('   error:', x)
     print('\nIcons:', ', '.join(sorted(C.ICONS))); sys.exit(1 if bad else 0)
