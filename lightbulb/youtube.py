@@ -46,6 +46,8 @@ def publish_once(cfg, key, path, title, description, tags, **kw):
     if st == 'pending':  # an earlier run stopped mid-upload: adopt its video if it exists
         vid = find_by_tag(cfg, tag)
         if vid: L.append(cfg, key, 'result', video_id=vid, reconciled=True); return vid
+    from .gates import verify
+    verify(path)  # upload lock: only files that passed the quality gates, unchanged since
     L.append(cfg, key, 'intent', file=os.path.basename(path), title=title)
     return upload(cfg, path, title, description, [tag] + tags, on_insert=lambda v: L.append(cfg, key, 'result', video_id=v), **kw)
 

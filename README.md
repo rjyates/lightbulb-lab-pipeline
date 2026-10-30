@@ -70,7 +70,8 @@ See [operations and configuration](docs/operations.md) before enabling schedulin
 | [lightbulb/weekly.py](lightbulb/weekly.py) | Workflow orchestration and output state |
 | `lightbulb/engine.py`, `cards.py`, `characters.py`, `room.py` | Timeline and animation elements |
 | `lightbulb/video.py`, `voice.py`, `thumbnail.py` | Media-generation stages |
-| `lightbulb/youtube.py`, `notify.py` | Optional external integrations |
+| [lightbulb/gates.py](lightbulb/gates.py) | Quality gates and the upload lock |
+| `lightbulb/youtube.py`, `ledger.py`, `notify.py` | Optional external integrations and the duplicate-upload ledger |
 | [systemd/](systemd/) | Optional service/timer definitions |
 | [docs/autonomy/proposal.md](docs/autonomy/proposal.md) | Proposed (not deployed) design for autonomous operation; decisions in [docs/decisions/](docs/decisions/) |
 

@@ -26,6 +26,17 @@ The last two commands may call the configured narration service. The orchestrati
 
 `links.json` supplies website/guide metadata. Generated outputs and completion state belong in the configured output folder; moving/deleting state can affect which episode is selected next.
 
+Every rendered episode goes through the quality gates in `lightbulb/gates.py` before anything is uploaded:
+
+- **Video and audio:** codecs, size, frame rate, duration, sync, a clean decode, no black, frozen or silent stretch (except at the very start and end), loudness between −20 and −10 LUFS, and peaks at or below −0.5 dBFS.
+- **Captions:** the SRT parses, cues are in order with text, and they cover at least 85% of the video.
+- **Metadata:** YouTube length limits, links only to our own sites, the AI-voice disclosure and the music credit.
+- **Thumbnail:** 1280×720 JPEG under 2 MB.
+
+Results go to `qa-report.json` in the episode folder, with a hash of each checked file, and `contact-N.jpg` frame sheets for a quick visual review. `python -m lightbulb.gates <folder>` prints the result. A failed gate stops the run before upload. The uploader also refuses any file that is missing from a passing report or has changed since it was checked.
+
+The loudness band is deliberately wide until real renders have been measured; the target is −14 LUFS. The gates need `ffmpeg` and `ffprobe` on PATH.
+
 Uploads are recorded in an append-only ledger (`LBL_LEDGER`, default `<LBL_OUTPUT>/ledger/videos.jsonl`). Before each upload the pipeline writes an intent, and it writes the video ID right after YouTube accepts the file. A rerun skips anything already uploaded. If a run stopped mid-upload, the next run first looks for the video on the channel by its hidden `lbl-<episode>-<part>` tag. Keep the ledger with the output; deleting it allows the same episode to be uploaded again.
 
 ## Scheduling is optional

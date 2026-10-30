@@ -13,6 +13,7 @@ def fake(tmp_path, monkeypatch):
         if ch.pop('crash_after_insert', False): raise ConnectionError('playlist call failed')
         return vid
     monkeypatch.setattr(YT, 'upload', upload)
+    monkeypatch.setattr('lightbulb.gates.verify', lambda path: None)  # the upload lock has its own tests in test_gates.py
     monkeypatch.setattr(YT, 'find_by_tag', lambda cfg, tag: next((v for v, t in ch['videos'].items() if tag in t), None))
     return {'LBL_OUTPUT': str(tmp_path)}, ch
 
@@ -44,3 +45,10 @@ def test_shorts_are_separate_keys(fake):
     cfg, ch = fake
     pub(cfg); YT.publish_once(cfg, 'ep03-short1', 's1.mp4', 'S', 'D', [])
     assert ch['calls'] == 2
+
+def test_upload_lock_blocks_before_any_record(fake, monkeypatch):
+    cfg, ch = fake
+    def refuse(path): raise RuntimeError('quality gates failed')
+    monkeypatch.setattr('lightbulb.gates.verify', refuse)
+    with pytest.raises(RuntimeError): pub(cfg)
+    assert ch['calls'] == 0 and L.records(cfg) == []

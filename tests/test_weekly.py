@@ -26,3 +26,12 @@ def test_pick_accepts_approved(tmp_path, monkeypatch):
     eps = [{'id': 'x1', 'number': 1, 'series': 'S', 'status': 'draft'}, {'id': 'x2', 'number': 2, 'series': 'S', 'status': 'approved'}]
     monkeypatch.setattr(W, 'all_episodes', lambda: eps)
     assert W.pick(cfg(tmp_path), series='S')['id'] == 'x2'
+
+def test_real_descriptions_pass_metadata_gate():
+    from lightbulb import gates as G
+    hosts = G.allowed_hosts(W.load_links())
+    for ep in W.all_episodes():
+        title = f"{ep['title']} | {ep['series']} Ep. {ep['number']}"
+        tags = ep.get('tags', []) + ['tech for beginners', 'computer basics', 'Lightbulb Lab', ep['series']]
+        bad = [c['check'] for c in G.metadata(title, W.description(ep, {}), tags, hosts) if not c['pass']]
+        assert bad == [], (ep['id'], bad)

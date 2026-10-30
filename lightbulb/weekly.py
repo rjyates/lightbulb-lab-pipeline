@@ -9,9 +9,10 @@ import argparse, glob, json, os, re, shutil, subprocess, sys, time, traceback
 from datetime import datetime
 from .config import load, truthy
 from .core import ROOT
-from . import engine as E, video as V, thumbnail as T, notify as N
+from . import engine as E, video as V, thumbnail as T, notify as N, gates as G
 
 EPISODES = os.path.join(ROOT, 'episodes')
+MUSIC_CREDIT = 'Music: "Nebula" by The Grey Room / Density & Time, from the YouTube Audio Library.'  # required in every description that uses the track
 
 def slug(s): return re.sub(r'[^a-z0-9]+', '-', s.lower()).strip('-')
 def audio_len(path):
@@ -59,7 +60,7 @@ def description(ep, cfg):
     lines += [f"{ep.get('series', 'Tech from Scratch')} is a beginner-friendly series that explains everyday tech from the ground up, one short episode at a time.", '',
               'New episodes every week. Subscribe so you don\u2019t miss the next one.', '',
               'Kip\u2019s voice is AI-generated with ElevenLabs. Animation made with code by Lightbulb Lab.',
-              'Music: "Nebula" by The Grey Room / Density & Time, from the YouTube Audio Library.', '',
+              MUSIC_CREDIT, '',
               f"TikTok: {load_links().get('tiktok', '@lightbulblab')}", '', '#techforbeginners #learntech #techfromscratch']
     return '\n'.join(lines)
 
@@ -143,7 +144,7 @@ def run(cfg, ep, quick=False, dry=False):
     meta = {'title': title, 'description': desc, 'tags': tags, 'shorts': []}
     for sh, p in shorts:
         a, b = V.short_range(epi, sh); srt(epi, p[:-4] + '.en.srt', a, b)
-        meta['shorts'].append({'file': os.path.basename(p), 'title': f"{sh['hook']} #shorts", 'description': f"From {title}. Full episode on @LightbulbLabYT.\n\n" + '\n'.join(link_lines(ep, short=True)) + "\n\nKip’s voice is AI-generated (ElevenLabs).\n\n#techforbeginners #shorts"})
+        meta['shorts'].append({'file': os.path.basename(p), 'title': f"{sh['hook']} #shorts", 'description': f"From {title}. Full episode on @LightbulbLabYT.\n\n" + '\n'.join(link_lines(ep, short=True)) + "\n\nKip’s voice is AI-generated (ElevenLabs).\n" + MUSIC_CREDIT + "\n\n#techforbeginners #shorts"})
     json.dump(meta, open(os.path.join(out, 'metadata.json'), 'w'), indent=1)
     meta['pinned_comment'] = pinned_comment(ep)
     meta['tiktok_caption'] = tiktok_caption(ep)
@@ -155,6 +156,11 @@ def run(cfg, ep, quick=False, dry=False):
                 f'PINNED COMMENT (post, then Pin)\n{meta["pinned_comment"]}\n\n'
                 f'SHORTS (YouTube: set "Related video" to the full episode)\n' + '\n\n'.join(f"{s['file']}\nTitle: {s['title']}\nDescription:\n{s['description']}" for s in meta['shorts']) +
                 f'\n\nTIKTOK CAPTION (same Short files)\n{meta["tiktok_caption"]}\n')
+    # ---- quality gates: a failing episode stops here and is never uploaded
+    short_lens = [(lambda a, b: b - a + V.END)(*V.short_range(epi, sh)) for sh, _ in shorts]
+    qa = G.gate(out, main, [(p, n) for (_, p), n in zip(shorts, short_lens)], thumb, meta, load_links(), main_dur=epi.dur)
+    print('quality gates:', 'PASS' if qa['pass'] else 'FAIL'); [print('  ', x) for x in G.failures(qa)]
+    if not qa['pass'] and not quick: raise RuntimeError('quality gates failed: ' + '; '.join(G.failures(qa))[:700])
     shutil.rmtree(work, ignore_errors=True) if not quick else None
     # ---- YouTube (private draft) or leave the folder
     link = None
