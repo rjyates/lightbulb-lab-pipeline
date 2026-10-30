@@ -24,7 +24,34 @@ def client(cfg, interactive=False):
     from googleapiclient.discovery import build
     return build('youtube', 'v3', credentials=_creds(cfg, interactive), cache_discovery=False)
 
-def upload(cfg, path, title, description, tags, privacy='private', category='27', thumbnail=None, playlist_id=None, publish_at=None):
+def tag_for(key): return 'lbl-' + key.lower()  # hidden marker used to find our own upload again after a crash
+
+def find_by_tag(cfg, tag, recent=50):
+    """video ID among the channel's latest uploads carrying this tag, else None"""
+    yt = client(cfg)
+    uploads = yt.channels().list(part='contentDetails', mine=True).execute()['items'][0]['contentDetails']['relatedPlaylists']['uploads']
+    items = yt.playlistItems().list(part='contentDetails', playlistId=uploads, maxResults=recent).execute().get('items', [])
+    ids = [i['contentDetails']['videoId'] for i in items]
+    if not ids: return None
+    for v in yt.videos().list(part='snippet', id=','.join(ids)).execute().get('items', []):
+        if tag in v['snippet'].get('tags', []): return v['id']
+    return None
+
+def publish_once(cfg, key, path, title, description, tags, **kw):
+    """upload unless the ledger (or, after a crash, the channel itself) shows this key was already uploaded"""
+    from . import ledger as L
+    st, vid = L.state(cfg, key)
+    if st == 'done': print(f'{key}: already uploaded as {vid}, skipping'); return vid
+    tag = tag_for(key)
+    if st == 'pending':  # an earlier run stopped mid-upload: adopt its video if it exists
+        vid = find_by_tag(cfg, tag)
+        if vid: L.append(cfg, key, 'result', video_id=vid, reconciled=True); return vid
+    from .gates import verify
+    verify(path)  # upload lock: only files that passed the quality gates, unchanged since
+    L.append(cfg, key, 'intent', file=os.path.basename(path), title=title)
+    return upload(cfg, path, title, description, [tag] + tags, on_insert=lambda v: L.append(cfg, key, 'result', video_id=v), **kw)
+
+def upload(cfg, path, title, description, tags, privacy='private', category='27', thumbnail=None, playlist_id=None, publish_at=None, on_insert=None):
     from googleapiclient.http import MediaFileUpload
     yt = client(cfg)
     status = {'privacyStatus': privacy, 'selfDeclaredMadeForKids': False, 'containsSyntheticMedia': False}
@@ -35,6 +62,7 @@ def upload(cfg, path, title, description, tags, privacy='private', category='27'
     resp = None
     while resp is None: _, resp = req.next_chunk()
     vid = resp['id']
+    if on_insert: on_insert(vid)  # record the ID before anything else can fail
     if thumbnail:
         try: yt.thumbnails().set(videoId=vid, media_body=MediaFileUpload(thumbnail)).execute()
         except Exception as e: print('thumbnail not set (phone-verify the channel to allow custom thumbnails):', e)

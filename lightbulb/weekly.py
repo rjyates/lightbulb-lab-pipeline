@@ -9,9 +9,10 @@ import argparse, glob, json, os, re, shutil, subprocess, sys, time, traceback
 from datetime import datetime
 from .config import load, truthy
 from .core import ROOT
-from . import engine as E, video as V, thumbnail as T, notify as N
+from . import engine as E, video as V, thumbnail as T, notify as N, gates as G
 
 EPISODES = os.path.join(ROOT, 'episodes')
+MUSIC_CREDIT = 'Music: "Nebula" by The Grey Room / Density & Time, from the YouTube Audio Library.'  # required in every description that uses the track
 
 def slug(s): return re.sub(r'[^a-z0-9]+', '-', s.lower()).strip('-')
 def audio_len(path):
@@ -26,7 +27,7 @@ def save_state(cfg, st):
 def all_episodes():
     eps = []
     for p in sorted(glob.glob(os.path.join(EPISODES, '*.json'))):
-        e = json.load(open(p)); e['_path'] = p; eps.append(e)
+        e = json.load(open(p, encoding='utf-8')); e['_path'] = p; eps.append(e)
     return sorted(eps, key=lambda e: (e.get('series', ''), e['number']))
 
 def pick(cfg, want=None, series=None):
@@ -35,12 +36,12 @@ def pick(cfg, want=None, series=None):
     for e in all_episodes():
         if want:
             if e['id'] == want: return e
-        elif e.get('series', 'Tech from Scratch') == series and e.get('status', 'ready') == 'ready' and e['id'] not in st['done']: return e
+        elif e.get('series', 'Tech from Scratch') == series and e.get('status', 'ready') in ('ready', 'approved') and e['id'] not in st['done']: return e
     return None
 
 def load_links():
     p = os.path.join(ROOT, 'links.json')
-    return json.load(open(p)) if os.path.exists(p) else {}
+    return json.load(open(p, encoding='utf-8')) if os.path.exists(p) else {}
 
 def link_lines(ep, short=False):
     L = load_links(); out = []
@@ -59,7 +60,7 @@ def description(ep, cfg):
     lines += [f"{ep.get('series', 'Tech from Scratch')} is a beginner-friendly series that explains everyday tech from the ground up, one short episode at a time.", '',
               'New episodes every week. Subscribe so you don\u2019t miss the next one.', '',
               'Kip\u2019s voice is AI-generated with ElevenLabs. Animation made with code by Lightbulb Lab.',
-              'Music: "Nebula" by The Grey Room / Density & Time, from the YouTube Audio Library.', '',
+              MUSIC_CREDIT, '',
               f"TikTok: {load_links().get('tiktok', '@lightbulblab')}", '', '#techforbeginners #learntech #techfromscratch']
     return '\n'.join(lines)
 
@@ -143,7 +144,7 @@ def run(cfg, ep, quick=False, dry=False):
     meta = {'title': title, 'description': desc, 'tags': tags, 'shorts': []}
     for sh, p in shorts:
         a, b = V.short_range(epi, sh); srt(epi, p[:-4] + '.en.srt', a, b)
-        meta['shorts'].append({'file': os.path.basename(p), 'title': f"{sh['hook']} #shorts", 'description': f"From {title}. Full episode on @LightbulbLabYT.\n\n" + '\n'.join(link_lines(ep, short=True)) + "\n\nKip’s voice is AI-generated (ElevenLabs).\n\n#techforbeginners #shorts"})
+        meta['shorts'].append({'file': os.path.basename(p), 'title': f"{sh['hook']} #shorts", 'description': f"From {title}. Full episode on @LightbulbLabYT.\n\n" + '\n'.join(link_lines(ep, short=True)) + "\n\nKip’s voice is AI-generated (ElevenLabs).\n" + MUSIC_CREDIT + "\n\n#techforbeginners #shorts"})
     json.dump(meta, open(os.path.join(out, 'metadata.json'), 'w'), indent=1)
     meta['pinned_comment'] = pinned_comment(ep)
     meta['tiktok_caption'] = tiktok_caption(ep)
@@ -155,14 +156,19 @@ def run(cfg, ep, quick=False, dry=False):
                 f'PINNED COMMENT (post, then Pin)\n{meta["pinned_comment"]}\n\n'
                 f'SHORTS (YouTube: set "Related video" to the full episode)\n' + '\n\n'.join(f"{s['file']}\nTitle: {s['title']}\nDescription:\n{s['description']}" for s in meta['shorts']) +
                 f'\n\nTIKTOK CAPTION (same Short files)\n{meta["tiktok_caption"]}\n')
+    # ---- quality gates: a failing episode stops here and is never uploaded
+    short_lens = [(lambda a, b: b - a + V.END)(*V.short_range(epi, sh)) for sh, _ in shorts]
+    qa = G.gate(out, main, [(p, n) for (_, p), n in zip(shorts, short_lens)], thumb, meta, load_links(), main_dur=epi.dur)
+    print('quality gates:', 'PASS' if qa['pass'] else 'FAIL'); [print('  ', x) for x in G.failures(qa)]
+    if not qa['pass'] and not quick: raise RuntimeError('quality gates failed: ' + '; '.join(G.failures(qa))[:700])
     shutil.rmtree(work, ignore_errors=True) if not quick else None
     # ---- YouTube (private draft) or leave the folder
     link = None
     if truthy(cfg['YOUTUBE_UPLOAD']) and not quick:
         from . import youtube as YT
-        vid = YT.upload(cfg, main, title, desc, tags, cfg['YOUTUBE_PRIVACY'], thumbnail=thumb, playlist_id=cfg.get('YOUTUBE_PLAYLIST_ID'))
+        vid = YT.publish_once(cfg, f"{ep['id']}-main", main, title, desc, tags, privacy=cfg['YOUTUBE_PRIVACY'], thumbnail=thumb, playlist_id=cfg.get('YOUTUBE_PLAYLIST_ID'))
         link = f'https://studio.youtube.com/video/{vid}/edit'
-        for s, (sh, p) in zip(meta['shorts'], shorts): YT.upload(cfg, p, s['title'], s['description'], tags, cfg['YOUTUBE_PRIVACY'])
+        for i, (s, (sh, p)) in enumerate(zip(meta['shorts'], shorts), 1): YT.publish_once(cfg, f"{ep['id']}-short{i}", p, s['title'], s['description'], tags, privacy=cfg['YOUTUBE_PRIVACY'])
     mins = (time.time() - t_start) / 60
     return {'id': ep['id'], 'title': title, 'folder': out, 'link': link, 'minutes': round(mins, 1), 'shorts': len(shorts)}
 
@@ -179,7 +185,7 @@ def main():
     if not r: return 0
     if not a.quick:
         st = load_state(cfg); st['done'][ep['id']] = {'when': datetime.now().isoformat(timespec='minutes'), **r}; save_state(cfg, st)
-    left = len([e for e in all_episodes() if e.get('series') == ep.get('series') and e.get('status', 'ready') == 'ready' and e['id'] not in load_state(cfg)['done']])
+    left = len([e for e in all_episodes() if e.get('series') == ep.get('series') and e.get('status', 'ready') in ('ready', 'approved') and e['id'] not in load_state(cfg)['done']])
     where = 'Draft is in YouTube Studio (private).' if r['link'] else f"Ready to upload: {r['folder']}"
     N.send(cfg, f"Lightbulb Lab: {r['title']}", f"{where}\n{r['shorts']} shorts made in {r['minutes']} min. Scripts left in the queue: {left}.", url=r['link'])
     print(json.dumps(r, indent=1)); return 0

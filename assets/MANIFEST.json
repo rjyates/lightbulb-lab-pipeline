@@ -1,0 +1,81 @@
+{
+ "_note": "Source and license of every file in assets/. lightbulb.check fails on a file missing here and warns on license \"unknown\". See docs/autonomy/proposal.md 6.5.",
+ "fonts/Poppins-Bold.ttf": {
+  "source": "https://fonts.google.com/specimen/Poppins (Indian Type Foundry)",
+  "license": "OFL-1.1",
+  "redistribute": true
+ },
+ "fonts/Poppins-Medium.ttf": {
+  "source": "https://fonts.google.com/specimen/Poppins (Indian Type Foundry)",
+  "license": "OFL-1.1",
+  "redistribute": true
+ },
+ "fonts/Poppins-Regular.ttf": {
+  "source": "https://fonts.google.com/specimen/Poppins (Indian Type Foundry)",
+  "license": "OFL-1.1",
+  "redistribute": true
+ },
+ "music/nebula-the-grey-room-density-time.mp3": {
+  "source": "YouTube Audio Library: \"Nebula\" by The Grey Room / Density & Time",
+  "license": "YouTube Audio Library",
+  "uses": "YouTube videos, with credit in the description; other platforms unverified",
+  "redistribute": false,
+  "note": "MUSIC-LICENSE.md says the license does not cover redistributing the file, but this repository is public"
+ },
+ "sfx/bub-aha-ding.wav": {
+  "source": "unknown: owner to confirm",
+  "license": "unknown"
+ },
+ "sfx/bub-confused-warble.wav": {
+  "source": "unknown: owner to confirm",
+  "license": "unknown"
+ },
+ "sfx/bub-curious-chirp.wav": {
+  "source": "unknown: owner to confirm",
+  "license": "unknown"
+ },
+ "sfx/bub-excited-beeps.wav": {
+  "source": "unknown: owner to confirm",
+  "license": "unknown"
+ },
+ "sfx/bub-happy-chirp.wav": {
+  "source": "unknown: owner to confirm",
+  "license": "unknown"
+ },
+ "sfx/bub-sleepy-beep.wav": {
+  "source": "unknown: owner to confirm",
+  "license": "unknown"
+ },
+ "sfx/dizzy.wav": {
+  "source": "unknown: owner to confirm",
+  "license": "unknown"
+ },
+ "sfx/off.wav": {
+  "source": "unknown: owner to confirm",
+  "license": "unknown"
+ },
+ "sfx/pop.wav": {
+  "source": "unknown: owner to confirm",
+  "license": "unknown"
+ },
+ "brand/brand-sheet.png": {
+  "source": "unknown: owner to confirm",
+  "license": "unknown",
+  "note": "Lightbulb Lab characters Kip and Bub"
+ },
+ "brand/guide-covers/family-tech-binder-setup-kit.png": {
+  "source": "unknown: owner to confirm",
+  "license": "unknown",
+  "note": "cover art for a Lightbulb Lab guide"
+ },
+ "brand/guide-covers/new-computer-starter-guide.png": {
+  "source": "unknown: owner to confirm",
+  "license": "unknown",
+  "note": "cover art for a Lightbulb Lab guide"
+ },
+ "brand/guide-covers/printable-family-tech-binder.png": {
+  "source": "unknown: owner to confirm",
+  "license": "unknown",
+  "note": "cover art for a Lightbulb Lab guide"
+ }
+}
