@@ -26,6 +26,8 @@ The last two commands may call the configured narration service. The orchestrati
 
 `links.json` supplies website/guide metadata. Generated outputs and completion state belong in the configured output folder; moving/deleting state can affect which episode is selected next.
 
+Uploads are recorded in an append-only ledger (`LBL_LEDGER`, default `<LBL_OUTPUT>/ledger/videos.jsonl`). Before each upload the pipeline writes an intent, and it writes the video ID right after YouTube accepts the file. A rerun skips anything already uploaded. If a run stopped mid-upload, the next run first looks for the video on the channel by its hidden `lbl-<episode>-<part>` tag. Keep the ledger with the output; deleting it allows the same episode to be uploaded again.
+
 ## Scheduling is optional
 
 `install.sh` and `systemd/` describe the original Linux deployment. Read them before use: installation can create a virtual environment, install system packages, and enable a recurring job. No scheduler was installed or changed in this pass.
