@@ -49,15 +49,17 @@ def _kokoro(text, cfg, out_mp3, sr=24000, gap=0.55):
 
 def align(segs):
     """[(scene_text, start, end, [(token, t0, t1)])] -> ElevenLabs-style alignment for SEP.join(scene texts)"""
+    import numpy as np
     chars, st, en = [], [], []
     for i, (scene, a, b, toks) in enumerate(segs):
-        n = max(1, len(scene)); s = [a + (b - a) * j / n for j in range(len(scene))]; e = [a + (b - a) * (j + 1) / n for j in range(len(scene))]
-        pos = 0
-        for word, t0, t1 in toks:  # pin each spoken token to its place in the text; anything unmatched keeps the even spread
+        idx, times, pos = [0], [a], 0  # anchors: (char index, time), scene start first
+        for word, t0, t1 in toks:  # pin each spoken token to its place in the text
             k = scene.find(word, pos)
-            if k < 0 or not word: continue
-            for j in range(len(word)): s[k + j] = t0 + (t1 - t0) * j / len(word); e[k + j] = t0 + (t1 - t0) * (j + 1) / len(word)
-            pos = k + len(word)
+            if k < 0 or not word or t0 < times[-1]: continue
+            idx += [k, k + len(word)]; times += [t0, max(t0, t1)]; pos = k + len(word)
+        idx.append(len(scene)); times.append(max(b, times[-1]))
+        # every character between anchors is interpolated, so times never run backwards
+        s = np.interp(np.arange(len(scene)), idx, times).tolist(); e = np.interp(np.arange(1, len(scene) + 1), idx, times).tolist()
         chars += list(scene); st += s; en += e
         if i < len(segs) - 1: chars += list(SEP); st += [b] * len(SEP); en += [b] * len(SEP)
     return {'characters': chars, 'character_start_times_seconds': st, 'character_end_times_seconds': en}

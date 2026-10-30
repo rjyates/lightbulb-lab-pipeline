@@ -15,3 +15,9 @@ def test_unmatched_tokens_keep_even_spread():
 def test_provider_defaults_to_free_voice():
     assert VO.provider({}) == 'kokoro' and 'Kokoro' in VO.credit({}) and VO.characters_left({}) is None
     assert VO.voice_id({'KOKORO_VOICE': 'af_heart:1'}) != VO.voice_id({})  # changing the voice invalidates cached takes
+
+def test_times_never_run_backwards():
+    # tokens out of step with the text (normalised numbers, repeated words) must not make time go backwards
+    segs = [('Call 911 now, now.', 0.0, 2.0, [('Call', 0.1, 0.3), ('nine', 0.35, 0.6), ('now', 1.2, 1.4), ('now', 0.9, 1.0)])]
+    st = VO.align(segs)['character_start_times_seconds']
+    assert all(b >= a for a, b in zip(st, st[1:])) and st[0] >= 0.0
