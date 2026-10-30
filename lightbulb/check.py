@@ -1,10 +1,36 @@
 """Check episode scripts before Sunday:  python3 -m lightbulb.check"""
 import glob, json, os, sys
+from datetime import date
 from . import cards as C, engine as E
 from .core import ROOT
 
+# schema v2 lifecycle (docs/autonomy/proposal.md 4.4); 'ready' and 'done' are the original names for 'approved' and 'published'
+STATUSES = ('idea', 'draft', 'reviewed', 'approved', 'produced', 'gated', 'scheduled', 'published', 'measured', 'blocked', 'retired', 'ready', 'done')
+RELEASED = ('done', 'published', 'measured', 'retired')
+
+def check_facts(e, today=None):
+    """schema v2: sources, claims with expiry dates, sensitive flag. Returns (errors, warnings)."""
+    errs, warn = [], []; today = today or date.today(); status = e.get('status', 'ready')
+    if status not in STATUSES: errs.append(f'unknown status "{status}" (use {", ".join(STATUSES)})')
+    if 'sensitive' in e and not isinstance(e['sensitive'], bool): errs.append('"sensitive" must be true or false')
+    sources, claims = e.get('sources', []), e.get('claims', [])
+    for i, s in enumerate(sources):
+        if not isinstance(s, dict) or not str(s.get('url', '')).startswith(('https://', 'http://')): errs.append(f'source {i}: needs an http(s) "url"')
+    for i, c in enumerate(claims):
+        if not isinstance(c, dict) or not c.get('text'): errs.append(f'claim {i}: needs "text"'); continue
+        if not (isinstance(c.get('source'), int) and 0 <= c['source'] < len(sources)): errs.append(f'claim {i}: "source" must be the index of an entry in "sources"')
+        if not (isinstance(c.get('scene'), int) and 0 <= c['scene'] < len(e.get('scenes', []))): errs.append(f'claim {i}: "scene" out of range')
+        if 'valid_until' in c:
+            try: until = date.fromisoformat(c['valid_until'])
+            except (TypeError, ValueError): errs.append(f'claim {i}: "valid_until" must be YYYY-MM-DD'); continue
+            if until < today and status not in RELEASED:
+                (warn if status in ('idea', 'draft') else errs).append(f'claim {i}: expired on {until} ("{c["text"][:50]}")')
+    # new-vocabulary approvals must be sourced; original 'ready' episodes predate sources
+    if status == 'approved' and not (sources and claims): errs.append('status "approved" needs "sources" and "claims"')
+    return errs, warn
+
 def check(path):
-    e = json.load(open(path)); errs = []; warn = []
+    e = json.load(open(path, encoding='utf-8')); errs = []; warn = []
     for k in ('id', 'number', 'title', 'scenes'):
         if k not in e: errs.append(f'missing "{k}"')
     for i, s in enumerate(e.get('scenes', [])):
@@ -23,6 +49,7 @@ def check(path):
         n = sum(len(e['scenes'][j]['say']) for j in range(a, b + 1))
         print(f'   short {e["id"]} {sh["scenes"]} "{sh["hook"]}" -> starts: "{e["scenes"][a]["say"][:50]}"') if '--shorts' in sys.argv else None
         if n > 900: warn.append(f'short "{sh["hook"]}" may run over 60 seconds')
+    fe, fw = check_facts(e); errs += fe; warn += fw
     n = len(E.full_text(e)); return e, n, errs, warn
 
 if __name__ == '__main__':

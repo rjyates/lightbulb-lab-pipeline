@@ -26,7 +26,7 @@ def save_state(cfg, st):
 def all_episodes():
     eps = []
     for p in sorted(glob.glob(os.path.join(EPISODES, '*.json'))):
-        e = json.load(open(p)); e['_path'] = p; eps.append(e)
+        e = json.load(open(p, encoding='utf-8')); e['_path'] = p; eps.append(e)
     return sorted(eps, key=lambda e: (e.get('series', ''), e['number']))
 
 def pick(cfg, want=None, series=None):
@@ -35,12 +35,12 @@ def pick(cfg, want=None, series=None):
     for e in all_episodes():
         if want:
             if e['id'] == want: return e
-        elif e.get('series', 'Tech from Scratch') == series and e.get('status', 'ready') == 'ready' and e['id'] not in st['done']: return e
+        elif e.get('series', 'Tech from Scratch') == series and e.get('status', 'ready') in ('ready', 'approved') and e['id'] not in st['done']: return e
     return None
 
 def load_links():
     p = os.path.join(ROOT, 'links.json')
-    return json.load(open(p)) if os.path.exists(p) else {}
+    return json.load(open(p, encoding='utf-8')) if os.path.exists(p) else {}
 
 def link_lines(ep, short=False):
     L = load_links(); out = []
@@ -179,7 +179,7 @@ def main():
     if not r: return 0
     if not a.quick:
         st = load_state(cfg); st['done'][ep['id']] = {'when': datetime.now().isoformat(timespec='minutes'), **r}; save_state(cfg, st)
-    left = len([e for e in all_episodes() if e.get('series') == ep.get('series') and e.get('status', 'ready') == 'ready' and e['id'] not in load_state(cfg)['done']])
+    left = len([e for e in all_episodes() if e.get('series') == ep.get('series') and e.get('status', 'ready') in ('ready', 'approved') and e['id'] not in load_state(cfg)['done']])
     where = 'Draft is in YouTube Studio (private).' if r['link'] else f"Ready to upload: {r['folder']}"
     N.send(cfg, f"Lightbulb Lab: {r['title']}", f"{where}\n{r['shorts']} shorts made in {r['minutes']} min. Scripts left in the queue: {left}.", url=r['link'])
     print(json.dumps(r, indent=1)); return 0
