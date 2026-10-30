@@ -160,9 +160,9 @@ def run(cfg, ep, quick=False, dry=False):
     link = None
     if truthy(cfg['YOUTUBE_UPLOAD']) and not quick:
         from . import youtube as YT
-        vid = YT.upload(cfg, main, title, desc, tags, cfg['YOUTUBE_PRIVACY'], thumbnail=thumb, playlist_id=cfg.get('YOUTUBE_PLAYLIST_ID'))
+        vid = YT.publish_once(cfg, f"{ep['id']}-main", main, title, desc, tags, privacy=cfg['YOUTUBE_PRIVACY'], thumbnail=thumb, playlist_id=cfg.get('YOUTUBE_PLAYLIST_ID'))
         link = f'https://studio.youtube.com/video/{vid}/edit'
-        for s, (sh, p) in zip(meta['shorts'], shorts): YT.upload(cfg, p, s['title'], s['description'], tags, cfg['YOUTUBE_PRIVACY'])
+        for i, (s, (sh, p)) in enumerate(zip(meta['shorts'], shorts), 1): YT.publish_once(cfg, f"{ep['id']}-short{i}", p, s['title'], s['description'], tags, privacy=cfg['YOUTUBE_PRIVACY'])
     mins = (time.time() - t_start) / 60
     return {'id': ep['id'], 'title': title, 'folder': out, 'link': link, 'minutes': round(mins, 1), 'shorts': len(shorts)}
 
