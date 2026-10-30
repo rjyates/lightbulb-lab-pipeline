@@ -1,0 +1,4 @@
+# Free local narration (LBL_VOICE=kokoro). Install torch first from the CPU index to avoid the large GPU build:
+#   pip install torch --index-url https://download.pytorch.org/whl/cpu
+kokoro>=0.9
+soundfile>=0.12

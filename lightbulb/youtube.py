@@ -51,7 +51,7 @@ def publish_once(cfg, key, path, title, description, tags, **kw):
     L.append(cfg, key, 'intent', file=os.path.basename(path), title=title)
     return upload(cfg, path, title, description, [tag] + tags, on_insert=lambda v: L.append(cfg, key, 'result', video_id=v), **kw)
 
-def upload(cfg, path, title, description, tags, privacy='private', category='27', thumbnail=None, playlist_id=None, publish_at=None, on_insert=None):
+def upload(cfg, path, title, description, tags, privacy='private', category='27', thumbnail=None, playlist_id=None, publish_at=None, captions=None, on_insert=None):
     from googleapiclient.http import MediaFileUpload
     yt = client(cfg)
     status = {'privacyStatus': privacy, 'selfDeclaredMadeForKids': False, 'containsSyntheticMedia': False}
@@ -68,7 +68,14 @@ def upload(cfg, path, title, description, tags, privacy='private', category='27'
         except Exception as e: print('thumbnail not set (phone-verify the channel to allow custom thumbnails):', e)
     if playlist_id:
         yt.playlistItems().insert(part='snippet', body={'snippet': {'playlistId': playlist_id, 'resourceId': {'kind': 'youtube#video', 'videoId': vid}}}).execute()
+    if captions:
+        try: yt.captions().insert(part='snippet', body={'snippet': {'videoId': vid, 'language': 'en', 'name': 'English'}}, media_body=MediaFileUpload(captions)).execute()
+        except Exception as e: print('captions not uploaded (YouTube will auto-caption):', e)
     return vid
+
+def unschedule(cfg, vid):
+    """keep a scheduled video private: clears publishAt so it never goes live"""
+    client(cfg).videos().update(part='status', body={'id': vid, 'status': {'privacyStatus': 'private', 'selfDeclaredMadeForKids': False}}).execute()
 
 if __name__ == '__main__':
     from .config import load

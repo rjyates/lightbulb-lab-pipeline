@@ -21,6 +21,8 @@ This guide intentionally does not reproduce credentials, notification destinatio
 | Inspect selection without rendering | `python -m lightbulb.weekly --dry-run` |
 | Render a specific episode | `python -m lightbulb.weekly --episode ep03` |
 | Short render test | `python -m lightbulb.weekly --quick` |
+| Show the publishing schedule | `python -m lightbulb.worker --plan` |
+| One worker pass (render, check, schedule) | `python -m lightbulb.worker` |
 
 The last two commands may call the configured narration service. The orchestration CLI can also send a configured notification on a no-work or error path, including when a dry-run cannot select an episode. Confirm configuration, provider capacity, and intended external effects before running them.
 
@@ -41,7 +43,11 @@ Uploads are recorded in an append-only ledger (`LBL_LEDGER`, default `<LBL_OUTPU
 
 ## Scheduling is optional
 
-`install.sh` and `systemd/` describe the original Linux deployment. Read them before use: installation can create a virtual environment, install system packages, and enable a recurring job. No scheduler was installed or changed in this pass.
+The worker (`lightbulb/worker.py`) is the scheduled job. Each night it holds anything due within 48 hours that is paused, vetoed or has an expired fact, marks past slots published, and renders, checks and schedules new episodes until each series is booked three weeks ahead. Long-form videos go out Tuesday (Tech from Scratch) and Friday (Fix It Friday) at 09:00 Central, and their Shorts on the following two days.
+
+Narration defaults to the free, offline Kokoro voice (`LBL_VOICE=kokoro`; install `requirements-voice.txt`). ElevenLabs remains available, but its free plan is not licensed for commercial use.
+
+`install.sh` and `systemd/` set this up on Ubuntu; [docs/runbooks/worker-setup.md](runbooks/worker-setup.md) covers the whole laptop setup, pausing and vetoing. The installer adds the nightly timer but does not start it. The worker replaces the original Sunday `lightbulb-weekly` timer; `python -m lightbulb.weekly` still works for one-off renders.
 
 Use service logs and timer state on the actual host to establish operational status. The existence of a timer file or a dated report in Git does not prove that current rendering, uploads, or notifications work.
 

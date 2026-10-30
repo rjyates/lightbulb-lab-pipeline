@@ -1,5 +1,5 @@
 [Unit]
-Description=Lightbulb Lab weekly episode
+Description=Lightbulb Lab worker: render, check and schedule videos
 Wants=network-online.target
 After=network-online.target
 
@@ -8,6 +8,6 @@ Type=oneshot
 User=__USER__
 WorkingDirectory=__DIR__
 ExecStartPre=-/usr/bin/git -C __DIR__ pull --ff-only
-ExecStart=__DIR__/.venv/bin/python -m lightbulb.weekly
+ExecStart=__DIR__/.venv/bin/python -m lightbulb.worker
 Nice=10
-TimeoutStartSec=6h
+TimeoutStartSec=8h

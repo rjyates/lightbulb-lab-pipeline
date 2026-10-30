@@ -11,7 +11,7 @@ def load():
             if line and not line.startswith('#') and '=' in line:
                 k, v = line.split('=', 1); cfg[k.strip()] = v.strip().strip('"').strip("'")
     for k, v in os.environ.items():
-        if k.startswith(('ELEVENLABS_', 'YOUTUBE_', 'NTFY_', 'LBL_')): cfg[k] = v
+        if k.startswith(('ELEVENLABS_', 'KOKORO_', 'YOUTUBE_', 'NTFY_', 'LBL_')): cfg[k] = v
     cfg.setdefault('ELEVENLABS_MODEL_ID', 'eleven_multilingual_v2')
     cfg.setdefault('ELEVENLABS_STABILITY', '0.5'); cfg.setdefault('ELEVENLABS_SIMILARITY', '0.75'); cfg.setdefault('ELEVENLABS_SPEED', '1.0')
     cfg.setdefault('YOUTUBE_UPLOAD', 'false'); cfg.setdefault('YOUTUBE_PRIVACY', 'private')

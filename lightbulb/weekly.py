@@ -9,7 +9,7 @@ import argparse, glob, json, os, re, shutil, subprocess, sys, time, traceback
 from datetime import datetime
 from .config import load, truthy
 from .core import ROOT
-from . import engine as E, video as V, thumbnail as T, notify as N, gates as G
+from . import engine as E, video as V, thumbnail as T, notify as N, gates as G, voice as VO
 
 EPISODES = os.path.join(ROOT, 'episodes')
 MUSIC_CREDIT = 'Music: "Nebula" by The Grey Room / Density & Time, from the YouTube Audio Library.'  # required in every description that uses the track
@@ -59,7 +59,7 @@ def description(ep, cfg):
     if ep.get('chapters'): lines += ['Chapters:'] + ep['chapters'] + ['']
     lines += [f"{ep.get('series', 'Tech from Scratch')} is a beginner-friendly series that explains everyday tech from the ground up, one short episode at a time.", '',
               'New episodes every week. Subscribe so you don\u2019t miss the next one.', '',
-              'Kip\u2019s voice is AI-generated with ElevenLabs. Animation made with code by Lightbulb Lab.',
+              VO.credit(cfg) + ' Animation made with code by Lightbulb Lab.',
               MUSIC_CREDIT, '',
               f"TikTok: {load_links().get('tiktok', '@lightbulblab')}", '', '#techforbeginners #learntech #techfromscratch']
     return '\n'.join(lines)
@@ -104,23 +104,23 @@ def srt(epi, path, t0=0.0, t1=None):
         rows.append(f'{len(rows) + 1}\n{f(a)} --> {f(b)}\n{s}\n')
     open(path, 'w').write('\n'.join(rows))
 
-def run(cfg, ep, quick=False, dry=False):
+def run(cfg, ep, quick=False, dry=False, upload=True):
+    """render, check and (when YOUTUBE_UPLOAD is on and upload=True) upload one episode; the worker passes upload=False and schedules it itself"""
     t_start = time.time(); workers = int(cfg['LBL_WORKERS'])
     if quick: ep = dict(ep, scenes=ep['scenes'][:3], shorts=[{'hook': 'Quick test', 'scenes': [0, 1]}])
     name = f"{ep['id']}-{slug(ep['title'])}"; out = os.path.join(cfg['LBL_OUTPUT'], name + ('-quicktest' if quick else ''))
     work = os.path.join(out, 'work'); os.makedirs(work, exist_ok=True)
     text = E.full_text(ep); print(f'[{name}] {len(ep["scenes"])} scenes, {len(text)} characters')
-    # ---- voice: a hand-made file in episodes/audio/ wins (free fallback), else the ElevenLabs API
+    # ---- voice: a hand-made file in episodes/audio/ wins, else the LBL_VOICE provider (voice.py)
     manual = next((p for p in (os.path.join(EPISODES, 'audio', ep['id'] + x) for x in ('.mp3', '.wav')) if os.path.exists(p)), None)
     mp3, al = os.path.join(work, 'voice.mp3'), os.path.join(work, 'voice.json')
     if dry:
-        print('dry run: voice from', manual or 'ElevenLabs API', '->', out); return None
+        print('dry run: voice from', manual or VO.provider(cfg), '->', out); return None
     if manual and not quick:
         shutil.copy(manual, mp3); timing = E.Timing.from_pauses(text, E.scene_text(ep), mp3); print('voice: using', manual)
-    elif os.path.exists(mp3) and os.path.exists(al) and json.load(open(al)).get('text') == text:
+    elif os.path.exists(mp3) and os.path.exists(al) and (lambda j: j.get('text') == text and j.get('voice', 'elevenlabs') == VO.voice_id(cfg))(json.load(open(al))):
         timing = E.Timing.from_alignment(text, json.load(open(al))['alignment']); print('voice: reusing earlier take')
     else:
-        from . import voice as VO
         left = VO.characters_left(cfg)
         if left is not None and left < len(text):
             raise RuntimeError(f'ElevenLabs free credits too low this month ({left} left, need {len(text)}). '
@@ -144,7 +144,7 @@ def run(cfg, ep, quick=False, dry=False):
     meta = {'title': title, 'description': desc, 'tags': tags, 'shorts': []}
     for sh, p in shorts:
         a, b = V.short_range(epi, sh); srt(epi, p[:-4] + '.en.srt', a, b)
-        meta['shorts'].append({'file': os.path.basename(p), 'title': f"{sh['hook']} #shorts", 'description': f"From {title}. Full episode on @LightbulbLabYT.\n\n" + '\n'.join(link_lines(ep, short=True)) + "\n\nKip’s voice is AI-generated (ElevenLabs).\n" + MUSIC_CREDIT + "\n\n#techforbeginners #shorts"})
+        meta['shorts'].append({'file': os.path.basename(p), 'title': f"{sh['hook']} #shorts", 'description': f"From {title}. Full episode on @LightbulbLabYT.\n\n" + '\n'.join(link_lines(ep, short=True)) + "\n\n" + VO.credit(cfg) + "\n" + MUSIC_CREDIT + "\n\n#techforbeginners #shorts"})
     json.dump(meta, open(os.path.join(out, 'metadata.json'), 'w'), indent=1)
     meta['pinned_comment'] = pinned_comment(ep)
     meta['tiktok_caption'] = tiktok_caption(ep)
@@ -164,13 +164,14 @@ def run(cfg, ep, quick=False, dry=False):
     shutil.rmtree(work, ignore_errors=True) if not quick else None
     # ---- YouTube (private draft) or leave the folder
     link = None
-    if truthy(cfg['YOUTUBE_UPLOAD']) and not quick:
+    if truthy(cfg['YOUTUBE_UPLOAD']) and upload and not quick:
         from . import youtube as YT
         vid = YT.publish_once(cfg, f"{ep['id']}-main", main, title, desc, tags, privacy=cfg['YOUTUBE_PRIVACY'], thumbnail=thumb, playlist_id=cfg.get('YOUTUBE_PLAYLIST_ID'))
         link = f'https://studio.youtube.com/video/{vid}/edit'
         for i, (s, (sh, p)) in enumerate(zip(meta['shorts'], shorts), 1): YT.publish_once(cfg, f"{ep['id']}-short{i}", p, s['title'], s['description'], tags, privacy=cfg['YOUTUBE_PRIVACY'])
     mins = (time.time() - t_start) / 60
-    return {'id': ep['id'], 'title': title, 'folder': out, 'link': link, 'minutes': round(mins, 1), 'shorts': len(shorts)}
+    return {'id': ep['id'], 'title': title, 'folder': out, 'link': link, 'minutes': round(mins, 1), 'shorts': len(shorts),
+            'main': main, 'thumb': thumb, 'short_files': [p for _, p in shorts], 'meta': meta, 'tags': tags}
 
 def main():
     ap = argparse.ArgumentParser(); ap.add_argument('--episode'); ap.add_argument('--series'); ap.add_argument('--dry-run', action='store_true'); ap.add_argument('--quick', action='store_true')

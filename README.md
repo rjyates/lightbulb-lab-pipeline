@@ -67,12 +67,13 @@ See [operations and configuration](docs/operations.md) before enabling schedulin
 | :--- | :--- |
 | [episodes/](episodes/) | Structured scripts; [format reference](episodes/FORMAT.md) |
 | [lightbulb/check.py](lightbulb/check.py) | Episode/schema consistency checks |
-| [lightbulb/weekly.py](lightbulb/weekly.py) | Workflow orchestration and output state |
+| [lightbulb/weekly.py](lightbulb/weekly.py) | Renders one episode: voice, video, Shorts, captions, metadata, gates |
+| [lightbulb/worker.py](lightbulb/worker.py) | Nightly job: publishing calendar, three-week buffer, pre-publish recheck, pause and veto |
 | `lightbulb/engine.py`, `cards.py`, `characters.py`, `room.py` | Timeline and animation elements |
 | `lightbulb/video.py`, `voice.py`, `thumbnail.py` | Media-generation stages |
 | [lightbulb/gates.py](lightbulb/gates.py) | Quality gates and the upload lock |
 | `lightbulb/youtube.py`, `ledger.py`, `notify.py` | Optional external integrations and the duplicate-upload ledger |
-| [systemd/](systemd/) | Optional service/timer definitions |
+| [systemd/](systemd/), [install.sh](install.sh) | Worker service and nightly timer; setup in [docs/runbooks/worker-setup.md](docs/runbooks/worker-setup.md) |
 | [docs/autonomy/proposal.md](docs/autonomy/proposal.md) | Proposed (not deployed) design for autonomous operation; decisions in [docs/decisions/](docs/decisions/) |
 
 ## Ownership, privacy, and reuse
