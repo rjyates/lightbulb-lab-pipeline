@@ -9,6 +9,7 @@ python3 -m venv .venv
 .venv/bin/pip install -r requirements.txt
 .venv/bin/pip install torch --index-url https://download.pytorch.org/whl/cpu
 .venv/bin/pip install -r requirements-voice.txt
+.venv/bin/python -m spacy download en_core_web_sm  # Kokoro's English text analysis; otherwise fetched on the first render
 [ -f config.env ] || cp config.example.env config.env
 chmod 600 config.env
 mkdir -p secrets output && chmod 700 secrets
