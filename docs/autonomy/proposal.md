@@ -555,7 +555,7 @@ Integration with the existing pipeline:
 - Kip's voice is defined by a committed, versioned voice recipe (model version, voice blend weights, speed), so every episode sounds the same.
 - Bub keeps the existing SFX chirps; nothing changes there.
 
-[tools/voice_samples.py](../../tools/voice_samples.py) renders four candidate blends from the openings of ep03 and fif05 in its own environment. It has not been run yet.
+[tools/voice_samples.py](../../tools/voice_samples.py) renders four candidate blends from the openings of ep03 and fif05 through the pipeline's Kokoro provider. On 2026-10-30 the owner picked **B-warm** (`af_heart:0.4,am_michael:0.6` at speed 0.97), now the default in `lightbulb/voice.py` and `config.example.env`. The word-error-rate, pronunciation and render-time checks below are still to do on the worker.
 
 Acceptance (M0/M1): render the same three scripts with 3–4 candidate blends; the owner picks one by ear; the chosen voice must give Whisper word error rate ≤ 5% on 5 episodes, pronounce a project dictionary of tech terms correctly (Wi-Fi, iOS, ESU, 2FA, router), and render a 2-minute episode in under 10 minutes on the worker. The video description credit changes from "AI-generated with ElevenLabs" to naming the model used.
 
@@ -683,7 +683,7 @@ Decision log from 2026-10-28. Items marked *open* still need an answer.
 
 | # | Topic | Decision | Follow-up |
 | :- | :--- | :--- | :--- |
-| 1 | Voice | **Free local voice.** Build a distinctive "Kip" voice with an open-source TTS model that runs offline on the worker. | [Section 8.1](#81-free-local-voice-plan); confirm which ElevenLabs plan produced already-published audio. |
+| 1 | Voice | **Free local voice.** Build a distinctive "Kip" voice with an open-source TTS model that runs offline on the worker. | [Section 8.1](#81-free-local-voice-plan). Blend **B-warm** chosen on 2026-10-30. Confirm which ElevenLabs plan produced already-published audio. |
 | 2 | YouTube API audit | **Approved.** | Owner submits Google's *Audit and Quota Extension Form* while signed in to the channel's Google account; draft answers are prepared in the private ops repository. Also set the OAuth consent screen to "In production" so refresh tokens do not expire weekly. |
 | 3 | Worker host | *Open.* Most likely an office laptop kept on permanently as a server. | [Section 8.2](#82-running-the-worker-on-a-laptop). |
 | 4 | Private ops repository | **Approved and done.** `rjyates/lightbulb-lab-ops` (private) created; reports moved there and removed from this repository's working tree. Earlier reports remain in this repository's Git history. | |

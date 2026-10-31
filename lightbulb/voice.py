@@ -10,13 +10,15 @@ import requests
 
 API = 'https://api.elevenlabs.io/v1/text-to-speech/{voice}/with-timestamps'
 SEP = ' ... '  # engine.full_text joins scenes with this
+KIP = 'af_heart:0.4,am_michael:0.6'  # owner's pick "B-warm", 2026-10-30
+KIP_SPEED = '0.97'
 CREDITS = {'kokoro': 'Kip’s voice is AI-generated with Kokoro, an open-source text-to-speech model.',
            'elevenlabs': 'Kip’s voice is AI-generated with ElevenLabs.'}
 
 def provider(cfg): return cfg.get('LBL_VOICE', 'kokoro')
 def voice_id(cfg):
     """what a cached take must match to be reused"""
-    return f"kokoro:{cfg.get('KOKORO_VOICE', 'af_heart:0.5,am_puck:0.5')}@{cfg.get('KOKORO_SPEED', '1.0')}" if provider(cfg) == 'kokoro' else 'elevenlabs'
+    return f"kokoro:{cfg.get('KOKORO_VOICE', KIP)}@{cfg.get('KOKORO_SPEED', KIP_SPEED)}" if provider(cfg) == 'kokoro' else 'elevenlabs'
 def credit(cfg): return CREDITS[provider(cfg)]
 
 def synthesize(text, cfg, out_mp3, out_json):
@@ -32,12 +34,12 @@ def _kokoro(text, cfg, out_mp3, sr=24000, gap=0.55):
     import numpy as np, soundfile as sf
     from kokoro import KPipeline
     _PIPE = _PIPE or KPipeline(lang_code='a', repo_id='hexgrad/Kokoro-82M')  # American English
-    mix = [(v, float(w)) for v, w in (p.split(':') for p in cfg.get('KOKORO_VOICE', 'af_heart:0.5,am_puck:0.5').split(','))]
+    mix = [(v, float(w)) for v, w in (p.split(':') for p in cfg.get('KOKORO_VOICE', KIP).split(','))]
     voice = sum(_PIPE.load_voice(v) * w for v, w in mix) / sum(w for _, w in mix)
     chunks, segs, t = [], [], 0.0
     for scene in text.split(SEP):
         t0, toks = t, []
-        for r in _PIPE(scene, voice=voice, speed=float(cfg.get('KOKORO_SPEED', '1.0'))):
+        for r in _PIPE(scene, voice=voice, speed=float(cfg.get('KOKORO_SPEED', KIP_SPEED))):
             a = np.asarray(r.audio, dtype=np.float32)
             toks += [(tk.text, t + tk.start_ts, t + (tk.end_ts or tk.start_ts)) for tk in (r.tokens or []) if tk.start_ts is not None]
             chunks.append(a); t += len(a) / sr
